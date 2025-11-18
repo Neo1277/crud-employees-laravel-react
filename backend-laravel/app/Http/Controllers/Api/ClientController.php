@@ -27,7 +27,7 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return Cache::remember("clients", self::CACHE_TTL, function () {
             $listOfClients = $this->clientRepository->findAll();
@@ -38,9 +38,10 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreClientRequest $request)
     {
-        //
+        $client = $this->clientRepository->store((array)$request->validated());
+        return new ClientResource($client);
     }
 
     /**
