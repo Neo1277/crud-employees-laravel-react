@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 interface CrudRepositoryInterface
 {
-    public function findAll(): Collection;
+    public function findAll();
 
     public function findOrFail(int $id): Model;
 

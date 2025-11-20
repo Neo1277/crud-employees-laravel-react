@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClientRepository implements CrudRepositoryInterface
 {
-    public function findAll(): Collection
+    public function findAll()
     {
-        return Client::all();
+        return Client::paginate(10);
     }
 
     public function findOrFail(int $id): Model

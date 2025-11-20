@@ -23,7 +23,7 @@ class ClientTest extends TestCase
             ]
         );
 
-        $response = $this->get('/api/clients');
+        $response = $this->getJson('/api/clients');
 
         $response->assertStatus(200);
 
@@ -65,7 +65,7 @@ class ClientTest extends TestCase
             'area_id' => $area->id,
         ];
 
-        $response = $this->post('/api/clients', $body);
+        $response = $this->postJson('/api/clients', $body);
 
         $response->assertStatus(201);
 
@@ -82,5 +82,107 @@ class ClientTest extends TestCase
         );
 
         $this->assertCount(1, Client::all());
+    }
+
+    public function testStoreWithEmptyFields(): void
+    {
+        $response = $this->postJson('/api/clients', []);
+
+        $response->assertStatus(422);
+
+        $response->assertJsonStructure(
+            [
+                'message',
+                'errors' => [
+                    'identity_document',
+                    'first_last_name',
+                    'second_last_name',
+                    'first_name',
+                    'other_names',
+                ]
+            ]
+        );
+    }
+
+    public function testShowSpecificClient(): void
+    {
+        $client = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => TypeOfIdentityDocument::factory()->create()->id,
+                'area_id' => Area::factory()->create()->id
+            ]
+        );
+        $response = $this->getJson("/api/clients/{$client->id}");
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'first_last_name',
+                    'second_last_name',
+                    'first_name',
+                    'other_names',
+                ]
+            ]
+        );
+    }
+
+    public function testUpdate(): void
+    {
+        $client = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => TypeOfIdentityDocument::factory()->create()->id,
+                'area_id' => Area::factory()->create()->id
+            ]
+        );
+
+        $type_of_identity_document = TypeOfIdentityDocument::factory()->create();
+        $area = Area::factory()->create();
+
+        $currentDateString = date('Y-m-d H:i:s');
+        
+        $updateBody = [
+            'identity_document' => "16450360",
+            'first_last_name' => "MENESES",
+            'second_last_name' => "BEJARANO",
+            'first_name' => "SULLY",
+            'other_names' => "ANDREA",
+            'email' => "andrea@gmail.com",
+            'country' => "colombia",
+            'date_of_entry' => $currentDateString,
+            'status' => "Active",
+            'type_of_identity_document_id' => $type_of_identity_document->id,
+            'area_id' => $area->id,
+        ];
+
+        $response = $this->putJson("/api/clients/{$client->id}", $updateBody);
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseHas('clients', [
+            'id' => $client->id,
+            'identity_document' => '16450360',
+            'first_last_name' => 'MENESES',
+        ]);
+    }
+
+    public function testDestroy(): void
+    {
+        $client = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => TypeOfIdentityDocument::factory()->create()->id,
+                'area_id' => Area::factory()->create()->id
+            ]
+        );
+
+        $response = $this->deleteJson("/api/clients/{$client->id}");
+
+        $response->assertStatus(204);
+
+        $this->assertCount(0, Client::all());
+
+        $this->assertDatabaseMissing('clients', ['id' => $client->id]);
     }
 }

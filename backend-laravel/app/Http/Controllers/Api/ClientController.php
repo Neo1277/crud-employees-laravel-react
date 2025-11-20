@@ -24,6 +24,7 @@ class ClientController extends Controller
     {
         $this->clientRepository = $clientRepository;
     }
+    
     /**
      * Display a listing of the resource.
      */
@@ -47,24 +48,29 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $clienttId): ClientResource
     {
-        //
+        return Cache::remember("client.$clienttId", self::CACHE_TTL, function () use ($clienttId) {
+            $client = $this->clientRepository->findOrFail($clienttId);
+            return new ClientResource($client);
+        });
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreClientRequest $request, int $clientId): JsonResponse
     {
-        //
+        $this->clientRepository->update((array)$request->validated(), $clientId);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $clientId): JsonResponse
     {
-        //
+        $this->clientRepository->delete($clientId);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }
