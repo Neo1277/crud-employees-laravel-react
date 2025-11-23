@@ -10,7 +10,7 @@ use App\Models\Client;
 use App\Models\TypeOfIdentityDocument;
 use App\Models\Area;
 
-class ClientTest extends TestCase
+class ClientApiTest extends TestCase
 {
     use RefreshDatabase;
 
