@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ClientController extends Controller
 {
-    private const CACHE_TTL = 300;
+    private const CACHE_TTL = 60;
     
     private ClientRepository $clientRepository;
 

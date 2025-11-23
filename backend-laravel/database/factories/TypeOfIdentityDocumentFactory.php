@@ -3,12 +3,21 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\TypeOfIdentityDocument;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TypeOfIdentityDocument>
  */
 class TypeOfIdentityDocumentFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+
+    protected $model = TypeOfIdentityDocument::class; // Declare the model class
     /**
      * Define the model's default state.
      *
@@ -17,8 +26,8 @@ class TypeOfIdentityDocumentFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => $this->faker->unique()->asciify('*****'),
-            'description' => $this->faker->name,
+            'code' => Str::random(5),
+            'description' => $this->faker->title,
         ];
     }
 }
