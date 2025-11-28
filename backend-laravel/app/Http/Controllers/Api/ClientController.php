@@ -28,12 +28,10 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        return Cache::remember("clients", self::CACHE_TTL, function () {
-            $listOfClients = $this->clientRepository->findAll();
-            return ClientResource::collection($listOfClients);
-        });
+        $clients = $this->clientRepository->findAll($request)->paginate(10);
+        return ClientResource::collection($clients);
     }
 
     /**
