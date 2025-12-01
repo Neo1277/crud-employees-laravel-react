@@ -3,16 +3,15 @@
 namespace App\Services;
 
 use App\Interfaces\ClientServiceInterface;
-use App\Repositories\ClientRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Interfaces\ClientRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class ClientService implements ClientServiceInterface
 {
-    protected $clientRepository;
+    protected ClientRepositoryInterface $clientRepository;
 
-    public function __construct(ClientRepository $clientRepository)
+    public function __construct(ClientRepositoryInterface $clientRepository)
     {
         $this->clientRepository = $clientRepository;
     }
