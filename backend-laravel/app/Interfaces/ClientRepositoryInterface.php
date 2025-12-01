@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-interface CrudRepositoryInterface
+interface ClientRepositoryInterface
 {
-    public function findAll(Request $request): Builder;
+    public function filter(array $filters): Builder;
 
     public function findOrFail(int $id): Model;
 

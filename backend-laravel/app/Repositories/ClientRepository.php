@@ -2,60 +2,59 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\CrudRepositoryInterface;
+use App\Interfaces\ClientRepositoryInterface;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
-class ClientRepository implements CrudRepositoryInterface
+class ClientRepository implements ClientRepositoryInterface
 {
-    public function findAll(Request $request): Builder
+    public function filter(array $filters): Builder
     {
         $query = Client::query();
 
-        if ($request->has('identity_document')) {
-            $query->where('identity_document', 'like', '%' . $request->identity_document . '%');
+        if (isset($filters['identity_document'])) {
+            $query->where('identity_document', 'like', '%' . $filters['identity_document'] . '%');
         }
 
-        if ($request->has('first_last_name')) {
-            $query->where('first_last_name', 'like', '%' . $request->first_last_name . '%');
+        if (isset($filters['first_last_name'])) {
+            $query->where('first_last_name', 'like', '%' . $filters['first_last_name'] . '%');
         }
 
-        if ($request->has('second_last_name')) {
-            $query->where('second_last_name', 'like', '%' . $request->second_last_name . '%');
+        if (isset($filters['second_last_name'])) {
+            $query->where('second_last_name', 'like', '%' . $filters['second_last_name'] . '%');
         }
 
-        if ($request->has('first_name')) {
-            $query->where('first_name', 'like', '%' . $request->first_name . '%');
+        if (isset($filters['first_name'])) {
+            $query->where('first_name', 'like', '%' . $filters['first_name'] . '%');
         }
 
-        if ($request->has('other_names')) {
-            $query->where('other_names', 'like', '%' . $request->other_names . '%');
+        if (isset($filters['other_names'])) {
+            $query->where('other_names', 'like', '%' . $filters['other_names'] . '%');
         }
 
-        if ($request->has('email')) {
-            $query->where('email', 'like', '%' . $request->email . '%');
+        if (isset($filters['email'])) {
+            $query->where('email', 'like', '%' . $filters['email'] . '%');
         }
 
-        if ($request->has('country')) {
-            $query->where('country', 'like', '%' . $request->country . '%');
+        if (isset($filters['country'])) {
+            $query->where('country', 'like', '%' . $filters['country'] . '%');
         }
 
-        if ($request->has('status')) {
-            $query->where('status', 'like', '%' . $request->status . '%');
+        if (isset($filters['status'])) {
+            $query->where('status', 'like', '%' . $filters['status'] . '%');
         }
         
-        if ($request->has('description')) {
-            $description = $request->description;
+        if (isset($filters['type_of_identity_document'])) {
+            $description = $filters['type_of_identity_document'];
             $query->whereHas('typeOfIdentityDocument.clients', function ($q) use ($description) {
                 $q->where('description', 'like', '%' . $description . '%');
             });
         }
         
-        if ($request->has('area')) {
-            $name = $request->area;
+        if (isset($filters['area'])) {
+            $name = $filters['area'];
             $query->whereHas('area.clients', function ($q) use ($name) {
                 $q->where('name', 'like', '%' . $name . '%');
             });

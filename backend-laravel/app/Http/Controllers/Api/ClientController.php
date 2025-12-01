@@ -8,21 +8,22 @@ use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
-use App\Repositories\ClientRepository;
+use App\Interfaces\ClientServiceInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use App\Services\ClientService;
 
 class ClientController extends Controller
 {
     private const CACHE_TTL = 60;
     
-    private ClientRepository $clientRepository;
+    private ClientServiceInterface $clientService;
 
-    public function __construct(ClientRepository $clientRepository)
+    public function __construct(ClientServiceInterface $clientService)
     {
-        $this->clientRepository = $clientRepository;
+        $this->clientService = $clientService;
     }
     
     /**
@@ -30,7 +31,11 @@ class ClientController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $clients = $this->clientRepository->findAll($request)->paginate(10);
+        $filters = $request->only(['identity_document', 'first_last_name', 'second_last_name', 
+                                    'first_name', 'other_names', 'email', 'country', 'status',
+                                    'type_of_identity_document', 'area']);
+        //dd($filters);
+        $clients = $this->clientService->getFilteredClients($filters)->paginate(10);
         return ClientResource::collection($clients);
     }
 
@@ -39,7 +44,7 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        $client = $this->clientRepository->store((array)$request->validated());
+        $client = $this->clientService->store((array)$request->validated());
         return new ClientResource($client);
     }
 
@@ -49,7 +54,7 @@ class ClientController extends Controller
     public function show(int $clienttId): ClientResource
     {
         return Cache::remember("client.$clienttId", self::CACHE_TTL, function () use ($clienttId) {
-            $client = $this->clientRepository->findOrFail($clienttId);
+            $client = $this->clientService->findOrFail($clienttId);
             return new ClientResource($client);
         });
     }
@@ -59,7 +64,7 @@ class ClientController extends Controller
      */
     public function update(StoreClientRequest $request, int $clientId): JsonResponse
     {
-        $this->clientRepository->update((array)$request->validated(), $clientId);
+        $this->clientService->update((array)$request->validated(), $clientId);
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
@@ -68,7 +73,7 @@ class ClientController extends Controller
      */
     public function destroy(int $clientId): JsonResponse
     {
-        $this->clientRepository->delete($clientId);
+        $this->clientService->delete($clientId);
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }
