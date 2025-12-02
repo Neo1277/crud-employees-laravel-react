@@ -17,9 +17,9 @@ use App\Services\ClientService;
 
 class ClientController extends Controller
 {
-    private const CACHE_TTL = 60;
+    protected const CACHE_TTL = 60;
     
-    private ClientServiceInterface $clientService;
+    protected ClientServiceInterface $clientService;
 
     public function __construct(ClientServiceInterface $clientService)
     {
