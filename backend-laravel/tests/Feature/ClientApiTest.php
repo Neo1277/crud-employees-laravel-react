@@ -243,9 +243,6 @@ class ClientApiTest extends TestCase
             ]
         );
 
-        $type_of_identity_document = TypeOfIdentityDocument::factory()->create();
-        $area = Area::factory()->create();
-
         $currentDateString = date('Y-m-d H:i:s');
 
         $response = $this->putJson("/api/clients/{$client->id}", []);
