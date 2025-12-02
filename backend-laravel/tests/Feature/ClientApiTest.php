@@ -247,20 +247,6 @@ class ClientApiTest extends TestCase
         $area = Area::factory()->create();
 
         $currentDateString = date('Y-m-d H:i:s');
-        
-        $updateBody = [
-            'identity_document' => "16450360",
-            'first_last_name' => "MENESES",
-            'second_last_name' => "BEJARANO",
-            'first_name' => "SULLY",
-            'other_names' => "ANDREA",
-            'email' => "andrea@gmail.com",
-            'country' => "colombia",
-            'date_of_entry' => $currentDateString,
-            'status' => "Active",
-            'type_of_identity_document_id' => $type_of_identity_document->id,
-            'area_id' => $area->id,
-        ];
 
         $response = $this->putJson("/api/clients/{$client->id}", []);
 
