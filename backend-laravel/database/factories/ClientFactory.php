@@ -27,7 +27,7 @@ class ClientFactory extends Factory
         $arrayValuesCountry = ['colombia', 'united_states'];
         $arrayValuesStatus = ['Active', 'Inactive'];
         return [
-            'identity_document' => $this->faker->unique()->randomNumber(8),
+            'identity_document' => $this->faker->unique()->regexify('[A-Za-z0-9]{10}'),
             'first_last_name' => $this->faker->lastName,
             'second_last_name' => $this->faker->lastName,
             'first_name' => $this->faker->firstName,

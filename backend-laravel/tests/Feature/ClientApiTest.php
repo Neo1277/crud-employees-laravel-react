@@ -292,7 +292,7 @@ class ClientApiTest extends TestCase
         $currentDateString = date('Y-m-d H:i:s');
         
         $updateBody = [
-            'identity_document' => (string) $client->identity_document,
+            'identity_document' => $client->identity_document,
             'first_last_name' => "MENESES",
             'second_last_name' => "BEJARANO",
             'first_name' => "SULLY",
