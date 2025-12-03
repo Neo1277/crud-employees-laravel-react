@@ -167,7 +167,49 @@ class ClientApiTest extends TestCase
                 ]
             ]
         );
+    }
 
+    public function testStoreWithSameIdentityDocumentAndTypeOfIdentityDocumentAndSameEmail(): void
+    {
+        $type_of_identity_document = TypeOfIdentityDocument::factory()->create();
+        $area = Area::factory()->create();
+
+        $client = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => $type_of_identity_document->id,
+                'area_id' => $area->id
+            ]
+        );
+
+        $currentDateString = date('Y-m-d H:i:s');
+        
+        $body = [
+            'identity_document' => $client->identity_document,
+            'first_last_name' => "MENESES",
+            'second_last_name' => "BEJARANO",
+            'first_name' => "SULLY",
+            'other_names' => "ANDREA",
+            'email' => $client->email,
+            'country' => "colombia",
+            'date_of_entry' => $currentDateString,
+            'status' => "Active",
+            'type_of_identity_document_id' => $type_of_identity_document->id,
+            'area_id' => $area->id,
+        ];
+
+        $response = $this->postJson('/api/clients', $body);
+
+        $response->assertStatus(422);
+
+        $response->assertJsonStructure(
+            [
+                'message',
+                'errors' => [
+                    'identity_document',
+                    'email',
+                ]
+            ]
+        );
     }
 
     public function testShowSpecificClient(): void
@@ -234,6 +276,45 @@ class ClientApiTest extends TestCase
         ]);
     }
 
+
+    public function testUpdateAllowToChangeToSameEmailAndSameIdentityDocumentAndTypeOfIdentityDocument(): void
+    {
+        $type_of_identity_document = TypeOfIdentityDocument::factory()->create();
+        $area = Area::factory()->create();
+
+        $client = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => $type_of_identity_document->id,
+                'area_id' => $area->id
+            ]
+        );
+
+        $currentDateString = date('Y-m-d H:i:s');
+        
+        $updateBody = [
+            'identity_document' => (string) $client->identity_document,
+            'first_last_name' => "MENESES",
+            'second_last_name' => "BEJARANO",
+            'first_name' => "SULLY",
+            'other_names' => "ANDREA",
+            'email' => $client->email,
+            'country' => "colombia",
+            'date_of_entry' => $currentDateString,
+            'status' => "Active",
+            'type_of_identity_document_id' => $type_of_identity_document->id,
+            'area_id' => $area->id,
+        ];
+
+        $response = $this->putJson("/api/clients/{$client->id}", $updateBody);
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseHas('clients', [
+            'id' => $client->id,
+            'identity_document' => $client->identity_document
+        ]);
+    }
+    
     public function testUpdateWithEmptyFields(): void
     {
         $client = Client::factory()->create(
@@ -300,6 +381,56 @@ class ClientApiTest extends TestCase
                 'message',
                 'errors' => [
                     'first_last_name',
+                ]
+            ]
+        );
+    }
+
+    public function testUpdateWithSameIdentityDocumentAndTypeOfIdentityDocumentAndSameEmail(): void
+    {
+        $type_of_identity_document = TypeOfIdentityDocument::factory()->create();
+        $area = Area::factory()->create();
+
+        $client = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => $type_of_identity_document->id,
+                'area_id' => $area->id
+            ]
+        );
+
+        $client2 = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => $type_of_identity_document->id,
+                'area_id' => $area->id
+            ]
+        );
+
+        $currentDateString = date('Y-m-d H:i:s');
+        
+        $updateBody = [
+            'identity_document' => $client->identity_document,
+            'first_last_name' => "MENESES",
+            'second_last_name' => "BEJARANO",
+            'first_name' => "SULLY",
+            'other_names' => "ANDREA",
+            'email' => $client->email,
+            'country' => "colombia",
+            'date_of_entry' => $currentDateString,
+            'status' => "Active",
+            'type_of_identity_document_id' => $type_of_identity_document->id,
+            'area_id' => $area->id,
+        ];
+
+        $response = $this->putJson("/api/clients/{$client2->id}", $updateBody);
+
+        $response->assertStatus(422);
+
+        $response->assertJsonStructure(
+            [
+                'message',
+                'errors' => [
+                    'identity_document',
+                    'email',
                 ]
             ]
         );
