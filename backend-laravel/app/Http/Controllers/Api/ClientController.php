@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Services\ClientService;
+use App\Http\Responses\ApiException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
-    protected const CACHE_TTL = 60;
-    
     protected ClientServiceInterface $clientService;
 
     public function __construct(ClientServiceInterface $clientService)
@@ -29,14 +29,19 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Request $request)
     {
-        $filters = $request->only(['identity_document', 'first_last_name', 'second_last_name', 
+        try {
+            $filters = $request->only(['identity_document', 'first_last_name', 'second_last_name', 
                                     'first_name', 'other_names', 'email', 'country', 'status',
                                     'type_of_identity_document', 'area']);
-        //dd($filters);
-        $clients = $this->clientService->getFilteredClients($filters)->paginate(10);
-        return ClientResource::collection($clients);
+            //dd($filters);
+            $clients = $this->clientService->getFilteredClients($filters)->paginate(10);
+            return ClientResource::collection($clients);
+        } catch (\Exception $e) {
+            Log::error('An error occurred in Client Index.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
+        }
     }
 
     /**
@@ -44,36 +49,60 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        $client = $this->clientService->store((array)$request->validated());
-        return new ClientResource($client);
+        DB::beginTransaction();
+        try {
+            $client = $this->clientService->store((array)$request->validated());
+            DB::commit();
+            return new ClientResource($client);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('An error occurred in Store Client.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(int $clienttId): ClientResource
+    public function show(int $clienttId)
     {
-        return Cache::remember("client.$clienttId", self::CACHE_TTL, function () use ($clienttId) {
+        try {        
             $client = $this->clientService->findOrFail($clienttId);
             return new ClientResource($client);
-        });
+        } catch (\Exception $e) {
+            Log::error('An error occurred in Show Client by id.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
+        }        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreClientRequest $request, int $clientId): JsonResponse
+    public function update(UpdateClientRequest $request, int $clientId)
     {
-        $this->clientService->update((array)$request->validated(), $clientId);
-        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        DB::beginTransaction();
+        try {
+            $this->clientService->update((array)$request->validated(), $clientId);
+            DB::commit();
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('An error occurred in Update Client.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $clientId): JsonResponse
+    public function destroy(int $clientId)
     {
-        $this->clientService->delete($clientId);
-        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        try {        
+            $this->clientService->delete($clientId);
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            Log::error('An error occurred in Destroy Client.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
+        }
     }
 }
