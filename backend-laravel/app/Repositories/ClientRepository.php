@@ -9,9 +9,16 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    public function filter(array $filters): Builder
+    protected Client $model;
+
+    public function __construct(Client $client) // Injecting the client model
     {
-        $query = Client::query();
+        $this->client = $client;
+    }
+
+    public function filter(array $filters)
+    {
+        $query = $this->client->query();
 
         if (isset($filters['identity_document'])) {
             $query->where('identity_document', 'like', '%' . $filters['identity_document'] . '%');
@@ -64,19 +71,19 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function findOrFail(int $id): Model
     {
-        return Client::query()
+        return $this->client->query()
             ->findOrFail($id);
     }
 
     public function store(array $data): Model
     {
-        return Client::query()
+        return $this->client->query()
             ->create($data);
     }
 
     public function update(array $data, int $id): void
     {
-        Client::query()
+        $this->client->query()
             ->findOrFail($id)
             ->update($data);
     }

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 interface ClientRepositoryInterface
 {
-    public function filter(array $filters): Builder;
+    public function filter(array $filters);
 
     public function findOrFail(int $id): Model;
 
