@@ -12,12 +12,24 @@ use App\Repositories\ClientRepository;
 
 class ClientRepositoryTest extends TestCase
 {
+    protected $clientMock;
+    protected ClientRepository $clientRepository;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->clientMock = Mockery::mock(Client::class);
+        $this->clientRepository = new ClientRepository($this->clientMock);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
+    }
+
     public function testFilter(): void
     {
-        $client = Mockery::mock(Client::class);
-
-        $repository = new ClientRepository($client);
-        
         $currentDateString = date('Y-m-d H:i:s');
 
         $typeOfIdentityDocument = new TypeOfIdentityDocument([
@@ -46,18 +58,13 @@ class ClientRepositoryTest extends TestCase
             'area_id' => $area->id
         ]);
         
-        // now, if a developer changes the eloquent method calls, this will fail.
-        $client->shouldReceive('query')->andReturn($clientObject);
+        $this->clientMock->shouldReceive('query')->andReturn($clientObject);
         
-        $this->assertEquals($clientObject, $repository->filter([]));
+        $this->assertEquals($clientObject, $this->clientRepository->filter([]));
     }
 
     public function testFindOrFail(): void
     {
-        $client = Mockery::mock(Client::class);
-
-        $repository = new ClientRepository($client);
-        
         $currentDateString = date('Y-m-d H:i:s');
 
         $typeOfIdentityDocument = new TypeOfIdentityDocument([
@@ -86,18 +93,15 @@ class ClientRepositoryTest extends TestCase
             'area_id' => $area->id
         ]);
         
-        // now, if a developer changes the eloquent method calls, this will fail.
-        $client->shouldReceive('query->findOrFail')->with(1)->andReturn($clientObject);
+        $this->clientMock->shouldReceive('query->findOrFail')
+                                ->with(1)
+                                ->andReturn($clientObject);
 
-        $this->assertEquals($clientObject, $repository->findOrFail(1));
+        $this->assertEquals($clientObject, $this->clientRepository->findOrFail(1));
     }
 
     public function testStore(): void
     {
-        $client = Mockery::mock(Client::class);
-
-        $repository = new ClientRepository($client);
-        
         $currentDateString = date('Y-m-d H:i:s');
 
         $clientData = [
@@ -115,18 +119,15 @@ class ClientRepositoryTest extends TestCase
             'area_id' => 1
         ];
         
-        // now, if a developer changes the eloquent method calls, this will fail.
-        $client->shouldReceive('query->create')->with($clientData)->andReturn($client);
+        $this->clientMock->shouldReceive('query->create')
+                            ->with($clientData)
+                            ->andReturn($this->clientMock);
 
-        $this->assertEquals($client, $repository->store($clientData));
+        $this->assertEquals($this->clientMock, $this->clientRepository->store($clientData));
     }
 
     public function testUpdate(): void
     {
-        $client = Mockery::mock(Client::class);
-
-        $repository = new ClientRepository($client);
-        
         $currentDateString = date('Y-m-d H:i:s');
 
         $typeOfIdentityDocument = new TypeOfIdentityDocument([
@@ -169,21 +170,16 @@ class ClientRepositoryTest extends TestCase
             'area_id' => $area->id
         ];
         
-        // now, if a developer changes the eloquent method calls, this will fail.
-        $client->shouldReceive('query->findOrFail->update')
+        $this->clientMock->shouldReceive('query->findOrFail->update')
                                 ->with(1)
                                 ->with($clientData)
                                 ->andReturn(null);
         
-        $this->assertNull($repository->update($clientData, 1));
+        $this->assertNull($this->clientRepository->update($clientData, 1));
     }
     
     public function testDelete(): void
     {
-        $client = Mockery::mock(Client::class);
-
-        $repository = new ClientRepository($client);
-        
         $currentDateString = date('Y-m-d H:i:s');
 
         $typeOfIdentityDocument = new TypeOfIdentityDocument([
@@ -212,13 +208,12 @@ class ClientRepositoryTest extends TestCase
             'area_id' => $area->id
         ]);
 
-        $client->shouldReceive('query->findOrFail')
+        $this->clientMock->shouldReceive('query->findOrFail')
                                 ->with(1)
                                 ->andReturn($clientObject)
                                 ->shouldReceive('delete')
                                 ->andReturn(null);
 
-        $result = $repository->delete(1);
-        $this->assertNull($result);
+        $this->assertNull($this->clientRepository->delete(1));
     }
 }
