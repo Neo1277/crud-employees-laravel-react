@@ -177,8 +177,8 @@ class ClientRepositoryTest extends TestCase
         
         $this->assertNull($repository->update($clientData, 1));
     }
-    /*
-    public function testDestroy(): void
+    
+    public function testDelete(): void
     {
         $client = Mockery::mock(Client::class);
 
@@ -212,11 +212,13 @@ class ClientRepositoryTest extends TestCase
             'area_id' => $area->id
         ]);
 
-        // now, if a developer changes the eloquent method calls, this will fail.
-        $client->shouldReceive('query->findOrFail->delete')
+        $client->shouldReceive('query->findOrFail')
                                 ->with(1)
+                                ->andReturn($clientObject)
+                                ->shouldReceive('delete')
                                 ->andReturn(null);
-        
-        $this->assertNull($repository->delete(1));
-    }*/
+
+        $result = $repository->delete(1);
+        $this->assertNull($result);
+    }
 }
