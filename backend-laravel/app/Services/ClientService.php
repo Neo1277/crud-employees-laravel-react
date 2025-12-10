@@ -16,9 +16,9 @@ class ClientService implements ClientServiceInterface
         $this->clientRepository = $clientRepository;
     }
 
-    public function getFilteredClients(array $filters)
+    public function getAll(array $filters)
     {
-        return $this->clientRepository->filter($filters);
+        return $this->clientRepository->getAll($filters);
     }
 
     public function findOrFail(int $id): Model

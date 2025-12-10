@@ -19,11 +19,13 @@ return new class extends Migration
             $table->string('first_name', 20);
             $table->string('other_names', 50);
             $table->string('email', 300)->unique();
-            $table->enum('country', ['colombia', 'united_states'])->default('colombia');
+            $table->enum('country', ['co', 'us'])->default('co')
+                                                ->comment('co -> Colombia, us -> United States');;
             $table->dateTime('date_of_entry');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->integer('type_of_identity_document_id')->unsigned()->index();
-            $table->foreign('type_of_identity_document_id')->references('id')->on('type_of_identity_documents')->onDelete('cascade');
+            $table->foreign('type_of_identity_document_id')->references('id')->
+                                                on('type_of_identity_documents')->onDelete('cascade');
             $table->integer('area_id')->unsigned()->index();
             $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             $table->timestamps();

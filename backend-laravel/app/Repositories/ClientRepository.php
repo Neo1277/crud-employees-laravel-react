@@ -16,7 +16,7 @@ class ClientRepository implements ClientRepositoryInterface
         $this->client = $client;
     }
 
-    public function filter(array $filters)
+    public function getAll(array $filters)
     {
         $query = $this->client->query();
 

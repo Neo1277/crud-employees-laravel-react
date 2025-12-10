@@ -24,7 +24,7 @@ class ClientFactory extends Factory
      */
     public function definition(): array
     {
-        $arrayValuesCountry = ['colombia', 'united_states'];
+        $arrayValuesCountry = ['co', 'us'];
         $arrayValuesStatus = ['Active', 'Inactive'];
         return [
             'identity_document' => $this->faker->unique()->regexify('[A-Za-z0-9]{10}'),

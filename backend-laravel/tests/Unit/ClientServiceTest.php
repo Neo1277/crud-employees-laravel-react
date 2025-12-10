@@ -13,7 +13,7 @@ use App\Services\ClientService;
 
 class ClientServiceTest extends TestCase
 {
-    public function testGetFilterClients()
+    public function testGetAll()
     {
         $currentDateString = date('Y-m-d H:i:s');
 
@@ -36,7 +36,7 @@ class ClientServiceTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -49,14 +49,14 @@ class ClientServiceTest extends TestCase
 
         // Create a mock for the ClientRepositoryInterface
         $clientRepositoryMock = Mockery::mock(ClientRepositoryInterface::class);
-        $clientRepositoryMock->shouldReceive('filter')
+        $clientRepositoryMock->shouldReceive('getAll')
                             ->with($filters)
                            ->andReturn($client);
 
         // Inject the mock into the ClientService
         $clientService = new ClientService($clientRepositoryMock);
 
-        $result = $clientService->getFilteredClients($filters);
+        $result = $clientService->getAll($filters);
 
         $this->assertEquals($client->first_last_name, $result->first_last_name);
         $this->assertEquals($client->email, $result->email);
@@ -85,7 +85,7 @@ class ClientServiceTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -130,7 +130,7 @@ class ClientServiceTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -176,7 +176,7 @@ class ClientServiceTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -221,7 +221,7 @@ class ClientServiceTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 interface ClientServiceInterface
 {
-    public function getFilteredClients(array $filters);
+    public function getAll(array $filters);
 
     public function findOrFail(int $id): Model;
 

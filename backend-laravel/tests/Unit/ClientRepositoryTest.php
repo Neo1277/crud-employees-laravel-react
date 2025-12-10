@@ -28,7 +28,7 @@ class ClientRepositoryTest extends TestCase
         parent::tearDown();
     }
 
-    public function testFilter(): void
+    public function testGetAll(): void
     {
         $currentDateString = date('Y-m-d H:i:s');
 
@@ -51,7 +51,7 @@ class ClientRepositoryTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -60,8 +60,49 @@ class ClientRepositoryTest extends TestCase
         
         $this->clientMock->shouldReceive('query')->andReturn($clientObject);
         
-        $this->assertEquals($clientObject, $this->clientRepository->filter([]));
+        $this->assertEquals($clientObject, $this->clientRepository->getAll([]));
     }
+    /*
+    public function testFilterWithArguments(): void
+    {
+        $currentDateString = date('Y-m-d H:i:s');
+
+        $typeOfIdentityDocument = new TypeOfIdentityDocument([
+            'id' => 1, 
+            'code' => 'A123465',
+            'description' => 'Brando',
+        ]);
+
+        $area = new Area([
+            'id' => 1, 
+            'name' => 'A123465',
+        ]);
+
+        $clientObject = new Client([
+            'id' => 1, 
+            'identity_document' => 'A123465',
+            'first_last_name' => 'Brando',
+            'second_last_name' => 'Mendez',
+            'first_name' => 'Carl',
+            'other_names' => 'James',
+            'email' => 'carl@gmail.com',
+            'country' => 'us',
+            'date_of_entry' => $currentDateString,
+            'status' => 'Active',
+            'type_of_identity_document_id' => $typeOfIdentityDocument->id,
+            'area_id' => $area->id
+        ]);
+
+        $filters = [
+            "identity_document" => "A123465"
+        ];
+        
+        $this->clientMock->shouldReceive('query->where')
+                            ->with('identity_document', 'A123465')
+             ->andReturnSelf();
+        
+        $this->assertEquals($clientObject, $this->clientRepository->getAll($filters));
+    }*/
 
     public function testFindOrFail(): void
     {
@@ -86,7 +127,7 @@ class ClientRepositoryTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -112,7 +153,7 @@ class ClientRepositoryTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => 1,
@@ -149,7 +190,7 @@ class ClientRepositoryTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -163,7 +204,7 @@ class ClientRepositoryTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
@@ -201,7 +242,7 @@ class ClientRepositoryTest extends TestCase
             'first_name' => 'Carl',
             'other_names' => 'James',
             'email' => 'carl@gmail.com',
-            'country' => 'united_states',
+            'country' => 'us',
             'date_of_entry' => $currentDateString,
             'status' => 'Active',
             'type_of_identity_document_id' => $typeOfIdentityDocument->id,
