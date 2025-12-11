@@ -460,8 +460,35 @@ class ClientApiTest extends TestCase
         $first_last_name = "MENESES";
         $country = "us";
 
-        $response = $this->getJson("/api/clients/get-new-email?first_name={$first_name}&first_last_name={$first_last_name}&country={$country}");
+        $get_url = "/api/clients/get-new-email?first_name={$first_name}"
+                    ."&first_last_name={$first_last_name}"
+                    ."&country={$country}";
 
+        $response = $this->getJson($get_url);
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure(
+            [
+                'new_email'
+            ]
+        );
+    }
+
+    public function testGetNewEmailWithAClientThatAlreadyExists(): void
+    {
+        $client = Client::factory()->create(
+            [
+                'type_of_identity_document_id' => TypeOfIdentityDocument::factory()->create()->id,
+                'area_id' => Area::factory()->create()->id
+            ]
+        );
+        $get_url = "/api/clients/get-new-email?first_name={$client->first_name}"
+                    ."&first_last_name={$client->first_last_name}".
+                    "&country={$client->country}";
+
+        $response = $this->getJson($get_url);
+        
         $response->assertStatus(200);
 
         $response->assertJsonStructure(
