@@ -7,6 +7,8 @@ use App\Interfaces\ClientRepositoryInterface;
 use App\Repositories\ClientRepository;
 use App\Interfaces\ClientServiceInterface;
 use App\Services\ClientService;
+use App\Interfaces\EmailGenerationInterface;
+use App\Services\EmailGenerationService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(ClientRepositoryInterface::class, ClientRepository::class);
         $this->app->bind(ClientServiceInterface::class, ClientService::class);
+        $this->app->bind(EmailGenerationInterface::class, EmailGenerationService::class);
     }
 
     /**

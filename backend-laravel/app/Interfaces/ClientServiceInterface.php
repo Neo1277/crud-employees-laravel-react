@@ -18,4 +18,6 @@ interface ClientServiceInterface
     public function update(array $data, int $id): void;
 
     public function delete(int $id): void;
+
+    public function getNewEmail(string $first_last_name, string $first_name, string $country): string;
 }

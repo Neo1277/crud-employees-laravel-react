@@ -8,4 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
+Route::get('clients/get-new-email', [ClientController::class, 'getNewEmail']);
 Route::apiResource('clients', ClientController::class);

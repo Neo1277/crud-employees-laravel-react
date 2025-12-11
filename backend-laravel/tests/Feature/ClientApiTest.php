@@ -453,4 +453,21 @@ class ClientApiTest extends TestCase
 
         $this->assertDatabaseMissing('clients', ['id' => $client->id]);
     }
+
+    public function testGetNewEmail(): void
+    {
+        $first_name = "SULLY";
+        $first_last_name = "MENESES";
+        $country = "us";
+
+        $response = $this->getJson("/api/clients/get-new-email?first_name={$first_name}&first_last_name={$first_last_name}&country={$country}");
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure(
+            [
+                'new_email'
+            ]
+        );
+    }
 }

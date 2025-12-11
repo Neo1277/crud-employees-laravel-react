@@ -105,4 +105,27 @@ class ClientController extends Controller
             throw new ApiException($e->getMessage());
         }
     }
+
+    /**
+     * Email generation.
+     */
+    public function getNewEmail(Request $request)
+    {
+        try {
+            $parameters = $request->only(['first_last_name',  'first_name', 'country']);
+            //dd($filters);
+            $new_email = $this->clientService->getNewEmail(
+                $parameters['first_last_name'], 
+                $parameters['first_name'], 
+                $parameters['country']
+            );
+            $data_response = [
+                'new_email' => $new_email
+            ];
+            return new JsonResponse($data_response, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error('An error occurred in get new email.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
+        }
+    }
 }

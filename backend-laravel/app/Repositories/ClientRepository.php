@@ -92,4 +92,15 @@ class ClientRepository implements ClientRepositoryInterface
     {
         $this->findOrFail($id)->delete();
     }
+
+    public function getLastEmailByFirstLastNameAndFirstName(string $first_last_name, string $first_name)
+    {
+        return  $this->client->query()->where([
+                                ['first_last_name', 'like', '%' . $first_last_name . '%'],
+                                ['first_name', 'like', '%' . $first_name . '%'],
+                            ])
+                           ->orderByDesc('id')
+                           ->select('email') // Select specific columns
+                           ->first();
+    }
 }

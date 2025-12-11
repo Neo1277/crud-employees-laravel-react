@@ -18,4 +18,6 @@ interface ClientRepositoryInterface
     public function update(array $data, int $id): void;
 
     public function delete(int $id): void;
+
+    public function getLastEmailByFirstLastNameAndFirstName(string $first_last_name, string $first_name);
 }

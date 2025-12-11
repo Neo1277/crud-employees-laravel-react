@@ -4,16 +4,22 @@ namespace App\Services;
 
 use App\Interfaces\ClientServiceInterface;
 use App\Interfaces\ClientRepositoryInterface;
+use App\Interfaces\EmailGenerationInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class ClientService implements ClientServiceInterface
 {
     protected ClientRepositoryInterface $clientRepository;
+    protected EmailGenerationInterface $emailGenerationService;
 
-    public function __construct(ClientRepositoryInterface $clientRepository)
+    public function __construct(
+        ClientRepositoryInterface $clientRepository,
+        EmailGenerationInterface $emailGenerationService
+        )
     {
         $this->clientRepository = $clientRepository;
+        $this->emailGenerationService = $emailGenerationService;
     }
 
     public function getAll(array $filters)
@@ -39,5 +45,13 @@ class ClientService implements ClientServiceInterface
     public function delete(int $id): void
     {
         $this->clientRepository->delete($id);
+    }
+
+    public function getNewEmail(string $first_last_name, string $first_name, string $country): string
+    {
+        $lastEmail = $this->clientRepository
+            ->getLastEmailByFirstLastNameAndFirstName($first_last_name, $first_name);
+        return $this->emailGenerationService
+                    ->generateNewEmail($lastEmail, $first_last_name, $first_name, $country);
     }
 }
