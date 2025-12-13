@@ -62,8 +62,8 @@ class ClientRepositoryTest extends TestCase
         
         $this->assertEquals($clientObject, $this->clientRepository->getAll([]));
     }
-    /*
-    public function testFilterWithArguments(): void
+    
+    public function testGetAllWithArguments(): void
     {
         $currentDateString = date('Y-m-d H:i:s');
 
@@ -97,12 +97,59 @@ class ClientRepositoryTest extends TestCase
             "identity_document" => "A123465"
         ];
         
-        $this->clientMock->shouldReceive('query->where')
-                            ->with('identity_document', 'A123465')
-             ->andReturnSelf();
+        $this->clientMock->shouldReceive('query')
+                            ->andReturn($clientObject);
+        
+        $this->clientMock->shouldReceive('where')
+                            ->with('identity_document', 'like', '%A123465%')
+                            ->andReturn($clientObject);
         
         $this->assertEquals($clientObject, $this->clientRepository->getAll($filters));
-    }*/
+    }
+
+    public function testGetAllWithArgumentsWhereHas(): void
+    {
+        $currentDateString = date('Y-m-d H:i:s');
+
+        $typeOfIdentityDocument = new TypeOfIdentityDocument([
+            'id' => 1, 
+            'code' => 'A123465',
+            'description' => 'Brando',
+        ]);
+
+        $area = new Area([
+            'id' => 1, 
+            'name' => 'A123465',
+        ]);
+
+        $clientObject = new Client([
+            'id' => 1, 
+            'identity_document' => 'A123465',
+            'first_last_name' => 'Brando',
+            'second_last_name' => 'Mendez',
+            'first_name' => 'Carl',
+            'other_names' => 'James',
+            'email' => 'carl@gmail.com',
+            'country' => 'us',
+            'date_of_entry' => $currentDateString,
+            'status' => 'Active',
+            'type_of_identity_document_id' => $typeOfIdentityDocument->id,
+            'area_id' => $area->id
+        ]);
+
+        $filters = [
+            "area" => $area->name
+        ];
+        
+        $this->clientMock->shouldReceive('query')
+                            ->andReturn($clientObject);
+        
+        $this->clientMock->shouldReceive('whereHas')
+                            ->with('area', 'like', '%'.$area->name.'%')
+                            ->andReturn($clientObject);
+        
+        $this->assertEquals($clientObject, $this->clientRepository->getAll($filters));
+    }
 
     public function testFindOrFail(): void
     {
@@ -257,4 +304,67 @@ class ClientRepositoryTest extends TestCase
 
         $this->assertNull($this->clientRepository->delete(1));
     }
+    
+    /*
+    public function testGetLastEmailByFirstLastNameAndFirstName(): void
+    {
+        $currentDateString = date('Y-m-d H:i:s');
+
+        $typeOfIdentityDocument = new TypeOfIdentityDocument([
+            'id' => 1, 
+            'code' => 'A123465',
+            'description' => 'Brando',
+        ]);
+
+        $area = new Area([
+            'id' => 1, 
+            'name' => 'A123465',
+        ]);
+
+        $clientObject = new Client([
+            'id' => 1, 
+            'identity_document' => 'A123465',
+            'first_last_name' => 'Brando',
+            'second_last_name' => 'Mendez',
+            'first_name' => 'Carl',
+            'other_names' => 'James',
+            'email' => 'carl@gmail.com',
+            'country' => 'us',
+            'date_of_entry' => $currentDateString,
+            'status' => 'Active',
+            'type_of_identity_document_id' => $typeOfIdentityDocument->id,
+            'area_id' => $area->id
+        ]);
+
+        $filters = [
+            "identity_document" => "A123465"
+        ];
+        
+        $this->clientMock->shouldReceive('query')
+                            ->andReturn($clientObject);
+        
+        $this->clientMock->shouldReceive('where')
+                            ->with([
+                                ['first_last_name', 'like', '%' . $clientObject->first_last_name . '%'],
+                                ['first_name', 'like', '%' . $clientObject->first_name . '%'],
+                            ])
+                            ->andReturn($clientObject);
+        
+        $this->clientMock->shouldReceive('orderByDesc')
+                            ->with('id')
+                            ->andReturn($clientObject);
+        
+        $this->clientMock->shouldReceive('select')
+                            ->with('email')
+                            ->andReturn($clientObject);
+        
+        $this->clientMock->shouldReceive('first')
+                            ->andReturn($clientObject);
+        $this->assertEquals($clientObject->email, $this->clientRepository
+                                            ->getLastEmailByFirstLastNameAndFirstName(
+                                                $clientObject->first_last_name, 
+                                                $clientObject->first_name
+                                            )
+                                        );
+    }*/
 }
