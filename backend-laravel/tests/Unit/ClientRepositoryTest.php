@@ -338,13 +338,6 @@ class ClientRepositoryTest extends TestCase
         $filters = [
             "identity_document" => "A123465"
         ];
-        /*
-        $client = Client::factory()->make(
-            [
-                'type_of_identity_document_id' => TypeOfIdentityDocument::factory()->make()->id,
-                'area_id' => Area::factory()->make()->id
-            ]
-        );*/
         
         $this->clientMock->shouldReceive('query')
                             ->andReturnSelf()
