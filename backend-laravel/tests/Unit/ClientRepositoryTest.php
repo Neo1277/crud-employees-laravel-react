@@ -305,11 +305,10 @@ class ClientRepositoryTest extends TestCase
         $this->assertNull($this->clientRepository->delete(1));
     }
     
-    /*
     public function testGetLastEmailByFirstLastNameAndFirstName(): void
     {
         $currentDateString = date('Y-m-d H:i:s');
-
+        
         $typeOfIdentityDocument = new TypeOfIdentityDocument([
             'id' => 1, 
             'code' => 'A123465',
@@ -339,32 +338,36 @@ class ClientRepositoryTest extends TestCase
         $filters = [
             "identity_document" => "A123465"
         ];
+        /*
+        $client = Client::factory()->make(
+            [
+                'type_of_identity_document_id' => TypeOfIdentityDocument::factory()->make()->id,
+                'area_id' => Area::factory()->make()->id
+            ]
+        );*/
         
         $this->clientMock->shouldReceive('query')
-                            ->andReturn($clientObject);
-        
-        $this->clientMock->shouldReceive('where')
+                            ->andReturnSelf()
+                            ->shouldReceive('where')
                             ->with([
                                 ['first_last_name', 'like', '%' . $clientObject->first_last_name . '%'],
                                 ['first_name', 'like', '%' . $clientObject->first_name . '%'],
                             ])
-                            ->andReturn($clientObject);
-        
-        $this->clientMock->shouldReceive('orderByDesc')
+                            ->andReturnSelf()
+                            ->shouldReceive('orderByDesc')
                             ->with('id')
-                            ->andReturn($clientObject);
-        
-        $this->clientMock->shouldReceive('select')
+                            ->andReturnSelf()
+                            ->shouldReceive('select')
                             ->with('email')
+                            ->andReturnSelf()
+                            ->shouldReceive('first')
                             ->andReturn($clientObject);
         
-        $this->clientMock->shouldReceive('first')
-                            ->andReturn($clientObject);
-        $this->assertEquals($clientObject->email, $this->clientRepository
-                                            ->getLastEmailByFirstLastNameAndFirstName(
+        $result = $this->clientRepository->getLastEmailByFirstLastNameAndFirstName(
                                                 $clientObject->first_last_name, 
                                                 $clientObject->first_name
-                                            )
-                                        );
-    }*/
+        );
+
+        $this->assertEquals($clientObject->email, $result->email);
+    }
 }
