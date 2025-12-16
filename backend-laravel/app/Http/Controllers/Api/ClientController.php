@@ -29,7 +29,7 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection | ApiException
     {
         try {
             $filters = $request->only(['identity_document', 'first_last_name', 'second_last_name', 
@@ -47,7 +47,7 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClientRequest $request)
+    public function store(StoreClientRequest $request): ClientResource | ApiException
     {
         DB::beginTransaction();
         try {
@@ -64,7 +64,7 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $clienttId)
+    public function show(int $clienttId): ClientResource | ApiException
     {
         try {        
             $client = $this->clientService->findOrFail($clienttId);
@@ -78,7 +78,7 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClientRequest $request, int $clientId)
+    public function update(UpdateClientRequest $request, int $clientId): JsonResponse | ApiException
     {
         DB::beginTransaction();
         try {
@@ -95,7 +95,7 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $clientId)
+    public function destroy(int $clientId): JsonResponse | ApiException
     {
         try {        
             $this->clientService->delete($clientId);
@@ -109,7 +109,7 @@ class ClientController extends Controller
     /**
      * Email generation.
      */
-    public function getNewEmail(Request $request)
+    public function getNewEmail(Request $request): JsonResponse | ApiException
     {
         try {
             $parameters = $request->only(['first_last_name',  'first_name', 'country']);
