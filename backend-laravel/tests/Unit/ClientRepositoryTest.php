@@ -98,9 +98,8 @@ class ClientRepositoryTest extends TestCase
         ];
         
         $this->clientMock->shouldReceive('query')
-                            ->andReturn($clientObject);
-        
-        $this->clientMock->shouldReceive('where')
+                            ->andReturn($clientObject)
+                            ->shouldReceive('where')
                             ->with('identity_document', 'like', '%A123465%')
                             ->andReturn($clientObject);
         
@@ -142,9 +141,8 @@ class ClientRepositoryTest extends TestCase
         ];
         
         $this->clientMock->shouldReceive('query')
-                            ->andReturn($clientObject);
-        
-        $this->clientMock->shouldReceive('whereHas')
+                            ->andReturn($clientObject)
+                            ->shouldReceive('whereHas')
                             ->with('area', 'like', '%'.$area->name.'%')
                             ->andReturn($clientObject);
         

@@ -27,7 +27,8 @@ class EmailGenerationService implements EmailGenerationInterface
         return $new_email;
     }
 
-    public function generateNewId($last_email): string{
+    public function generateNewId($last_email): string
+    {
         /**
          * If there is already exists an email or more with the same name 
          * and last name extract id and if it already exists increment it
