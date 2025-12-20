@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    protected Client $model;
+    protected Client $client;
 
     public function __construct(Client $client) // Injecting the client model
     {

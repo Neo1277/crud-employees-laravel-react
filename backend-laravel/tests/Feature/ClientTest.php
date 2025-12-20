@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Client;
 use App\Models\TypeOfIdentityDocument;
 use App\Models\Area;
@@ -11,9 +12,8 @@ use Illuminate\Support\Carbon;
 
 class ClientTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
+    use RefreshDatabase;
+
     public function testBelongstoATypeOfIdentityDocumentAndArea(): void
     {
         $typeOfIdentityDocument = TypeOfIdentityDocument::factory()->create();
