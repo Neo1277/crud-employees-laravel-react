@@ -13,6 +13,10 @@ use App\Interfaces\TypeOfIdentityDocumentRepositoryInterface;
 use App\Repositories\TypeOfIdentityDocumentRepository;
 use App\Interfaces\TypeOfIdentityDocumentServiceInterface;
 use App\Services\TypeOfIdentityDocumentService;
+use App\Interfaces\AreaRepositoryInterface;
+use App\Repositories\AreaRepository;
+use App\Interfaces\AreaServiceInterface;
+use App\Services\AreaService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(EmailGenerationInterface::class, EmailGenerationService::class);
         $this->app->bind(TypeOfIdentityDocumentRepositoryInterface::class, TypeOfIdentityDocumentRepository::class);
         $this->app->bind(TypeOfIdentityDocumentServiceInterface::class, TypeOfIdentityDocumentService::class);
+        $this->app->bind(AreaRepositoryInterface::class, AreaRepository::class);
+        $this->app->bind(AreaServiceInterface::class, AreaService::class);
     }
 
     /**
