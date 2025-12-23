@@ -2,7 +2,7 @@
 import configureMockStore from 'redux-mock-store';
 import {thunk} from 'redux-thunk';
 import { fetchClients } from '../../redux/ActionCreators/clientActions';
-import { FETCH_CLIENTS_REQUEST, FETCH_CLIENT_SUCCESS } from '../../redux/ActionTypes';
+import { FETCH_CLIENTS_REQUEST, FETCH_CLIENTS_SUCCESS } from '../../redux/ActionTypes';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -15,7 +15,7 @@ describe('async client actions', () => {
     jest.clearAllMocks(); // Clear fetch mocks after each test
   });
 
-  it('creates FETCH_CLIENT_SUCCESS when fetching clients has been done', async () => {
+  it('creates FETCH_CLIENTS_SUCCESS when fetching clients has been done', async () => {
     const mockClients = {
         'data':
         {
@@ -42,7 +42,7 @@ describe('async client actions', () => {
 
     const expectedActions = [
       { type: FETCH_CLIENTS_REQUEST },
-      { type: FETCH_CLIENT_SUCCESS, payload: mockClients }
+      { type: FETCH_CLIENTS_SUCCESS, payload: mockClients }
     ];
 
     const store = mockStore({});
@@ -51,7 +51,7 @@ describe('async client actions', () => {
     await store.dispatch(fetchClients());
     
     // Check that the dispatched actions match the expected sequence
-    expect(JSON.stringify(store.getActions())).toEqual(JSON.stringify({expectedActions}));
+    expect(store.getActions()).toEqual(expectedActions);
     // Optionally, check that fetch was called
     expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000?page=1&identity_document=');
   });

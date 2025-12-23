@@ -11,7 +11,8 @@ export const fetchClients = (page = "1", filter_by = "identity_document", search
   dispatch(fetchClientRequest(true));
 
   try {
-    const response = await fetch('http://127.0.0.1:8000?page=${page}&${filter_by}=${searchWord}');
+    // const response = await fetch('http://127.0.0.1:8000?page=${page}&${filter_by}=${searchWord}');
+    const response = await fetch('http://127.0.0.1:8000?page=' + page +'&' + filter_by + '=' + searchWord + '');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
