@@ -17,7 +17,7 @@ export const fetchClients = (page = "1", filter_by = "identity_document", search
       throw new Error('Network response was not ok');
     }
     const clients = await response.json();
-    dispatch(fetchUserSuccess(clients));
+    dispatch(fetchClientSuccess(clients));
   } catch (error) {
     dispatch(clientsFailed(error.message));
     alert(error);
@@ -30,7 +30,7 @@ export const fetchClientRequest = () => ({
 });
 
 /* Call action type from clients reducer */
-export const fetchUserSuccess = (clients) => ({
+export const fetchClientSuccess = (clients) => ({
     type: FETCH_CLIENTS_SUCCESS,
     payload: clients
 });
