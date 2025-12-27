@@ -42,7 +42,7 @@ describe('Client reducer', () => {
 
 
   it('should handle FETCH_CLIENTS_FAILURE', () => {
-    const error = 'Error by fetching data';
+    const error = 'Failed to fetch';
     const action = { type: FETCH_CLIENTS_FAILURE, payload: error };
     const expectedState = { isLoading: false, errorMessage: error };
     expect(Clients({ isLoading: false, errorMessage: error }, action)).toEqual(expectedState);

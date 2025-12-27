@@ -1,0 +1,79 @@
+import { Loading } from './LoadingComponent';
+import { Container, Table } from 'reactstrap';
+
+export default function ClientListComponent(props) {
+	//console.log(props);
+	if (props.clients.isLoading) {
+		
+        return(
+            <Loading />
+        );
+    }
+    else if (props.clients.errorMessage) {
+        return(
+            <h4>{props.clients.errorMessage}</h4>
+        );
+    }
+	else{
+        <Container>
+            <Table responsive striped>
+                <thead>
+                    <tr>
+                    <th>Type of identity document</th>
+                    <th>Identity Document</th>
+                    <th>First Last Name</th>
+                    <th>Second Last Name</th>
+                    <th>First name</th>
+                    <th>Other names</th>
+                    <th>Email</th>
+                    <th>Country employment</th>
+                    <th>Date of entry</th>
+                    <th>Date and time created</th>
+                    <th>Date and time updated</th>
+                    <th>Status</th>
+                    <th>Area</th>
+                    {/*<th>Action</th>*/}
+                    </tr>
+                </thead>
+                <tbody>
+            {props.clients.clients.data.map((field, i) => { 
+                
+                return(
+                    <tr key={field.id}>
+                        <td>{field.type_of_identity_document_description}</td>
+                        <td>{field.identity_document}</td>
+                        <td>{field.first_last_name}</td>
+                        <td>{field.second_last_name }</td>
+                        <td>{field.first_name}</td>
+                        <td>{field.other_names}</td>
+                        <td>{field.email}</td>
+                        <td>{field.country}</td>
+                        <td>{field.date_of_entry}</td>
+                        <td>{field.status}</td>
+                        <td>{field.created_at}</td>
+                        <td>{field.updated_at}</td>
+                        <td>
+                        <td>{field.status}</td>
+                        <td>{field.area}</td>
+                        </td>
+                        {/*<td>
+                            <Link to={`/edit_employee/${field.third_party_id}`} >
+                                <Button color="success">
+                                    <span className="fa fa-pencil"></span>
+                                </Button>
+                            </Link>
+                            <Link to={`/delete_employee/${field.third_party_id}`} >
+                                <Button color="danger">
+                                    <span className="fa fa-trash"></span>
+                                </Button>
+                            </Link>
+                        </td>*/}
+                    </tr>
+                );
+            }) }
+                </tbody>
+            </Table>
+
+        </Container>
+    }
+}
