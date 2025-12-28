@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ClientListComponent from './ClientListComponent';
+import NotFoundComponent from './NotFoundComponent';
 
 
 //import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
@@ -25,13 +26,14 @@ const mapDispatchToProps = (dispatch) => ({
     fetchClients: (page, filter_by, searchWord) => { dispatch(fetchClients(page, filter_by, searchWord))},
 });
 
+/*
 export const withRouter = (Component) =>{
     const Wrapper = (props) =>{
         const history = useNavigate();
         return <Component history={history} {...props}/>
     } 
     return Wrapper;
-}
+}*/
 
 class Main extends Component {
 
@@ -55,15 +57,16 @@ class Main extends Component {
   
       return (
         <div>
-            <Router>
-                <Routes>
-                    <Route exact path="/home" element={<ClientListComponent clients={this.props.clients}/>}/>
-                    
-                </Routes>
-            </Router>
+          <Router>
+            <Routes>
+              <Route path="/" element={<ClientListComponent clients={this.props.clients}/>} />
+              <Route path="*" element={<NotFoundComponent />} />
+            </Routes>
+          </Router>
         </div>
       );
     }
   }
   
-  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+  //export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+  export default connect(mapStateToProps, mapDispatchToProps)(Main);
