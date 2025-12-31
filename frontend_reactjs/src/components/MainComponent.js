@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import ClientListComponent from './ClientListComponent';
 import NotFoundComponent from './NotFoundComponent';
 
-
-//import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-//import { useNavigate } from 'react-router';
+//import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router';
 import { connect } from 'react-redux';
 import { 
   fetchClients
@@ -53,6 +50,8 @@ class Main extends Component {
        * Set routes to open the different pages calling the components
        * And redirect to home if the url that the user type in the browser
        * does not match with any url from here
+       * React router dom with redux link:
+       * https://www.geeksforgeeks.org/reactjs/implementing-react-router-with-redux-in-react/
        */
   
       return (
@@ -63,6 +62,14 @@ class Main extends Component {
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>
           </Router>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            learn react
+          </a>
         </div>
       );
     }

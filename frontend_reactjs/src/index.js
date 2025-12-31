@@ -1,7 +1,9 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 
-import App from './App'
+import App from './App';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // This is the ID of the div in your index.html file
 

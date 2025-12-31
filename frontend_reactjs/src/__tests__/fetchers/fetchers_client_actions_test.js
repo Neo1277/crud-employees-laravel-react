@@ -53,6 +53,6 @@ describe('async client actions', () => {
     // Check that the dispatched actions match the expected sequence
     expect(store.getActions()).toEqual(expectedActions);
     // Optionally, check that fetch was called
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000?page=1&identity_document=');
+    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/clients?page=1&identity_document=');
   });
 });

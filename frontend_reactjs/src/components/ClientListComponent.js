@@ -2,7 +2,7 @@ import { Loading } from './LoadingComponent';
 import { Container, Table } from 'reactstrap';
 
 export default function ClientListComponent(props) {
-	//console.log(props);
+    
 	if (props.clients.isLoading) {
 		
         return(
@@ -53,10 +53,8 @@ export default function ClientListComponent(props) {
                             <td>{field.status}</td>
                             <td>{field.created_at}</td>
                             <td>{field.updated_at}</td>
-                            <td>
                             <td>{field.status}</td>
                             <td>{field.area}</td>
-                            </td>
                             {/*<td>
                                 <Link to={`/edit_employee/${field.third_party_id}`} >
                                     <Button color="success">
