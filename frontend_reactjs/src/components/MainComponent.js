@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ClientListComponent from './ClientListComponent';
 import NotFoundComponent from './NotFoundComponent';
+import Footer from './FooterComponent';
 
 //import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router';
@@ -62,14 +63,7 @@ class Main extends Component {
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>
           </Router>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            learn react
-          </a>
+          <Footer />
         </div>
       );
     }
