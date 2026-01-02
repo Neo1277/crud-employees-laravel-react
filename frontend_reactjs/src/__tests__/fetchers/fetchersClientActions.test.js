@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import {thunk} from 'redux-thunk';
 import { fetchClients } from '../../redux/ActionCreators/clientActions';
 import { FETCH_CLIENTS_REQUEST, FETCH_CLIENTS_SUCCESS } from '../../redux/ActionTypes';
+import { baseUrl } from '../../shared/baseUrl';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -53,6 +54,6 @@ describe('async client actions', () => {
     // Check that the dispatched actions match the expected sequence
     expect(store.getActions()).toEqual(expectedActions);
     // Optionally, check that fetch was called
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/clients?page=1&identity_document=');
+    expect(fetch).toHaveBeenCalledWith(baseUrl + 'clients?page=1&identity_document=');
   });
 });

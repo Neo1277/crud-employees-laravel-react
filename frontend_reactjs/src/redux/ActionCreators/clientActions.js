@@ -4,6 +4,8 @@ import {
   FETCH_CLIENTS_FAILURE 
 } from '../ActionTypes';
 
+import { baseUrl } from '../../shared/baseUrl';
+
 // link catch error: https://stackoverflow.com/a/70697103
 // https://stackoverflow.com/a/54950884
 export const fetchClients = (
@@ -16,7 +18,7 @@ export const fetchClients = (
 
   try {
     // const response = await fetch('http://127.0.0.1:8000?page=${page}&${filter_by}=${searchWord}');
-    const response = await fetch('http://127.0.0.1:8000/api/clients?page=' + page +'&' + filter_by + '=' + searchWord + '');
+    const response = await fetch(baseUrl + 'clients?page=' + page +'&' + filter_by + '=' + searchWord + '');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
