@@ -1,7 +1,10 @@
 import { 
   FETCH_CLIENTS_REQUEST, 
   FETCH_CLIENTS_SUCCESS, 
-  FETCH_CLIENTS_FAILURE 
+  FETCH_CLIENTS_FAILURE,
+  CREATE_CLIENT_REQUEST,
+  CREATE_CLIENT_FAILURE,
+  CREATE_CLIENT_SUCCESS
 } from '../ActionTypes';
 
 import { baseUrl } from '../../shared/baseUrl';
@@ -10,7 +13,7 @@ import { baseUrl } from '../../shared/baseUrl';
 // https://stackoverflow.com/a/54950884
 export const fetchClients = (
   page = "1", 
-  filter_by = "identity_document", 
+  filterBy = "identity_document", 
   searchWord = ""
 ) => async (dispatch) => {
 
@@ -18,7 +21,7 @@ export const fetchClients = (
 
   try {
     // const response = await fetch('http://127.0.0.1:8000?page=${page}&${filter_by}=${searchWord}');
-    const response = await fetch(baseUrl + 'clients?page=' + page +'&' + filter_by + '=' + searchWord + '');
+    const response = await fetch(baseUrl + 'clients?page=' + page +'&' + filterBy + '=' + searchWord + '');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -44,5 +47,50 @@ export const fetchClientsSuccess = (clients) => ({
 /* Call action type from clients reducer */
 export const fetchClientsFailed = (error) => ({
     type: FETCH_CLIENTS_FAILURE,
+    payload: error
+});
+
+export const createClient = (data) => async (dispatch) => {
+  console.log(data);
+  dispatch(createClientRequest());
+  const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Accept': 'application/json' 
+      },
+      body: JSON.stringify(data)
+  };
+  try {
+    const response = await fetch(baseUrl + 'clients', requestOptions);
+    if (response.status !== 200) {
+
+      const error = await response.json();
+      //throw {message: error.message,status:error.cod};
+      alert(error.errors.identity_document);
+    }
+    const data = await response.json();
+    dispatch(createClientSuccess(data));
+    return data;
+  } catch (error) {
+    dispatch(createClientFailed(error));
+    //alert(error);
+  }
+};
+
+/* Call action type from clients reducer */
+export const createClientRequest = () => ({
+    type: CREATE_CLIENT_REQUEST
+});
+
+/* Call action type from clients reducer */
+export const createClientSuccess = (client) => ({
+    type: CREATE_CLIENT_SUCCESS,
+    payload: client
+});
+
+/* Call action type from clients reducer */
+export const createClientFailed = (error) => ({
+    type: CREATE_CLIENT_FAILURE,
     payload: error
 });

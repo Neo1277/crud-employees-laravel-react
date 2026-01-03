@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ClientListComponent from './ClientListComponent';
+import AddClientComponent from './AddClientComponent';
 import NotFoundComponent from './NotFoundComponent';
 import Footer from './FooterComponent';
 
@@ -7,7 +8,8 @@ import Footer from './FooterComponent';
 import { BrowserRouter as Router, Route, Routes } from 'react-router';
 import { connect } from 'react-redux';
 import { 
-  fetchClients
+  fetchClients,
+  createClient
 } from '../redux/ActionCreators/clientActions';
 
 /* Set data gotten from Laravel API with redux to the Component's props */
@@ -22,6 +24,7 @@ const mapStateToProps = state => {
 /* Set functions from ActionCreators redux to the Component's props and dispatch */
 const mapDispatchToProps = (dispatch) => ({
     fetchClients: (page, filter_by, searchWord) => { dispatch(fetchClients(page, filter_by, searchWord))},
+    createClient: (data) => { dispatch(createClient(data))},
 });
 
 /*
@@ -60,6 +63,7 @@ class Main extends Component {
           <Router>
             <Routes>
               <Route path="/" element={<ClientListComponent clients={this.props.clients}/>} />
+              <Route path='/add-client' element={<AddClientComponent createClient={this.props.createClient}/>} />
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>
           </Router>

@@ -1,5 +1,6 @@
 import { Loading } from './LoadingComponent';
-import { Container, Table } from 'reactstrap';
+import { Container, Table, Button } from 'reactstrap';
+import { Link } from "react-router";
 
 export default function ClientListComponent(props) {
     
@@ -17,6 +18,12 @@ export default function ClientListComponent(props) {
 	else{
         return(
             <Container>
+                <Link to='/add-client' >
+					<Button color="primary">
+                        <span className="fa fa-plus-square">&nbsp;</span>  
+                           Add employee
+                    </Button>
+                </Link>	
                 <Table responsive striped>
                     <thead>
                         <tr>
