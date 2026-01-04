@@ -21,7 +21,7 @@ export default function ClientListComponent(props) {
                 <Link to='/add-client' >
 					<Button color="primary">
                         <span className="fa fa-plus-square">&nbsp;</span>  
-                           Add employee
+                           Add client
                     </Button>
                 </Link>	
                 <Table responsive striped>

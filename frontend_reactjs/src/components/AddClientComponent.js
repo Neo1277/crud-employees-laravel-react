@@ -1,7 +1,18 @@
 import { Loading } from './LoadingComponent';
-import { Container, Table, Button } from 'reactstrap';
 import React, { useState } from 'react';
 import * as z from 'zod'; // Import Zod library
+import { 
+	Button, 
+	Form, 
+	FormGroup, 
+	Input, 
+  Label, 
+	Container, 
+	Row, 
+	Col,
+} from 'reactstrap';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // Define a validation schema in JavaScript
 const userSchema = z.object({
@@ -63,118 +74,175 @@ export default function AddClientComponent(props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Identity document:</label>
-        <input
-          type="text"
-          name="identity_document"
-          value={formData.identity_document}
-          onChange={handleChange}
-        />
-        {errors.identity_document && <p style={{ color: 'red' }}>{errors.identity_document}</p>}
-      </div>
-      <div>
-        <label>First Lastname:</label>
-        <input
-          type="text"
-          name="first_last_name"
-          value={formData.first_last_name}
-          onChange={handleChange}
-        />
-        {errors.first_last_name && <p style={{ color: 'red' }}>{errors.first_last_name}</p>}
-      </div>
-      <div>
-        <label>Second LastName:</label>
-        <input
-          type="text"
-          name="second_last_name"
-          value={formData.second_last_name}
-          onChange={handleChange}
-        />
-        {errors.second_last_name && <p style={{ color: 'red' }}>{errors.second_last_name}</p>}
-      </div>
-      <div>
-        <label>First Name:</label>
-        <input
-          type="text"
-          name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
-        />
-        {errors.first_name && <p style={{ color: 'red' }}>{errors.first_name}</p>}
-      </div>
-      <div>
-        <label>Other Names:</label>
-        <input
-          type="text"
-          name="other_names"
-          value={formData.other_names}
-          onChange={handleChange}
-        />
-        {errors.other_names && <p style={{ color: 'red' }}>{errors.other_names}</p>}
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
-      </div>
-      <div>
-        <label>Country:</label>
-        <input
-          type="text"
-          name="country"
-          value={formData.country}
-          onChange={handleChange}
-        />
-        {errors.country && <p style={{ color: 'red' }}>{errors.country}</p>}
-      </div>
-      <div>
-        <label>Date of entry:</label>
-        <input
-          type="text"
-          name="date_of_entry"
-          value={formData.date_of_entry}
-          onChange={handleChange}
-        />
-        {errors.date_of_entry && <p style={{ color: 'red' }}>{errors.date_of_entry}</p>}
-      </div>
-      <div>
-        <label>Status:</label>
-        <input
-          type="text"
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        />
-        {errors.status && <p style={{ color: 'red' }}>{errors.status}</p>}
-      </div>
-      <div>
-        <label>Type of identity document:</label>
-        <input
-          type="text"
-          name="type_of_identity_document_id"
-          value={formData.type_of_identity_document_id}
-          onChange={handleChange}
-        />
-        {errors.type_of_identity_document_id && <p style={{ color: 'red' }}>{errors.type_of_identity_document_id}</p>}
-      </div>
-      <div>
-        <label>Area:</label>
-        <input
-          type="text"
-          name="area_id"
-          value={formData.area_id}
-          onChange={handleChange}
-        />
-        {errors.area_id && <p style={{ color: 'red' }}>{errors.area_id}</p>}
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Row>
+            <Col className="form" md="4">
+              <h1>Add client</h1>
+              <FormGroup>
+                  <Label for="identity_document">Identity document</Label>
+                  <Input 
+                    type="text" 
+                    id="identity_document" 
+                    name="identity_document"
+                    value={formData.identity_document} 
+                    onChange={handleChange} 
+                    required 
+                  />
+                  {errors.identity_document && <p style={{ color: 'red' }}>{errors.identity_document}</p>}
+              </FormGroup>
+              <FormGroup>
+                  <Label for="first_last_name">First Lastname</Label>
+                  <Input 
+                    type="text" 
+                    id="first_last_name" 
+                    name="first_last_name"
+                    value={formData.first_last_name} 
+                    onChange={handleChange} 
+                    required 
+                  />
+                  {errors.first_last_name && <p style={{ color: 'red' }}>{errors.first_last_name}</p>}
+              </FormGroup>
+              <FormGroup>
+                  <Label for="second_last_name">Second LastName</Label>
+                  <Input 
+                    type="text" 
+                    id="second_last_name" 
+                    name="second_last_name"
+                    value={formData.second_last_name} 
+                    onChange={handleChange} 
+                    required 
+                  />
+                  {errors.second_last_name && <p style={{ color: 'red' }}>{errors.second_last_name}</p>}
+              </FormGroup>
+              <FormGroup>
+                  <Label for="first_name">First Name</Label>
+                  <Input 
+                    type="text" 
+                    id="first_name" 
+                    name="first_name"
+                    value={formData.first_name} 
+                    onChange={handleChange} 
+                    required 
+                  />
+                  {errors.first_name && <p style={{ color: 'red' }}>{errors.first_name}</p>}
+              </FormGroup>
+              <FormGroup>
+                  <Label for="other_names">Other Names</Label>
+                  <Input 
+                    type="text" 
+                    id="other_names" 
+                    name="other_names"
+                    value={formData.other_names} 
+                    onChange={handleChange} 
+                    required 
+                  />
+                  {errors.other_names && <p style={{ color: 'red' }}>{errors.other_names}</p>}
+              </FormGroup>
+              <FormGroup>
+                  <Label for="email">Email</Label>
+                  <Input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    required 
+                  />
+                  {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
+              </FormGroup>
+              <FormGroup>
+                <Label for="country">
+                  Country
+                </Label>
+                <Input
+                  id="country"
+                  name="country"
+                  type="select"
+                >
+                  <option value="co">
+                    Colombia
+                  </option>
+                  <option value="us">
+                    United States
+                  </option>
+                </Input>
+                {errors.country && <p style={{ color: 'red' }}>{errors.country}</p>}
+              </FormGroup>
+              <FormGroup>
+                <Label for="date_of_entry">
+                  Date of entry
+                </Label>
+                <Input
+                  id="date_of_entry"
+                  name="date_of_entry"
+                  placeholder="Date of entry"
+                  type="date"
+                  value={formData.date_of_entry}
+                  onChange={handleChange}
+                />
+                {errors.date_of_entry && <p style={{ color: 'red' }}>{errors.date_of_entry}</p>}
+              </FormGroup>
+              <FormGroup>
+                <Label for="date_of_entry">
+                  Date of entry 2
+                </Label>
+                <DatePicker
+                    id="date_of_entry"
+                    name="date_of_entry"
+                    placeholder="Date of entry"
+                    type="date"
+                    value={formData.date_of_entry}
+                    onChange={handleChange}
+                />
+                {errors.date_of_entry && <p style={{ color: 'red' }}>{errors.date_of_entry}</p>}
+              </FormGroup>
+              <FormGroup>
+                <Label for="status">
+                  Status
+                </Label>
+                <Input
+                  id="status"
+                  name="status"
+                  type="select"
+                >
+                  <option value="Active">
+                    Active
+                  </option>
+                  <option value="Inactive">
+                    Inactive
+                  </option>
+                </Input>
+                {errors.status && <p style={{ color: 'red' }}>{errors.status}</p>}
+              </FormGroup>
+              <div>
+                <label>Type of identity document:</label>
+                <input
+                  type="text"
+                  name="type_of_identity_document_id"
+                  value={formData.type_of_identity_document_id}
+                  onChange={handleChange}
+                />
+                {errors.type_of_identity_document_id && <p style={{ color: 'red' }}>{errors.type_of_identity_document_id}</p>}
+              </div>
+              <div>
+                <label>Area:</label>
+                <input
+                  type="text"
+                  name="area_id"
+                  value={formData.area_id}
+                  onChange={handleChange}
+                />
+                {errors.area_id && <p style={{ color: 'red' }}>{errors.area_id}</p>}
+              </div>
+              <Button
+                color="primary"
+              >
+                Submit
+              </Button>
+            </Col>
+        </Row>
+      </Form>
+    </Container>
   );
 };
