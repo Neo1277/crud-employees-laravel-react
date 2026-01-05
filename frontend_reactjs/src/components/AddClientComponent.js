@@ -11,8 +11,7 @@ import {
 	Row, 
 	Col,
 } from 'reactstrap';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { DatePicker, Space } from 'antd';
 
 // Define a validation schema in JavaScript
 const userSchema = z.object({
@@ -23,32 +22,44 @@ const userSchema = z.object({
   other_names: z.string().min(3, { message: "First name must be at least 3 characters long" }),
   email: z.string().min(3, { message: "First name must be at least 3 characters long" }),
   country: z.string().min(2, { message: "First name must be at least 3 characters long" }),
-  date_of_entry: z.string().min(3, { message: "First name must be at least 3 characters long" }),
-  status: z.string().min(3, { message: "tatus must be at least 3 characters long" }),
+  date_of_entry: z.string().date().transform((isoString) => {
+    const date = new Date(isoString);
+    // Example formatting: this is a simple, non-library specific way to show the idea
+    const formattedDate = date.toISOString().split('T')[0]; 
+    return formattedDate;
+  }),
+  status: z.string().min(1, { message: "Status must be at least 1 characters long" }),
   type_of_identity_document_id: z.string().min(1, { message: "First name must be at least 1 characters long" }),
   area_id: z.string().min(1, { message: "First name must be at least 1 characters long" }),
 });
 
 export default function AddClientComponent(props) {
   const [formData, setFormData] = useState(
-    { 
-        identity_document: '', 
-        first_last_name: '', 
-        second_last_name: '' , 
-        first_name: '' , 
-        other_names: '' , 
-        email: '' , 
-        country: '' , 
-        date_of_entry: '' , 
-        status: '' , 
-        type_of_identity_document_id: '' , 
-        area_id: '' 
-    }
-);
+      { 
+          identity_document: '', 
+          first_last_name: '', 
+          second_last_name: '' , 
+          first_name: '' , 
+          other_names: '' , 
+          email: '' , 
+          country: '' , 
+          date_of_entry: '' , 
+          status: '' , 
+          type_of_identity_document_id: '' , 
+          area_id: '' 
+      }
+  );
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onChangeDate = (date, dateString) => {
+    //console.log(date, dateString);
+    console.log("Date here");
+    console.log(dateString);
+    setFormData({ ...formData, 'date_of_entry': dateString });
   };
 
   const handleSubmit = (e) => {
@@ -151,7 +162,17 @@ export default function AddClientComponent(props) {
                   />
                   {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
               </FormGroup>
-              <FormGroup>
+                                          <div>
+                <label>country:</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                />
+                {errors.country && <p style={{ color: 'red' }}>{errors.country}</p>}
+              </div>
+              {/*<FormGroup>
                 <Label for="country">
                   Country
                 </Label>
@@ -168,8 +189,8 @@ export default function AddClientComponent(props) {
                   </option>
                 </Input>
                 {errors.country && <p style={{ color: 'red' }}>{errors.country}</p>}
-              </FormGroup>
-              <FormGroup>
+              </FormGroup>*/}
+              {/*<FormGroup>
                 <Label for="date_of_entry">
                   Date of entry
                 </Label>
@@ -182,22 +203,31 @@ export default function AddClientComponent(props) {
                   onChange={handleChange}
                 />
                 {errors.date_of_entry && <p style={{ color: 'red' }}>{errors.date_of_entry}</p>}
-              </FormGroup>
-              <FormGroup>
+              </FormGroup>*/}
+              {/*<FormGroup>
                 <Label for="date_of_entry">
                   Date of entry 2
                 </Label>
                 <DatePicker
-                    id="date_of_entry"
-                    name="date_of_entry"
-                    placeholder="Date of entry"
-                    type="date"
-                    value={formData.date_of_entry}
-                    onChange={handleChange}
+                  id="date_of_entry"
+                  name="date_of_entry" 
+                  selected={selectedDate} 
+                  onChange={handleChangeDate} 
+                  dateFormat="YYYY-MM-DD" 
                 />
                 {errors.date_of_entry && <p style={{ color: 'red' }}>{errors.date_of_entry}</p>}
-              </FormGroup>
+              </FormGroup>*/}
               <FormGroup>
+                <DatePicker
+                  id="date_of_entry"
+                  name="date_of_entry"                   
+                  format={{
+                    format: 'YYYY-MM-DD'
+                  }}
+                  onChange={onChangeDate}
+                />
+              </FormGroup>
+              {/*<FormGroup>
                 <Label for="status">
                   Status
                 </Label>
@@ -214,7 +244,17 @@ export default function AddClientComponent(props) {
                   </option>
                 </Input>
                 {errors.status && <p style={{ color: 'red' }}>{errors.status}</p>}
-              </FormGroup>
+              </FormGroup>*/}
+                            <div>
+                <label>status:</label>
+                <input
+                  type="text"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                />
+                {errors.status && <p style={{ color: 'red' }}>{errors.status}</p>}
+              </div>
               <div>
                 <label>Type of identity document:</label>
                 <input

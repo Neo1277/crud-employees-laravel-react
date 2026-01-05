@@ -53,7 +53,8 @@ export const fetchClientsFailed = (error) => ({
 });
 
 export const createClient = (data) => async (dispatch) => {
-  console.log(data);
+  //console.log('data here!')
+  //console.log(data);
   dispatch(createClientRequest());
   const requestOptions = {
       method: 'POST',
@@ -69,6 +70,10 @@ export const createClient = (data) => async (dispatch) => {
 
       const errors = await response.json();
       //throw {message: error.message,status:error.cod};
+      console.log("status here!");
+      console.log(response.status);
+      console.log(errors);
+      console.log("errors here!");
       showErrors(errors);
     }
     const data = await response.json();
