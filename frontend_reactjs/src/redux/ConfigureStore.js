@@ -1,7 +1,7 @@
 import {combineReducers, applyMiddleware} from 'redux';
 import { Clients } from './reducers/clients';
-//import { Areas } from './reducers/areas_reducer';
-//import { TypesOfIdentityDocument } from './reducers/types_of_identity_document_reducer';
+import { Areas } from './reducers/areas';
+import { TypesOfIdentityDocument } from './reducers/typesOfIdentityDocument';
 import {thunk} from 'redux-thunk';
 import logger from 'redux-logger';
 import {legacy_createStore as createStore} from 'redux'
@@ -11,8 +11,8 @@ export const ConfigureStore = () => {
     const store = createStore(
         combineReducers({
             clients: Clients,
-            /*areas: Areas,
-            types_of_identity_document: TypesOfIdentityDocument,*/
+            areas: Areas,
+            typesOfIdentityDocument: TypesOfIdentityDocument,
         }),
         applyMiddleware(thunk, logger)
     );

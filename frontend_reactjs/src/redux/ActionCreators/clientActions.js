@@ -66,17 +66,14 @@ export const createClient = (data) => async (dispatch) => {
   };
   try {
     const response = await fetch(baseUrl + 'clients', requestOptions);
-    if (response.status !== 200) {
+    if (!response.ok) {
 
       const errors = await response.json();
       //throw {message: error.message,status:error.cod};
-      console.log("status here!");
-      console.log(response.status);
-      console.log(errors);
-      console.log("errors here!");
       showErrors(errors);
     }
     const data = await response.json();
+    alert("Client created succesfully")
     dispatch(createClientSuccess(data));
     return data;
   } catch (error) {

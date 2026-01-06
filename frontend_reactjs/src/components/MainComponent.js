@@ -11,13 +11,19 @@ import {
   fetchClients,
   createClient
 } from '../redux/ActionCreators/clientActions';
+import { 
+  fetchTypesOfIdentityDocument
+} from '../redux/ActionCreators/typeOfIdentityDocumentActions';
+import { 
+  fetchAreas
+} from '../redux/ActionCreators/areasActions';
 
 /* Set data gotten from Laravel API with redux to the Component's props */
 const mapStateToProps = state => {
     return{
       clients: state.clients,
-      /*areas: state.areas,
-      types_of_identity_document: state.types_of_identity_document,*/
+      areas: state.areas,
+      typesOfIdentityDocument: state.typesOfIdentityDocument,
     }
 }
 
@@ -25,6 +31,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => ({
     fetchClients: (page, filter_by, searchWord) => { dispatch(fetchClients(page, filter_by, searchWord))},
     createClient: (data) => { dispatch(createClient(data))},
+    fetchAreas: () => { dispatch(fetchAreas())},
+    fetchTypesOfIdentityDocument: () => { dispatch(fetchTypesOfIdentityDocument())},
 });
 
 /*
@@ -41,6 +49,8 @@ class Main extends Component {
     //Execute this before render
     componentDidMount() {
       this.props.fetchClients();
+      this.props.fetchAreas();
+      this.props.fetchTypesOfIdentityDocument();
     }
     render(){
     /*
@@ -63,7 +73,11 @@ class Main extends Component {
           <Router>
             <Routes>
               <Route path="/" element={<ClientListComponent clients={this.props.clients}/>} />
-              <Route path='/add-client' element={<AddClientComponent createClient={this.props.createClient}/>} />
+              <Route path='/add-client' element={<AddClientComponent 
+                                                  createClient={this.props.createClient} 
+                                                  typesOfIdentityDocument={this.props.typesOfIdentityDocument}
+                                                  areas={this.props.areas}/>} 
+                                                  />
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>
           </Router>
