@@ -48,7 +48,7 @@ class StoreClientRequest extends FormRequest
             'first_last_name' => ['required', 'string', 'max:20', 'regex:/^[A-Z]+$/'],
             'second_last_name' => ['required', 'string', 'max:20', 'regex:/^[A-Z]+$/'],
             'first_name' => ['required', 'string', 'max:20', 'regex:/^[A-Z]+$/'],
-            'other_names' => ['required', 'string', 'max:50', 'regex:/^[A-Z]+$/'],
+            'other_names' => ['required', 'string', 'max:50', 'regex:/^[A-Z ]+$/'],
             'email' => ['required', 'email', 'max:300', 'unique:clients,email'],# email validation: https://stackoverflow.com/a/61585974 'email' => 'email:rfc,dns'
             'country' => ['required', Rule::enum(Country::class)],
             'date_of_entry' => ['required', 'after:'.$oneMonthAgo, 'before_or_equal:now'],
