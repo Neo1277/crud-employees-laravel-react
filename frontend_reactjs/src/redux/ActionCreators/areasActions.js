@@ -31,9 +31,9 @@ export const fetchAreasRequest = () => ({
 });
 
 /* Call action type from areas reducer */
-export const fetchAreasSuccess = (typesOfIdentityDocument) => ({
+export const fetchAreasSuccess = (areas) => ({
     type: FETCH_AREAS_SUCCESS,
-    payload: typesOfIdentityDocument
+    payload: areas
 });
 
 /* Call action type from areas reducer */

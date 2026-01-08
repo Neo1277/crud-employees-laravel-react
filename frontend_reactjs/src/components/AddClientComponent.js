@@ -11,7 +11,7 @@ import {
 	Row, 
 	Col,
 } from 'reactstrap';
-import { DatePicker, Space } from 'antd';
+//import { DatePicker, Space } from 'antd';
 
 // Define a validation schema in JavaScript
 const userSchema = z.object({
@@ -325,7 +325,7 @@ export default function AddClientComponent(props) {
                 {errors.area_id && <p style={{ color: 'red' }}>{errors.area_id}</p>}
               </FormGroup>          
             </Col>      
-            <Col md="5">
+            <Col md="4">
               <Button
                 color="primary"
                 size="lg"

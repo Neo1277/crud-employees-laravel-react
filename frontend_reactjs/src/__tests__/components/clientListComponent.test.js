@@ -1,6 +1,7 @@
 // ClientList.test.js
 import { render, screen } from "@testing-library/react";
 import ClientListComponent from '../../components/ClientListComponent';
+import { MemoryRouter } from 'react-router';
 
 describe('Client List', () => {
 
@@ -59,7 +60,11 @@ describe('Client List', () => {
             }
         }
 
-        render(<ClientListComponent {...mockProps} />);
+        render(
+            <MemoryRouter>
+                <ClientListComponent {...mockProps} />
+            </MemoryRouter>
+        );
         
         expect(screen.getByText(/MENESES/i)).toBeInTheDocument();
         
