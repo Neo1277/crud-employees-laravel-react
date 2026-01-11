@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import AddClientComponent from '../../components/AddClientComponent';
 
 
-describe('Client List', () => {
+describe('Add Client component', () => {
     /*
     it("renders loading state initially", () => {
 
@@ -17,7 +17,7 @@ describe('Client List', () => {
         expect(screen.getAllByText(/Loading.../i)[0]).toBeInTheDocument();
     });*/
 
-    it('calls handleSubmit on form submission', () => {
+    it('renders the add client form', () => {
         const mockHandleSubmit = jest.fn();
         const props = {
             createClient: mockHandleSubmit,
@@ -61,6 +61,77 @@ describe('Client List', () => {
         };
         render(<AddClientComponent {...props} />);
         
+        const type_of_identity_document_id = screen.getByLabelText('Type of identity document');
+        const identity_document = screen.getByLabelText('Identity document');
+        const first_last_name = screen.getByLabelText('First Lastname');
+        const second_last_name = screen.getByLabelText('Second LastName');
+        const first_name = screen.getByLabelText('First Name');
+        const other_names = screen.getByLabelText('Other Names');
+        const email = screen.getByLabelText('Email');
+        const country = screen.getByLabelText('Country');
+        const date_of_entry = screen.getByLabelText('Date of entry');
+        const status = screen.getByLabelText('Status');
+        const area_id = screen.getByLabelText('Area');
+        const submitButton = screen.getByRole('button', { name: /Submit/i });
+        
+        expect(type_of_identity_document_id).toBeInTheDocument();
+        expect(identity_document).toBeInTheDocument();
+        expect(first_last_name).toBeInTheDocument();
+        expect(second_last_name).toBeInTheDocument();
+        expect(first_name).toBeInTheDocument();
+        expect(other_names).toBeInTheDocument();
+        expect(email).toBeInTheDocument();
+        expect(country).toBeInTheDocument();
+        expect(date_of_entry).toBeInTheDocument();
+        expect(status).toBeInTheDocument();
+        expect(area_id).toBeInTheDocument();
+        expect(submitButton).toBeInTheDocument();
+    });
+
+    it('submits the form with valid data', () => {
+        const mockHandleSubmit = jest.fn();
+        const props = {
+            createClient: mockHandleSubmit,
+            typesOfIdentityDocument: {
+                isLoading: false,
+                errorMessage: null,
+                typesOfIdentityDocument: {
+                    data: 
+                    [
+                        {
+                            'id': 1,
+                            'code' : "123",
+                            'description' : "Cedula de ciudadania"
+                        },
+                        {
+                            'id': 2,
+                            'code' : "1234",
+                            'description' : "Cedula de extranjeria"
+                        }
+                    ]                    
+                }
+            },
+            areas: {
+                isLoading: false,
+                errorMessage: null,
+                areas: {
+                    data: 
+                    [
+                        {
+                            'id': 1,
+                            'name' : "Basement",
+                        },
+                        {
+                            'id': 2,
+                            'name' : "basement 2"
+                        }
+                    ]                    
+                }
+            }
+            // ... other redux-form props
+        };
+        render(<AddClientComponent {...props} />);
+
         const type_of_identity_document_id = screen.getByLabelText('Type of identity document');
         const identity_document = screen.getByLabelText('Identity document');
         const first_last_name = screen.getByLabelText('First Lastname');
