@@ -117,7 +117,7 @@ export default function AddClientComponent(props) {
 	else{
     return (
       <Container>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} data-testid="AddClientForm">
           <Row>
             <h1>Add client</h1>
             <Col md="4">
@@ -134,9 +134,7 @@ export default function AddClientComponent(props) {
                 >
                   {props.typesOfIdentityDocument.typesOfIdentityDocument.data.map((field, i) => { 
                       return(
-                        <>
-                          <option value={field.id}>{field.description}</option>
-                        </>
+                          <option key={field.id} value={field.id}>{field.description}</option>
                       );
                     }) 
                   }
@@ -240,10 +238,10 @@ export default function AddClientComponent(props) {
                   value={formData.country} 
                   onChange={handleChange}
                 >
-                  <option value="co">
+                  <option key="1" value="co">
                     Colombia
                   </option>
-                  <option value="us">
+                  <option key="2" value="us">
                     United States
                   </option>
                 </Input>
@@ -291,10 +289,10 @@ export default function AddClientComponent(props) {
                   value={formData.status} 
                   onChange={handleChange}
                 >
-                  <option value="Active">
+                  <option key="1" value="Active">
                     Active
                   </option>
-                  <option value="Inactive">
+                  <option key="2" value="Inactive">
                     Inactive
                   </option>
                 </Input>
@@ -315,9 +313,7 @@ export default function AddClientComponent(props) {
                 >
                   {props.areas.areas.data.map((field, i) => { 
                       return(
-                        <>
-                          <option value={field.id}>{field.name}</option>
-                        </>
+                          <option key={field.id} value={field.id}>{field.name}</option>
                       );
                     }) 
                   }
