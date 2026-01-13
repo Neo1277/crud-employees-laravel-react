@@ -54,14 +54,14 @@ class ClientRepository implements ClientRepositoryInterface
         
         if (isset($filters['type_of_identity_document'])) {
             $description = $filters['type_of_identity_document'];
-            $query->whereHas('typeOfIdentityDocument.clients', function ($q) use ($description) {
+            $query->whereHas('typeOfIdentityDocument', function ($q) use ($description) {
                 $q->where('description', 'like', '%' . $description . '%');
             });
         }
         
         if (isset($filters['area'])) {
             $name = $filters['area'];
-            $query->whereHas('area.clients', function ($q) use ($name) {
+            $query->whereHas('area', function ($q) use ($name) {
                 $q->where('name', 'like', '%' . $name . '%');
             });
         }

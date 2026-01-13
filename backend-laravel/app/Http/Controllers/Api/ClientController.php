@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Responses\ApiException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class ClientController extends Controller
 {
@@ -38,6 +39,9 @@ class ClientController extends Controller
             //dd($filters);
             $clients = $this->clientService->getAll($filters)->paginate(10);
             return ClientResource::collection($clients);
+        } catch (QueryException $e) {
+            Log::error('QueryException error occurred in Client Index.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             Log::error('An error occurred in Client Index.' . $e->getMessage());
             throw new ApiException($e->getMessage());
@@ -54,6 +58,10 @@ class ClientController extends Controller
             $client = $this->clientService->store((array)$request->validated());
             DB::commit();
             return new ClientResource($client);
+        } catch (QueryException $e) {
+            DB::rollback();
+            Log::error('QueryException error occurred in Store Client.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('An error occurred in Store Client.' . $e->getMessage());
@@ -69,6 +77,9 @@ class ClientController extends Controller
         try {        
             $client = $this->clientService->findOrFail($clienttId);
             return new ClientResource($client);
+        } catch (QueryException $e) {
+            Log::error('QueryException error occurred in Show Client by id.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             Log::error('An error occurred in Show Client by id.' . $e->getMessage());
             throw new ApiException($e->getMessage());
@@ -85,6 +96,10 @@ class ClientController extends Controller
             $this->clientService->update((array)$request->validated(), $clientId);
             DB::commit();
             return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        } catch (QueryException $e) {
+            DB::rollback();
+            Log::error('QueryException error occurred in Update Client.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('An error occurred in Update Client.' . $e->getMessage());
@@ -100,6 +115,9 @@ class ClientController extends Controller
         try {        
             $this->clientService->delete($clientId);
             return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        } catch (QueryException $e) {
+            Log::error('QueryException error occurred in Destroy Client.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             Log::error('An error occurred in Destroy Client.' . $e->getMessage());
             throw new ApiException($e->getMessage());
@@ -123,6 +141,9 @@ class ClientController extends Controller
                 'new_email' => $new_email
             ];
             return new JsonResponse($data_response, Response::HTTP_OK);
+        } catch (QueryException $e) {
+            Log::error('QueryException error occurred in get new email.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             Log::error('An error occurred in get new email.' . $e->getMessage());
             throw new ApiException($e->getMessage());
