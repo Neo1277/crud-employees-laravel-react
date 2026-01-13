@@ -106,7 +106,7 @@ export default function AddClientComponent(props) {
     }  
     else if (props.typesOfIdentityDocument.errorMessage) {
         return(
-            <h4>{props.clients.errorMessage}</h4>
+            <h4>{props.typesOfIdentityDocument.errorMessage}</h4>
         );
     }
     else if (props.areas.errorMessage) {
@@ -139,7 +139,7 @@ export default function AddClientComponent(props) {
                     }) 
                   }
                 </Input>
-                {errors.type_of_identity_document_id && <p style={{ color: 'red' }}>{errors.type_of_identity_document_id}</p>}
+                {errors.type_of_identity_document_id && <p data-testid="type_of_identity_document_id_error" style={{ color: 'red' }}>{errors.type_of_identity_document_id}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -153,7 +153,7 @@ export default function AddClientComponent(props) {
                     onChange={handleChange} 
                     required 
                   />
-                  {errors.identity_document && <p style={{ color: 'red' }}>{errors.identity_document}</p>}
+                  {errors.identity_document && <p data-testid="identity_document_error" style={{ color: 'red' }}>{errors.identity_document}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -167,7 +167,7 @@ export default function AddClientComponent(props) {
                   onChange={handleChange} 
                   required 
                 />
-                  {errors.first_last_name && <p style={{ color: 'red' }}>{errors.first_last_name}</p>}
+                  {errors.first_last_name && <p data-testid="first_last_name_error" style={{ color: 'red' }}>{errors.first_last_name}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -181,7 +181,7 @@ export default function AddClientComponent(props) {
                   onChange={handleChange} 
                   required 
                 />
-                {errors.second_last_name && <p style={{ color: 'red' }}>{errors.second_last_name}</p>}
+                {errors.second_last_name && <p data-testid="second_last_name_error" style={{ color: 'red' }}>{errors.second_last_name}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -195,7 +195,7 @@ export default function AddClientComponent(props) {
                   onChange={handleChange} 
                   required 
                 />
-                {errors.first_name && <p style={{ color: 'red' }}>{errors.first_name}</p>}
+                {errors.first_name && <p data-testid="first_name_error" style={{ color: 'red' }}>{errors.first_name}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -209,7 +209,7 @@ export default function AddClientComponent(props) {
                   onChange={handleChange} 
                   required 
                 />
-                {errors.other_names && <p style={{ color: 'red' }}>{errors.other_names}</p>}
+                {errors.other_names && <p data-testid="other_names_error" style={{ color: 'red' }}>{errors.other_names}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -223,7 +223,7 @@ export default function AddClientComponent(props) {
                   onChange={handleChange} 
                   required 
                 />
-                {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
+                {errors.email && <p data-testid="email_error" style={{ color: 'red' }}>{errors.email}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -245,7 +245,7 @@ export default function AddClientComponent(props) {
                     United States
                   </option>
                 </Input>
-                {errors.country && <p style={{ color: 'red' }}>{errors.country}</p>}
+                {errors.country && <p data-testid="country_error" style={{ color: 'red' }}>{errors.country}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -261,7 +261,7 @@ export default function AddClientComponent(props) {
                   value={formData.date_of_entry}
                   onChange={handleChange}
                 />
-                {errors.date_of_entry && <p style={{ color: 'red' }}>{errors.date_of_entry}</p>}
+                {errors.date_of_entry && <p data-testid="date_of_entry_error" style={{ color: 'red' }}>{errors.date_of_entry}</p>}
               </FormGroup>
             </Col>
             {/*<FormGroup>
@@ -296,7 +296,7 @@ export default function AddClientComponent(props) {
                     Inactive
                   </option>
                 </Input>
-                {errors.status && <p style={{ color: 'red' }}>{errors.status}</p>}
+                {errors.status && <p data-testid="status_error" style={{ color: 'red' }}>{errors.status}</p>}
               </FormGroup>
             </Col>
             <Col md="4">
@@ -318,7 +318,7 @@ export default function AddClientComponent(props) {
                     }) 
                   }
                 </Input>
-                {errors.area_id && <p style={{ color: 'red' }}>{errors.area_id}</p>}
+                {errors.area_id && <p data-testid="area_id_error" style={{ color: 'red' }}>{errors.area_id}</p>}
               </FormGroup>          
             </Col>      
             <Col md="4">
