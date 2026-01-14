@@ -18,7 +18,8 @@ class EmailGenerationService implements EmailGenerationInterface
                     .strtolower($first_last_name);
 
         if($last_email){
-            $newId = $this->generateNewId($last_email);
+            $last_id = $this->extractId($last_email);
+            $newId = $this->generateNewId($last_id);
             $new_email .= $newId;
         }
 
@@ -27,23 +28,22 @@ class EmailGenerationService implements EmailGenerationInterface
         return $new_email;
     }
 
-    public function generateNewId($last_email): string
-    {
+    public function extractId($last_email): string | null 
+    {        
         /**
          * If there is already exists an email or more with the same name 
-         * and last name extract id and if it already exists increment it
-         * to generate an id for the new email address
+         * and last name extract id and if there is only one register return
+         * null
          */
         $extract_id = explode("@", $last_email);
         $extract_id = explode(".", $extract_id[0]);
+        return $extract_id[2] ?? null;
+    }
 
-        if (array_key_exists(2, $extract_id)) {
-            $new_id = (int)$extract_id[2] + 1;
-            $new_id = '.'.$new_id;
-        }else{
-            $new_id = 1;
-            $new_id = '.'.$new_id;
-        }
+    public function generateNewId($last_id): string
+    {
+        $new_id = $last_id + 1;
+        $new_id = '.'.$new_id;
 
         return $new_id;
     }

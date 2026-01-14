@@ -42,15 +42,27 @@ class EmailGenerationServiceTest extends TestCase
         $this->assertEquals("sully.meneses@example.com.co", $result);
     }
 
-    public function testGenerateNewidThatHasOneRegister(): void
+    public function testExtractIdWithAnEmailThatHasOneRegister(): void
     {
-        $result = $this->emailGenerationService->generateNewId("sully.meneses@example.com.co");
+        $result = $this->emailGenerationService->extractId("sully.meneses@example.com.co");
+        $this->assertEquals(null, $result);
+    }
+
+    public function testExtractIdWithAnEmailThatHasMoreThanOneRegister(): void
+    {
+        $result = $this->emailGenerationService->extractId("sully.meneses.1@example.com.co");
+        $this->assertEquals("1", $result);
+    }
+
+    public function testGenerateNewIdWithNullParameter(): void
+    {
+        $result = $this->emailGenerationService->generateNewId(null);
         $this->assertEquals(".1", $result);
     }
 
-    public function testGenerateNewidThatHasMoreThanOneRegister(): void
+    public function testGenerateNewIdWithIdParameterOne(): void
     {
-        $result = $this->emailGenerationService->generateNewId("sully.meneses.1@example.com.co");
+        $result = $this->emailGenerationService->generateNewId("1");
         $this->assertEquals(".2", $result);
     }
 }
