@@ -53,12 +53,6 @@ class Main extends Component {
       this.props.fetchTypesOfIdentityDocument();
     }
     render(){
-    /*
-      if(this.props.products.isLoading){
-          return(
-            <Loading />
-        );
-      }*/
 
       /**
        * Set routes to open the different pages calling the components
@@ -87,5 +81,4 @@ class Main extends Component {
     }
   }
   
-  //export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
   export default connect(mapStateToProps, mapDispatchToProps)(Main);
