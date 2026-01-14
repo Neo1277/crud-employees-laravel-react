@@ -11,5 +11,7 @@ interface EmailGenerationInterface
         string $country
     ): string;
 
-    public function generateNewId(string $last_email): string;
+    public function extractId($last_email): string | null;
+
+    public function generateNewId($last_id): string;
 }

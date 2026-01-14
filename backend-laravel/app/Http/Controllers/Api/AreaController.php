@@ -27,6 +27,9 @@ class AreaController extends Controller
         try {
             $areasService = $this->areaService->getAll();
             return AreaResource::collection($areasService);
+        } catch (QueryException $e) {
+            Log::error('QueryException error occurred in Area Controller index.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             Log::error('An error occurred in Area Index.' . $e->getMessage());
             throw new ApiException($e->getMessage());

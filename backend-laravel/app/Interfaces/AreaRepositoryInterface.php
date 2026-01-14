@@ -3,8 +3,9 @@
 namespace App\Interfaces;
 
 use Illuminate\Database\Eloquent\Collection;
+use App\Interfaces\TypeOfIdentityDocumentRepositoryInterface;
 
-interface AreaRepositoryInterface
+interface AreaRepositoryInterface extends TypeOfIdentityDocumentRepositoryInterface
 {
-    public function getAll(): Collection;
+    
 }

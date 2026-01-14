@@ -27,6 +27,9 @@ class TypeOfIdentityDocumentController extends Controller
         try {
             $typesOfIdentityDocumentService = $this->typeOfIdentityDocumentService->getAll();
             return TypeOfIdentityDocumentResource::collection($typesOfIdentityDocumentService);
+         } catch (QueryException $e) {
+            Log::error('QueryException error occurred in TypeOfIdentityDocumentController index.' . $e->getMessage());
+            throw new ApiException($e->getMessage());
         } catch (\Exception $e) {
             Log::error('An error occurred in TypeOfIdentityDocument Index.' . $e->getMessage());
             throw new ApiException($e->getMessage());
