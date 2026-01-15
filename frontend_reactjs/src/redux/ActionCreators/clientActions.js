@@ -31,7 +31,8 @@ export const fetchClients = (
     dispatch(fetchClientsSuccess(clients));
   } catch (error) {
     dispatch(fetchClientsFailed(error.message));
-    alert(error);
+    //alert(error);
+    console.log(error);
   }
 };
 
@@ -71,6 +72,7 @@ export const createClient = (data) => async (dispatch) => {
       const errors = await response.json();
       //throw {message: error.message,status:error.cod};
       showErrors(errors);
+      throw new Error('Network response was not ok');
     }
     const data = await response.json();
     alert("Client created succesfully")

@@ -2,7 +2,11 @@
 import configureMockStore from 'redux-mock-store';
 import {thunk} from 'redux-thunk';
 import { fetchClients } from '../../redux/ActionCreators/clientActions';
-import { FETCH_CLIENTS_REQUEST, FETCH_CLIENTS_SUCCESS } from '../../redux/ActionTypes';
+import { 
+  FETCH_CLIENTS_REQUEST, 
+  FETCH_CLIENTS_SUCCESS, 
+  FETCH_CLIENTS_FAILURE 
+} from '../../redux/ActionTypes';
 import { baseUrl } from '../../shared/baseUrl';
 
 const middlewares = [thunk];
@@ -53,6 +57,31 @@ describe('async client actions', () => {
     
     // Check that the dispatched actions match the expected sequence
     expect(store.getActions()).toEqual(expectedActions);
+    // Optionally, check that fetch was called
+    expect(fetch).toHaveBeenCalledWith(baseUrl + 'clients?page=1&identity_document=');
+  });
+
+  it('creates FETCH_CLIENTS_FAILURE when fetching clients has been done with error', async () => {
+    
+    // Configure the mock fetch response
+    fetch.mockResolvedValue({
+      ok: false,
+      status: 422
+    });
+
+    const expectedActions = [
+      { type: FETCH_CLIENTS_REQUEST },
+      { type: FETCH_CLIENTS_FAILURE, payload: 'Network response was not ok'}
+    ];
+
+    const store = mockStore({});
+
+    // Use async/await to ensure the promise resolves before assertions
+    await store.dispatch(fetchClients());
+    // Check that the dispatched actions match the expected sequence
+    // Assertions
+    const actions = store.getActions();
+    expect(actions).toEqual(expectedActions);
     // Optionally, check that fetch was called
     expect(fetch).toHaveBeenCalledWith(baseUrl + 'clients?page=1&identity_document=');
   });

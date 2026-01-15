@@ -16,9 +16,9 @@ const mockStore = configureMockStore(middlewares);
 global.fetch = jest.fn();
 
 describe('async createClient action', () => {
-    beforeEach(() => {
-        // Spy on the window.alert method and provide an empty mock implementation
-        alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  beforeEach(() => {
+    // Spy on the window.alert method and provide an empty mock implementation
+    alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
   });
   afterEach(() => {
     jest.clearAllMocks(); // Clear mocks after each test
@@ -85,7 +85,7 @@ describe('async createClient action', () => {
 
   it('dispatches CREATE_CLIENT_REQUEST and CREATE_CLIENT_FAILURE when the POST request fails', async () => {
     const errorMessage = 'Network response was not ok';
-    const url = baseUrl + 'clients';
+    
     const mockClientData = {        
         'identity_document' : "16450360",
         'first_last_name' : "MENESES",
@@ -103,13 +103,18 @@ describe('async createClient action', () => {
     // Mock a failed fetch response
     fetch.mockResolvedValueOnce({
       ok: false, // Indicate failure
-      status: 400,
-      json: async () => ({ error: errorMessage }), // Return an error body
+      status: 422,
+      json: async () => ({ 
+        errorMessage: errorMessage,
+        errors: {
+          identity_document: "The identity document has already been taken."                 
+        }
+       }), // Return an error body
     });
 
     const expectedActions = [
       { type: CREATE_CLIENT_REQUEST },
-      { type: CREATE_CLIENT_FAILURE, payload: errorMessage },
+      { type: CREATE_CLIENT_FAILURE, payload: new Error('Network response was not ok')},
     ];
 
     const store = mockStore({});
