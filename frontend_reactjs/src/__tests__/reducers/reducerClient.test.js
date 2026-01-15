@@ -40,7 +40,6 @@ describe('Client reducer', () => {
     .toEqual(expectedState);
   });
 
-
   it('should handle FETCH_CLIENTS_FAILURE', () => {
     const error = 'Failed to fetch';
     const action = { type: FETCH_CLIENTS_FAILURE, payload: error };
