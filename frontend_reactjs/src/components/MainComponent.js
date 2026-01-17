@@ -9,7 +9,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router';
 import { connect } from 'react-redux';
 import { 
   fetchClients,
-  createClient
+  createClient,
+  getNewEmail
 } from '../redux/ActionCreators/clientActions';
 import { 
   fetchTypesOfIdentityDocument
@@ -33,6 +34,7 @@ const mapDispatchToProps = (dispatch) => ({
     createClient: (data) => { dispatch(createClient(data))},
     fetchAreas: () => { dispatch(fetchAreas())},
     fetchTypesOfIdentityDocument: () => { dispatch(fetchTypesOfIdentityDocument())},
+    getNewEmail: (first_name, first_last_name, country) => { dispatch(getNewEmail(first_name, first_last_name, country))},
 });
 
 /*
@@ -70,7 +72,8 @@ class Main extends Component {
               <Route path='/add-client' element={<AddClientComponent 
                                                   createClient={this.props.createClient} 
                                                   typesOfIdentityDocument={this.props.typesOfIdentityDocument}
-                                                  areas={this.props.areas}/>} 
+                                                  areas={this.props.areas}
+                                                  getNewEmail={this.props.getNewEmail}/>} 
                                                   />
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>

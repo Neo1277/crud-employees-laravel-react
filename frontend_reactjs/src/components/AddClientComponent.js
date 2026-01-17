@@ -63,7 +63,9 @@ export default function AddClientComponent(props) {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    generateNewEmail();
   };
+  
 
   /*const onChangeDate = (date, dateString) => {
     //console.log(date, dateString);
@@ -71,6 +73,32 @@ export default function AddClientComponent(props) {
     console.log(dateString);
     setFormData({ ...formData, 'date_of_entry': dateString });
   };*/
+  /*
+  const onInputChangeEmail = (e) => {
+    //e.preventDefault();
+    //console.log(date, dateString);
+    console.log("Data email here!!!");
+    console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
+    //setFormData({ ...formData, 'date_of_entry': dateString });
+  };*/
+
+  const generateNewEmail = async () => {
+    //e.preventDefault();
+    //console.log(date, dateString);
+    //console.log("Data email here!!!");
+    //console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
+    if(formData.first_name && formData.first_last_name && formData.country){
+      const new_email = await props.getNewEmail(formData.first_name, formData.first_last_name, formData.country);
+      console.log("Entro aqui 1.1 !!!");
+      //console.log(await props.getNewEmail(formData.first_name, formData.first_last_name, formData.country));
+      console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
+      if(new_email){
+        console.log("Data email here 2 !!!");
+        console.log(new_email);
+        setFormData({ ...formData, 'email': new_email.new_email });
+      }
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -192,7 +220,7 @@ export default function AddClientComponent(props) {
                   id="first_name" 
                   name="first_name"
                   value={formData.first_name} 
-                  onChange={handleChange} 
+                  onChange={handleChange}
                   required 
                 />
                 {errors.first_name && <p data-testid="first_name_error" style={{ color: 'red' }}>{errors.first_name}</p>}

@@ -4,7 +4,10 @@ import {
   FETCH_CLIENTS_FAILURE,
   CREATE_CLIENT_REQUEST,
   CREATE_CLIENT_FAILURE,
-  CREATE_CLIENT_SUCCESS
+  CREATE_CLIENT_SUCCESS,
+  GET_NEW_EMAIL_REQUEST,
+  GET_NEW_EMAIL_FAILURE,
+  GET_NEW_EMAIL_SUCCESS
 } from '../ActionTypes';
 
 import { baseUrl } from '../../shared/baseUrl';
@@ -99,5 +102,49 @@ export const createClientSuccess = (client) => ({
 /* Call action type from clients reducer */
 export const createClientFailed = (error) => ({
     type: CREATE_CLIENT_FAILURE,
+    payload: error
+});
+
+export const getNewEmail = (
+  first_name, 
+  first_last_name, 
+  country
+) => async (dispatch) => {
+
+  dispatch(getNewEmailRequest());
+
+  try {
+    // const response = await fetch('http://127.0.0.1:8000?page=${page}&${filter_by}=${searchWord}');
+    const url = baseUrl + 'clients/get-new-email?first_name=' + first_name
+                        + '&first_last_name=' + first_last_name 
+                        + '&country=' + country;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const new_email = await response.json();
+    dispatch(getNewEmailSuccess(new_email));
+    return new_email;
+  } catch (error) {
+    dispatch(getNewEmailFailed(error.message));
+    //alert(error);
+    console.log(error);
+  }
+};
+
+/* Call action type from clients reducer */
+export const getNewEmailRequest = () => ({
+    type: GET_NEW_EMAIL_REQUEST
+});
+
+/* Call action type from clients reducer */
+export const getNewEmailSuccess = (newEmail) => ({
+    type: GET_NEW_EMAIL_SUCCESS,
+    payload: newEmail
+});
+
+/* Call action type from clients reducer */
+export const getNewEmailFailed = (error) => ({
+    type: GET_NEW_EMAIL_FAILURE,
     payload: error
 });
