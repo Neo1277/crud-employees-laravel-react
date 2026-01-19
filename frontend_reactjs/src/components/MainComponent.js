@@ -25,6 +25,7 @@ const mapStateToProps = state => {
       clients: state.clients,
       areas: state.areas,
       typesOfIdentityDocument: state.typesOfIdentityDocument,
+      newEmail: state.newEmail,
     }
 }
 
@@ -53,6 +54,7 @@ class Main extends Component {
       this.props.fetchClients();
       this.props.fetchAreas();
       this.props.fetchTypesOfIdentityDocument();
+      //this.props.getNewEmail();
     }
     render(){
 
@@ -73,7 +75,8 @@ class Main extends Component {
                                                   createClient={this.props.createClient} 
                                                   typesOfIdentityDocument={this.props.typesOfIdentityDocument}
                                                   areas={this.props.areas}
-                                                  getNewEmail={this.props.getNewEmail}/>} 
+                                                  getNewEmail={this.props.getNewEmail}
+                                                  newEmail={this.props.newEmail}/>} 
                                                   />
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>

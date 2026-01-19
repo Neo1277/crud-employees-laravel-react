@@ -65,7 +65,6 @@ export default function AddClientComponent(props) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     generateNewEmail();
   };
-  
 
   /*const onChangeDate = (date, dateString) => {
     //console.log(date, dateString);
@@ -81,22 +80,24 @@ export default function AddClientComponent(props) {
     console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
     //setFormData({ ...formData, 'date_of_entry': dateString });
   };*/
+  React.useEffect(() => {
+    if (props.newEmail.isLoading) {
+      console.log("Loading...");
+    }else if (props.newEmail.errorMessage) {
+      alert("Error: " + props.newEmail.errorMessage);
+    }else{
+      console.log("Email received:", props.newEmail.newEmail);
+      setFormData(prev => ({ ...prev, email: props.newEmail.newEmail.new_email }))
+    }
+  }, [props.newEmail]);
 
-  const generateNewEmail = async () => {
-    //e.preventDefault();
-    //console.log(date, dateString);
-    //console.log("Data email here!!!");
-    //console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
-    if(formData.first_name && formData.first_last_name && formData.country){
-      const new_email = await props.getNewEmail(formData.first_name, formData.first_last_name, formData.country);
-      console.log("Entro aqui 1.1 !!!");
-      //console.log(await props.getNewEmail(formData.first_name, formData.first_last_name, formData.country));
-      console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
-      if(new_email){
-        console.log("Data email here 2 !!!");
-        console.log(new_email);
-        setFormData({ ...formData, 'email': new_email.new_email });
-      }
+  const generateNewEmail = () => {
+    if (formData.first_name && formData.first_last_name && formData.country) {
+      props.getNewEmail(
+        formData.first_name,
+        formData.first_last_name,
+        formData.country
+      );
     }
   };
 
