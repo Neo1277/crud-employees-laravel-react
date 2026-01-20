@@ -63,7 +63,7 @@ export default function AddClientComponent(props) {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    generateNewEmail();
+    //generateNewEmail();
   };
 
   /*const onChangeDate = (date, dateString) => {
@@ -193,7 +193,8 @@ export default function AddClientComponent(props) {
                   id="first_last_name" 
                   name="first_last_name"
                   value={formData.first_last_name} 
-                  onChange={handleChange} 
+                  onChange={handleChange}
+                  onBlur={generateNewEmail}
                   required 
                 />
                   {errors.first_last_name && <p data-testid="first_last_name_error" style={{ color: 'red' }}>{errors.first_last_name}</p>}
@@ -222,6 +223,7 @@ export default function AddClientComponent(props) {
                   name="first_name"
                   value={formData.first_name} 
                   onChange={handleChange}
+                  onBlur={generateNewEmail}
                   required 
                 />
                 {errors.first_name && <p data-testid="first_name_error" style={{ color: 'red' }}>{errors.first_name}</p>}
@@ -266,6 +268,7 @@ export default function AddClientComponent(props) {
                   type="select"
                   value={formData.country} 
                   onChange={handleChange}
+                  onBlur={generateNewEmail}
                 >
                   <option key="1" value="co">
                     Colombia

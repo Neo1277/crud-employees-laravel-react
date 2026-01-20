@@ -18,6 +18,7 @@ export default function ClientListComponent(props) {
 	else{
         return(
             <Container>
+                <h1>Client list</h1>
                 <Link to='/add-client' >
 					<Button color="primary">
                         <span className="fa fa-plus-square">&nbsp;</span>  
@@ -57,7 +58,6 @@ export default function ClientListComponent(props) {
                             <td>{field.email}</td>
                             <td>{field.country}</td>
                             <td>{field.date_of_entry}</td>
-                            <td>{field.status}</td>
                             <td>{field.created_at}</td>
                             <td>{field.updated_at}</td>
                             <td>{field.status}</td>

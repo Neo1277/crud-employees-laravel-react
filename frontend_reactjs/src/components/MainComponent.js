@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ClientListComponent from './ClientListComponent';
 import AddClientComponent from './AddClientComponent';
 import NotFoundComponent from './NotFoundComponent';
+import HeaderComponent from './HeaderComponent';
 import Footer from './FooterComponent';
 
 //import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -68,6 +69,7 @@ class Main extends Component {
   
       return (
         <div>
+          <HeaderComponent />
           <Router>
             <Routes>
               <Route path="/" element={<ClientListComponent clients={this.props.clients}/>} />
