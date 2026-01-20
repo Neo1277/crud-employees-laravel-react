@@ -124,7 +124,6 @@ export const getNewEmail = (
     }
     const new_email = await response.json();
     dispatch(getNewEmailSuccess(new_email));
-    return new_email;
   } catch (error) {
     dispatch(getNewEmailFailed(error.message));
     //alert(error);

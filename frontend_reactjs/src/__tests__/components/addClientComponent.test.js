@@ -30,6 +30,11 @@ describe('Add Client component', () => {
                         }
                     ]                    
                 }
+            },
+            newEmail: {
+                isLoading: true,
+                errorMessage: null,
+                areas: []
             }
             // ... other redux-form props
         };
@@ -76,6 +81,11 @@ describe('Add Client component', () => {
                         }
                     ]                    
                 }
+            },
+            newEmail: {
+                isLoading: true,
+                errorMessage: null,
+                areas: []
             }
             // ... other redux-form props
         };
@@ -147,6 +157,11 @@ describe('Add Client component', () => {
                         }
                     ]                    
                 }
+            },
+            newEmail: {
+                isLoading: true,
+                errorMessage: null,
+                areas: []
             }
             // ... other redux-form props
         };
@@ -223,6 +238,11 @@ describe('Add Client component', () => {
                         }
                     ]                    
                 }
+            },
+            newEmail: {
+                isLoading: true,
+                errorMessage: null,
+                areas: []
             }
             // ... other redux-form props
         };
@@ -284,6 +304,11 @@ describe('Add Client component', () => {
                         }
                     ]                    
                 }
+            },
+            newEmail: {
+                isLoading: true,
+                errorMessage: null,
+                areas: []
             }
             // ... other redux-form props
         };
