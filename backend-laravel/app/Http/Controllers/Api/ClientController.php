@@ -37,7 +37,7 @@ class ClientController extends Controller
                                     'first_name', 'other_names', 'email', 'country', 'status',
                                     'type_of_identity_document', 'area']);
             //dd($filters);
-            $clients = $this->clientService->getAll($filters)->paginate(10);
+            $clients = $this->clientService->getAll($filters)->paginate(10)->withQueryString();
             return ClientResource::collection($clients);
         } catch (QueryException $e) {
             Log::error('QueryException error occurred in Client Index.' . $e->getMessage());

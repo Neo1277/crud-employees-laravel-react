@@ -2,6 +2,7 @@ import { Loading } from './LoadingComponent';
 import { Container, Table, Button } from 'reactstrap';
 import { Link } from "react-router";
 import SearchClientComponent from './SearchClientComponent';
+import PaginationComponent from './PaginationComponent';
 
 export default function ClientListComponent(props) {
     
@@ -81,7 +82,7 @@ export default function ClientListComponent(props) {
                 }) }
                     </tbody>
                 </Table>
-
+                <PaginationComponent clients={props.clients} fetchClients={props.fetchClients}/>
             </Container>
         );
     }
