@@ -72,7 +72,7 @@ class Main extends Component {
           <HeaderComponent />
           <Router>
             <Routes>
-              <Route path="/" element={<ClientListComponent clients={this.props.clients}/>} />
+              <Route path="/" element={<ClientListComponent fetchClients={this.props.fetchClients} clients={this.props.clients}/>} />
               <Route path='/add-client' element={<AddClientComponent 
                                                   createClient={this.props.createClient} 
                                                   typesOfIdentityDocument={this.props.typesOfIdentityDocument}

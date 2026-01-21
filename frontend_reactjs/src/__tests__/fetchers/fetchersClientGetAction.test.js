@@ -58,7 +58,7 @@ describe('async client actions', () => {
     // Check that the dispatched actions match the expected sequence
     expect(store.getActions()).toEqual(expectedActions);
     // Optionally, check that fetch was called
-    expect(fetch).toHaveBeenCalledWith(baseUrl + 'clients?page=1&identity_document=');
+    expect(fetch).toHaveBeenCalledWith(baseUrl + 'clients');
   });
 
   it('creates FETCH_CLIENTS_FAILURE when fetching clients has been done with error', async () => {
@@ -83,6 +83,6 @@ describe('async client actions', () => {
     const actions = store.getActions();
     expect(actions).toEqual(expectedActions);
     // Optionally, check that fetch was called
-    expect(fetch).toHaveBeenCalledWith(baseUrl + 'clients?page=1&identity_document=');
+    expect(fetch).toHaveBeenCalledWith(baseUrl + 'clients');
   });
 });

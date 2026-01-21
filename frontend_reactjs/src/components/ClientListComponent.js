@@ -1,6 +1,7 @@
 import { Loading } from './LoadingComponent';
 import { Container, Table, Button } from 'reactstrap';
 import { Link } from "react-router";
+import SearchClientComponent from './SearchClientComponent';
 
 export default function ClientListComponent(props) {
     
@@ -18,6 +19,7 @@ export default function ClientListComponent(props) {
 	else{
         return(
             <Container>
+                <SearchClientComponent fetchClients={props.fetchClients}/>
                 <h1>Client list</h1>
                 <Link to='/add-client' >
 					<Button color="primary">

@@ -16,17 +16,13 @@ import showErrors from './showErrors';
 
 // link catch error: https://stackoverflow.com/a/70697103
 // https://stackoverflow.com/a/54950884
-export const fetchClients = (
-  page = "1", 
-  filterBy = "identity_document", 
-  searchWord = ""
-) => async (dispatch) => {
+export const fetchClients = (url = baseUrl + 'clients') => async (dispatch) => {
 
   dispatch(fetchClientsRequest());
 
   try {
     // const response = await fetch('http://127.0.0.1:8000?page=${page}&${filter_by}=${searchWord}');
-    const response = await fetch(baseUrl + 'clients?page=' + page +'&' + filterBy + '=' + searchWord + '');
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
