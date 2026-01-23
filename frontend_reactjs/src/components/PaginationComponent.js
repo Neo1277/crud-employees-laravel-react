@@ -4,7 +4,6 @@ import {
     PaginationItem,
     PaginationLink
 } from 'reactstrap';
-import { Loading } from './LoadingComponent';
 
 export default function PaginationComponent(props) {
     const handleSubmit = (e) => {
@@ -13,59 +12,49 @@ export default function PaginationComponent(props) {
         props.fetchClients(url);
     };
     
-    if (props.clients.isLoading) {
-        
-        return(
-            <Loading />
-        );
-    }
-    else if (props.clients.errorMessage) {
-        return(
-            <h4>{props.clients.errorMessage}</h4>
-        );
-    }
-    else{
-        return (
-            <Container>
-                <Pagination aria-label="Page navigation example">
-                    <PaginationItem disabled={
-                        props.clients.clients.links.first === null ? true : false
-                    }>
-                        <PaginationLink
-                            first
-                            href={props.clients.clients.links.first}
-                            onClick={handleSubmit}
-                        />
-                    </PaginationItem>
-                    <PaginationItem disabled={
-                        props.clients.clients.links.prev === null ? true : false
-                    }>
-                        <PaginationLink
-                            href={props.clients.clients.links.prev}
-                            previous
-                            onClick={handleSubmit}
-                        />
-                    </PaginationItem>
-                    <PaginationItem disabled={
-                        props.clients.clients.links.next === null ? true : false
-                    }>
-                        <PaginationLink
-                            href={props.clients.clients.links.next}
-                            next
-                            onClick={handleSubmit}
-                        />
-                    </PaginationItem>
-                    <PaginationItem disabled={
-                        props.clients.clients.links.last === null ? true : false
-                    }>
-                        <PaginationLink
-                            href={props.clients.clients.links.last}
-                            last
-                            onClick={handleSubmit}
-                        />
-                    </PaginationItem>
-                </Pagination>
-            </Container>
-        );
-    }
+    return (
+        <Container>
+            <Pagination aria-label="clients-pagination">
+                <PaginationItem disabled={
+                    props.clients.clients.links.first === null ? true : false
+                }>
+                    <PaginationLink
+                        first
+                        href={props.clients.clients.links.first}
+                        onClick={handleSubmit}
+                    />
+                </PaginationItem>
+                <PaginationItem disabled={
+                    props.clients.clients.links.prev === null ? true : false
+                }>
+                    <PaginationLink
+                        href={props.clients.clients.links.prev}
+                        previous
+                        onClick={handleSubmit}
+                    />
+                </PaginationItem>
+                <PaginationItem disabled={
+                    props.clients.clients.links.next === null ? true : false
+                }>
+                    <PaginationLink
+                        href={props.clients.clients.links.next}
+                        next
+                        onClick={handleSubmit}
+                    />
+                </PaginationItem>
+                <PaginationItem disabled={
+                    props.clients.clients.links.last === null ? true : false
+                }>
+                    <PaginationLink
+                        href={props.clients.clients.links.last}
+                        last
+                        onClick={handleSubmit}
+                    />
+                </PaginationItem>
+            </Pagination>
+            <p>Current page: {props.clients.clients.meta.current_page}</p>
+            <p>Amount of registers: {props.clients.clients.meta.total}</p>
+        </Container>
+    );
+    
 }

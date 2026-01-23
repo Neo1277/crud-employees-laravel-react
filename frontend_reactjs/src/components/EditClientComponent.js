@@ -1,6 +1,7 @@
 import { Loading } from './LoadingComponent';
-import React, { useState } from 'react';
-import * as z from 'zod'; // Import Zod library
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { 
 	Button, 
 	Form, 
@@ -14,7 +15,21 @@ import {
 import { clientSchema } from './validations/clientSchema';
 //import { DatePicker, Space } from 'antd';
 
-export default function AddClientComponent(props) {
+export default function EditClientComponent(props) {
+  const { clientId } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Select the post from the Redux store
+  
+  const clientData = useSelector(state => 
+    state.clients?.clients.data?.find(client => client.id === clientId)
+  );
+  
+  const state = useSelector(state => state);
+  console.log("Here state.clients!!");
+  console.log(state.clients.clients.data);
+  
   const [formData, setFormData] = useState(
       { 
           identity_document: '', 
@@ -37,28 +52,27 @@ export default function AddClientComponent(props) {
     //generateNewEmail();
   };
 
-  /*const onChangeDate = (date, dateString) => {
-    //console.log(date, dateString);
-    console.log("Date here");
-    console.log(dateString);
-    setFormData({ ...formData, 'date_of_entry': dateString });
-  };*/
-  /*
-  const onInputChangeEmail = (e) => {
-    //e.preventDefault();
-    //console.log(date, dateString);
-    console.log("Data email here!!!");
-    console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
-    //setFormData({ ...formData, 'date_of_entry': dateString });
-  };*/
-  React.useEffect(() => {
+  // Initialize local state with Redux data when component mounts or post changes
+  useEffect(() => {
+    if (!clientData) {
+      console.log("Client data loading!");
+    }else{
+      console.log("Client data inside use effect!");
+      console.log(clientData);
+      //setTitle(clientData.title);
+      //setContent(clientData.content);
+      setFormData(prev => ({ ...prev, first_last_name: clientData.first_last_name }));
+    }
+  }, [clientData]);
+
+  useEffect(() => {
     if (props.newEmail.isLoading) {
       console.log("Loading...");
     }else if (props.newEmail.errorMessage) {
       alert("Error: " + props.newEmail.errorMessage);
     }else{
       console.log("Email received:", props.newEmail.newEmail);
-      setFormData(prev => ({ ...prev, email: props.newEmail.newEmail.new_email }))
+      setFormData(prev => ({ ...prev, email: props.newEmail.newEmail.new_email }));
     }
   }, [props.newEmail]);
 
@@ -119,7 +133,7 @@ export default function AddClientComponent(props) {
       <Container>
         <Form onSubmit={handleSubmit} data-testid="AddClientForm">
           <Row>
-            <h1>Add client</h1>
+            <h1>Edit client</h1>
             <Col md="4">
               <FormGroup>
                 <Label for="type_of_identity_document_id">

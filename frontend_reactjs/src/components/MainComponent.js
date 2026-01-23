@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ClientListComponent from './ClientListComponent';
 import AddClientComponent from './AddClientComponent';
+import EditClientComponent from './EditClientComponent';
 import NotFoundComponent from './NotFoundComponent';
 import HeaderComponent from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -11,6 +12,7 @@ import { connect } from 'react-redux';
 import { 
   fetchClients,
   createClient,
+  updateClient,
   getNewEmail
 } from '../redux/ActionCreators/clientActions';
 import { 
@@ -34,6 +36,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => ({
     fetchClients: (page, filter_by, searchWord) => { dispatch(fetchClients(page, filter_by, searchWord))},
     createClient: (data) => { dispatch(createClient(data))},
+    updateClient: (data) => { dispatch(updateClient(data))},
     fetchAreas: () => { dispatch(fetchAreas())},
     fetchTypesOfIdentityDocument: () => { dispatch(fetchTypesOfIdentityDocument())},
     getNewEmail: (first_name, first_last_name, country) => { dispatch(getNewEmail(first_name, first_last_name, country))},
@@ -66,7 +69,21 @@ class Main extends Component {
        * React router dom with redux link:
        * https://www.geeksforgeeks.org/reactjs/implementing-react-router-with-redux-in-react/
        */
-  
+      /*
+      console.log('Clients in MainComponent here!!!');
+      console.log(this.props.clients);*/
+      /*
+      const ClientWithId = ({match}) => {
+        return(
+          <EditClientComponent client={this.props.clients.clients.data.filter((client) => client.id === match.params.id)[0]} 
+                                updateClient={this.props.updateClient} 
+                                typesOfIdentityDocument={this.props.typesOfIdentityDocument}
+                                areas={this.props.areas}
+                                getNewEmail={this.props.getNewEmail}
+                                newEmail={this.props.newEmail}
+          />
+        );
+      };*/
       return (
         <div>
           <HeaderComponent />
@@ -79,6 +96,13 @@ class Main extends Component {
                                                   areas={this.props.areas}
                                                   getNewEmail={this.props.getNewEmail}
                                                   newEmail={this.props.newEmail}/>} 
+                                                  />
+              <Route path='/edit-client/:clientId' element={<EditClientComponent 
+                                                  updateClient={this.props.updateClient} 
+                                                  typesOfIdentityDocument={this.props.typesOfIdentityDocument}
+                                                  areas={this.props.areas}
+                                                  getNewEmail={this.props.getNewEmail}
+                                                  newEmail={this.props.newEmail} />} 
                                                   />
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>

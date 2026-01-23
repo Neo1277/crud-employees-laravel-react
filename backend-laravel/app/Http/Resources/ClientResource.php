@@ -27,8 +27,10 @@ class ClientResource extends JsonResource
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'type_of_identity_document_id' => $this->typeOfIdentityDocument->id,
             'type_of_identity_document_code' => $this->typeOfIdentityDocument->code,
             'type_of_identity_document_description' => $this->typeOfIdentityDocument->description,
+            'area_id' => $this->area->id,
             'area' => $this->area->name,
         ];
     }
