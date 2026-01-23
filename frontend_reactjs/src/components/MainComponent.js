@@ -13,6 +13,7 @@ import {
   fetchClients,
   createClient,
   updateClient,
+  fetchClientById,
   getNewEmail
 } from '../redux/ActionCreators/clientActions';
 import { 
@@ -28,6 +29,7 @@ const mapStateToProps = state => {
       clients: state.clients,
       areas: state.areas,
       typesOfIdentityDocument: state.typesOfIdentityDocument,
+      clientById: state.clientById,
       newEmail: state.newEmail,
     }
 }
@@ -35,6 +37,7 @@ const mapStateToProps = state => {
 /* Set functions from ActionCreators redux to the Component's props and dispatch */
 const mapDispatchToProps = (dispatch) => ({
     fetchClients: (page, filter_by, searchWord) => { dispatch(fetchClients(page, filter_by, searchWord))},
+    fetchClientById: (id) => { dispatch(fetchClientById(id))},
     createClient: (data) => { dispatch(createClient(data))},
     updateClient: (data) => { dispatch(updateClient(data))},
     fetchAreas: () => { dispatch(fetchAreas())},
@@ -98,6 +101,8 @@ class Main extends Component {
                                                   newEmail={this.props.newEmail}/>} 
                                                   />
               <Route path='/edit-client/:clientId' element={<EditClientComponent 
+                                                  fetchClientById={this.props.fetchClientById}
+                                                  clientById={this.props.clientById}
                                                   updateClient={this.props.updateClient} 
                                                   typesOfIdentityDocument={this.props.typesOfIdentityDocument}
                                                   areas={this.props.areas}

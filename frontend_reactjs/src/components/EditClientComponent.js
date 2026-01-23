@@ -20,15 +20,15 @@ export default function EditClientComponent(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Select the post from the Redux store
-  
-  const clientData = useSelector(state => 
-    state.clients?.clients.data?.find(client => client.id === clientId)
+  const { fetchClientById } = props;
+
+  // Select the client from the Redux store
+  const { isLoading, errorMessage, client } = useSelector(
+    (state) => state.clientById
   );
-  
-  const state = useSelector(state => state);
+  /*const state = useSelector(state => state);
   console.log("Here state.clients!!");
-  console.log(state.clients.clients.data);
+  console.log(state.clientById);*/
   
   const [formData, setFormData] = useState(
       { 
@@ -52,7 +52,31 @@ export default function EditClientComponent(props) {
     //generateNewEmail();
   };
 
+  // Load client for edit
+  useEffect(() => {
+    if (clientId) {
+      fetchClientById(clientId);
+    } 
+  }, [clientId, fetchClientById]);
+
+  // Fill form when client is loaded
+  useEffect(() => {
+    if (client.data && clientId) {
+      setFormData(prev => ({ ...prev, type_of_identity_document_id: client.data.type_of_identity_document_id }));
+      setFormData(prev => ({ ...prev, identity_document: client.data.identity_document }));
+      setFormData(prev => ({ ...prev, first_last_name: client.data.first_last_name }));
+      setFormData(prev => ({ ...prev, second_last_name: client.data.second_last_name }));
+      setFormData(prev => ({ ...prev, first_name: client.data.first_name }));
+      setFormData(prev => ({ ...prev, other_names: client.data.other_names }));
+      setFormData(prev => ({ ...prev, email: client.data.email }));
+      setFormData(prev => ({ ...prev, country: client.data.country }));
+      setFormData(prev => ({ ...prev, date_of_entry: client.data.date_of_entry }));
+      setFormData(prev => ({ ...prev, status: client.data.status }));
+      setFormData(prev => ({ ...prev, area_id: client.data.area_id }));
+    }
+  }, [client, clientId]);
   // Initialize local state with Redux data when component mounts or post changes
+  /*
   useEffect(() => {
     if (!clientData) {
       console.log("Client data loading!");
@@ -63,7 +87,7 @@ export default function EditClientComponent(props) {
       //setContent(clientData.content);
       setFormData(prev => ({ ...prev, first_last_name: clientData.first_last_name }));
     }
-  }, [clientData]);
+  }, [clientData]);*/
 
   useEffect(() => {
     if (props.newEmail.isLoading) {
@@ -97,7 +121,7 @@ export default function EditClientComponent(props) {
       setErrors({});
       console.log('Form submitted successfully:', result.data);
       // Proceed with form submission logic (e.g., API call)
-      props.createClient(result.data);
+      props.updateClient(result.data, clientId);
     } else {
       // Data is invalid, handle errors
       const fieldErrors = {};
@@ -108,26 +132,34 @@ export default function EditClientComponent(props) {
     }
   };
 
-	if (props.typesOfIdentityDocument.isLoading) {
-        return(
-            <Loading />
-        );
-    }
-    else if (props.areas.isLoading) {
-        return(
-            <Loading />
-        );
-    }  
-    else if (props.typesOfIdentityDocument.errorMessage) {
-        return(
-            <h4>{props.typesOfIdentityDocument.errorMessage}</h4>
-        );
-    }
-    else if (props.areas.errorMessage) {
-        return(
-            <h4>{props.areas.errorMessage}</h4>
-        );
-    }
+	if (isLoading) {
+    return(
+      <Loading />
+    );
+  }else if(errorMessage){
+    return(
+      <h4>{errorMessage}</h4>
+    );
+  }else if (props.typesOfIdentityDocument.isLoading) {
+    return(
+        <Loading />
+    );
+  }
+  else if (props.areas.isLoading) {
+    return(
+      <Loading />
+    );
+  }  
+  else if (props.typesOfIdentityDocument.errorMessage) {
+    return(
+        <h4>{props.typesOfIdentityDocument.errorMessage}</h4>
+    );
+  }
+  else if (props.areas.errorMessage) {
+      return(
+          <h4>{props.areas.errorMessage}</h4>
+      );
+  }
 	else{
     return (
       <Container>

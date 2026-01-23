@@ -10,7 +10,10 @@ import {
   GET_NEW_EMAIL_SUCCESS,
   UPDATE_CLIENT_REQUEST,
   UPDATE_CLIENT_FAILURE,
-  UPDATE_CLIENT_SUCCESS
+  UPDATE_CLIENT_SUCCESS,
+  FETCH_CLIENT_BY_ID_REQUEST,
+  FETCH_CLIENT_BY_ID_SUCCESS,
+  FETCH_CLIENT_BY_ID_FAILURE
 } from '../ActionTypes';
 
 import { baseUrl } from '../../shared/baseUrl';
@@ -52,6 +55,41 @@ export const fetchClientsSuccess = (clients) => ({
 /* Call action type from clients reducer */
 export const fetchClientsFailed = (error) => ({
     type: FETCH_CLIENTS_FAILURE,
+    payload: error
+});
+
+export const fetchClientById = (id) => async (dispatch) => {
+
+  dispatch(fetchClientByIdRequest());
+
+  try {
+    const response = await fetch(baseUrl + 'clients/' + id);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const clients = await response.json();
+    dispatch(fetchClientByIdSuccess(clients));
+  } catch (error) {
+    dispatch(fetchClientByIdFailed(error.message));
+    //alert(error);
+    console.log(error);
+  }
+};
+
+/* Call action type from clients reducer */
+export const fetchClientByIdRequest = () => ({
+    type: FETCH_CLIENT_BY_ID_REQUEST
+});
+
+/* Call action type from clients reducer */
+export const fetchClientByIdSuccess = (client) => ({
+    type: FETCH_CLIENT_BY_ID_SUCCESS,
+    payload: client
+});
+
+/* Call action type from clients reducer */
+export const fetchClientByIdFailed = (error) => ({
+    type: FETCH_CLIENT_BY_ID_FAILURE,
     payload: error
 });
 
@@ -104,11 +142,10 @@ export const createClientFailed = (error) => ({
     payload: error
 });
 
-export const updateClient = (data) => async (dispatch) => {
-  //console.log('data here!')
-  //console.log(data);
+export const updateClient = (data, clientId) => async (dispatch) => {
+  console.log('data here!')
+  console.log(clientId);
   dispatch(updateClientRequest());
-  const id = data.id;
   const requestOptions = {
       method: 'PUT',
       headers: { 
@@ -118,7 +155,7 @@ export const updateClient = (data) => async (dispatch) => {
       body: JSON.stringify(data)
   };
   try {
-    const response = await fetch(baseUrl + 'clients/' + id, requestOptions);
+    const response = await fetch(baseUrl + 'clients/' + clientId, requestOptions);
     if (!response.ok) {
 
       const errors = await response.json();

@@ -2,6 +2,7 @@ import {combineReducers, applyMiddleware} from 'redux';
 import { Clients } from './reducers/clients';
 import { Areas } from './reducers/areas';
 import { TypesOfIdentityDocument } from './reducers/typesOfIdentityDocument';
+import { ClientById } from './reducers/clientById';
 import { NewEmail } from './reducers/newEmail';
 import {thunk} from 'redux-thunk';
 import logger from 'redux-logger';
@@ -14,6 +15,7 @@ export const ConfigureStore = () => {
             clients: Clients,
             areas: Areas,
             typesOfIdentityDocument: TypesOfIdentityDocument,
+            clientById: ClientById,
             newEmail: NewEmail,
         }),
         applyMiddleware(thunk, logger)
