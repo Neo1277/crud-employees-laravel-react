@@ -1,7 +1,7 @@
 import { Loading } from './LoadingComponent';
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { 
 	Button, 
 	Form, 
@@ -17,8 +17,6 @@ import { clientSchema } from './validations/clientSchema';
 
 export default function EditClientComponent(props) {
   const { clientId } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const { fetchClientById } = props;
 
@@ -59,7 +57,11 @@ export default function EditClientComponent(props) {
   // Fill form when client is loaded
   useEffect(() => {
     if (client.data && clientId) {
-      setFormData(prev => ({ ...prev, type_of_identity_document_id: client.data.type_of_identity_document_id }));
+      const formattedDate = client.data.date_of_entry
+        ? new Date(client.data.date_of_entry).toISOString().split("T")[0]
+        : "";
+
+      setFormData(prev => ({ ...prev, type_of_identity_document_id: String(client.data.type_of_identity_document_id) }));
       setFormData(prev => ({ ...prev, identity_document: client.data.identity_document }));
       setFormData(prev => ({ ...prev, first_last_name: client.data.first_last_name }));
       setFormData(prev => ({ ...prev, second_last_name: client.data.second_last_name }));
@@ -67,9 +69,9 @@ export default function EditClientComponent(props) {
       setFormData(prev => ({ ...prev, other_names: client.data.other_names }));
       setFormData(prev => ({ ...prev, email: client.data.email }));
       setFormData(prev => ({ ...prev, country: client.data.country }));
-      setFormData(prev => ({ ...prev, date_of_entry: client.data.date_of_entry }));
+      setFormData(prev => ({ ...prev, date_of_entry: formattedDate }));
       setFormData(prev => ({ ...prev, status: client.data.status }));
-      setFormData(prev => ({ ...prev, area_id: client.data.area_id }));
+      setFormData(prev => ({ ...prev, area_id: String(client.data.area_id) }));
     }
   }, [client, clientId]);
 

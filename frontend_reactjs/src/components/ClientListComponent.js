@@ -44,7 +44,7 @@ export default function ClientListComponent(props) {
                         <th>Date and time updated</th>
                         <th>Status</th>
                         <th>Area</th>
-                        {/*<th>Action</th>*/}
+                        <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,18 +65,19 @@ export default function ClientListComponent(props) {
                             <td>{field.updated_at}</td>
                             <td>{field.status}</td>
                             <td>{field.area}</td>
-                            {/*<td>
-                                <Link to={`/edit_employee/${field.third_party_id}`} >
+                            <td>
+                                <Link to={`/edit-client/${field.id}`} >
                                     <Button color="success">
+                                        Edit
                                         <span className="fa fa-pencil"></span>
                                     </Button>
                                 </Link>
-                                <Link to={`/delete_employee/${field.third_party_id}`} >
+                                {/*<Link to={`/delete_employee/${field.third_party_id}`} >
                                     <Button color="danger">
                                         <span className="fa fa-trash"></span>
                                     </Button>
-                                </Link>
-                            </td>*/}
+                                </Link>*/}
+                            </td>
                         </tr>
                     );
                 }) }
