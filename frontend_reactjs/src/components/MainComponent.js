@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchClients: (page, filter_by, searchWord) => { dispatch(fetchClients(page, filter_by, searchWord))},
     fetchClientById: (id) => { dispatch(fetchClientById(id))},
     createClient: (data) => { dispatch(createClient(data))},
-    updateClient: (data) => { dispatch(updateClient(data))},
+    updateClient: (data, clientId) => { dispatch(updateClient(data, clientId))},
     fetchAreas: () => { dispatch(fetchAreas())},
     fetchTypesOfIdentityDocument: () => { dispatch(fetchTypesOfIdentityDocument())},
     getNewEmail: (first_name, first_last_name, country) => { dispatch(getNewEmail(first_name, first_last_name, country))},

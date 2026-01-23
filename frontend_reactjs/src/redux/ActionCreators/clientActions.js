@@ -143,8 +143,7 @@ export const createClientFailed = (error) => ({
 });
 
 export const updateClient = (data, clientId) => async (dispatch) => {
-  console.log('data here!')
-  console.log(clientId);
+  
   dispatch(updateClientRequest());
   const requestOptions = {
       method: 'PUT',
@@ -162,11 +161,22 @@ export const updateClient = (data, clientId) => async (dispatch) => {
       //throw {message: error.message,status:error.cod};
       showErrors(errors);
       throw new Error('Network response was not ok');
+    }else{
+      if (response.status === 204) {
+        // Handle 204 No Content success (e.g., show a success message, update UI state)
+        alert("Client updated succesfully")
+        console.log('Request successful, but no content returned.');
+        dispatch(updateClientSuccess());
+        return; // Exit the function as there is no body to parse
+      } else {
+        // Handle 200 OK or other success codes with content
+        const data = await response.json();
+        console.log('Request successful with data:', data);
+        // Process the data in your React application
+        return data;
+      }
     }
-    const data = await response.json();
-    alert("Client updated succesfully")
-    dispatch(updateClientSuccess(data));
-    return data;
+    //return data;
   } catch (error) {
     dispatch(updateClientFailed(error));
     //alert(error);
@@ -180,9 +190,8 @@ export const updateClientRequest = () => ({
 });
 
 /* Call action type from clients reducer */
-export const updateClientSuccess = (client) => ({
-    type: UPDATE_CLIENT_SUCCESS,
-    payload: client
+export const updateClientSuccess = () => ({
+    type: UPDATE_CLIENT_SUCCESS
 });
 
 /* Call action type from clients reducer */

@@ -26,9 +26,6 @@ export default function EditClientComponent(props) {
   const { isLoading, errorMessage, client } = useSelector(
     (state) => state.clientById
   );
-  /*const state = useSelector(state => state);
-  console.log("Here state.clients!!");
-  console.log(state.clientById);*/
   
   const [formData, setFormData] = useState(
       { 
@@ -75,19 +72,6 @@ export default function EditClientComponent(props) {
       setFormData(prev => ({ ...prev, area_id: client.data.area_id }));
     }
   }, [client, clientId]);
-  // Initialize local state with Redux data when component mounts or post changes
-  /*
-  useEffect(() => {
-    if (!clientData) {
-      console.log("Client data loading!");
-    }else{
-      console.log("Client data inside use effect!");
-      console.log(clientData);
-      //setTitle(clientData.title);
-      //setContent(clientData.content);
-      setFormData(prev => ({ ...prev, first_last_name: clientData.first_last_name }));
-    }
-  }, [clientData]);*/
 
   useEffect(() => {
     if (props.newEmail.isLoading) {
