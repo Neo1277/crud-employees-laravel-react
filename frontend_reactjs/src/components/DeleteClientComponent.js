@@ -87,182 +87,170 @@ export default function DeleteClientComponent(props) {
     }
   };
 
-	if (isLoading) {
-    return(
-      <Loading />
-    );
-  }else if(errorMessage){
-    return(
-      <h4>{errorMessage}</h4>
-    );
-  }else if (props.typesOfIdentityDocument.isLoading) {
-    return(
-        <Loading />
-    );
+  const isAnyLoading =
+    isLoading ||
+    props.typesOfIdentityDocument.isLoading ||
+    props.areas.isLoading;
+
+  const anyError =
+    errorMessage ||
+    props.typesOfIdentityDocument.errorMessage ||
+    props.areas.errorMessage;
+
+  if (isAnyLoading) {
+    return <Loading />;
   }
-  else if (props.areas.isLoading) {
-    return(
-      <Loading />
-    );
-  }  
-  else if (props.typesOfIdentityDocument.errorMessage) {
-    return(
-        <h4>{props.typesOfIdentityDocument.errorMessage}</h4>
-    );
+
+  if (anyError) {
+    return <h4>{anyError}</h4>;
   }
-  else if (props.areas.errorMessage) {
-      return(
-          <h4>{props.areas.errorMessage}</h4>
-      );
-  }
-	else{
-    return (
-      <Container>
-        <Form onSubmit={handleSubmit} data-testid="AddClientForm">
-          <Row>
-            <h1>Delete client</h1>
-            <Col md="4">
-              <FormGroup>
-                <Label for="type_of_identity_document_description">
-                  Type of identity document
-                </Label>
-                <Input
-                  plaintext
-                  id="type_of_identity_document_description" 
-                  name="type_of_identity_document_description"
-                  defaultValue={formData.type_of_identity_document_description} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="identity_document">Identity document</Label>
-                <Input
-                  plaintext
-                  id="identity_document" 
-                  name="identity_document"
-                  defaultValue={formData.identity_document} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="first_last_name">First Lastname</Label>
-                <Input
-                  plaintext
-                  id="first_last_name" 
-                  name="first_last_name"
-                  defaultValue={formData.first_last_name} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="second_last_name">Second LastName</Label>
-                <Input
-                  plaintext
-                  id="second_last_name" 
-                  name="second_last_name"
-                  defaultValue={formData.second_last_name} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="first_name">First Name</Label>
-                <Input
-                  plaintext
-                  id="first_name" 
-                  name="first_name"
-                  defaultValue={formData.first_name} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="other_names">Other Names</Label>
-                <Input
-                  plaintext
-                  id="other_names" 
-                  name="other_names"
-                  defaultValue={formData.other_names} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="email">Email</Label>
-                <Input
-                  plaintext
-                  id="email" 
-                  name="email"
-                  defaultValue={formData.email} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="country">
-                  Country
-                </Label>
-                <Input
-                  plaintext
-                  id="country" 
-                  name="country"
-                  defaultValue={formData.country} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="date_of_entry">
-                  Date of entry
-                </Label>
-                <Input
-                  plaintext
-                  id="date_of_entry" 
-                  name="date_of_entry"
-                  defaultValue={formData.date_of_entry} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="status">
-                  Status
-                </Label>
-                <Input
-                  plaintext
-                  id="status" 
-                  name="status"
-                  defaultValue={formData.status} 
-                />
-              </FormGroup>
-            </Col>
-            <Col md="4">
-              <FormGroup>
-                <Label for="area_name">
-                  Area
-                </Label>
-                <Input
-                  plaintext
-                  id="area_name" 
-                  name="area_name"
-                  defaultValue={formData.area_name} 
-                />
-              </FormGroup>          
-            </Col>      
-            <Col md="4">
-              <Button
-                color="danger"
-                size="lg"
-              >
-                Delete
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <Form onSubmit={handleSubmit} data-testid="AddClientForm">
+        <Row>
+          <h1>Delete client</h1>
+          <Col md="4">
+            <FormGroup>
+              <Label for="type_of_identity_document_description">
+                Type of identity document
+              </Label>
+              <Input
+                plaintext
+                id="type_of_identity_document_description" 
+                name="type_of_identity_document_description"
+                defaultValue={formData.type_of_identity_document_description} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="identity_document">Identity document</Label>
+              <Input
+                plaintext
+                id="identity_document" 
+                name="identity_document"
+                defaultValue={formData.identity_document} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="first_last_name">First Lastname</Label>
+              <Input
+                plaintext
+                id="first_last_name" 
+                name="first_last_name"
+                defaultValue={formData.first_last_name} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="second_last_name">Second LastName</Label>
+              <Input
+                plaintext
+                id="second_last_name" 
+                name="second_last_name"
+                defaultValue={formData.second_last_name} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="first_name">First Name</Label>
+              <Input
+                plaintext
+                id="first_name" 
+                name="first_name"
+                defaultValue={formData.first_name} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="other_names">Other Names</Label>
+              <Input
+                plaintext
+                id="other_names" 
+                name="other_names"
+                defaultValue={formData.other_names} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="email">Email</Label>
+              <Input
+                plaintext
+                id="email" 
+                name="email"
+                defaultValue={formData.email} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="country">
+                Country
+              </Label>
+              <Input
+                plaintext
+                id="country" 
+                name="country"
+                defaultValue={formData.country} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="date_of_entry">
+                Date of entry
+              </Label>
+              <Input
+                plaintext
+                id="date_of_entry" 
+                name="date_of_entry"
+                defaultValue={formData.date_of_entry} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="status">
+                Status
+              </Label>
+              <Input
+                plaintext
+                id="status" 
+                name="status"
+                defaultValue={formData.status} 
+              />
+            </FormGroup>
+          </Col>
+          <Col md="4">
+            <FormGroup>
+              <Label for="area_name">
+                Area
+              </Label>
+              <Input
+                plaintext
+                id="area_name" 
+                name="area_name"
+                defaultValue={formData.area_name} 
+              />
+            </FormGroup>          
+          </Col>      
+          <Col md="4">
+            <Button
+              color="danger"
+              size="lg"
+            >
+              Delete
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
+  );
+  
 };
