@@ -47,7 +47,7 @@ class UpdateClientRequest extends FormRequest
                     );
                 })->ignore($clientId)
             ],
-            'first_last_name' => ['required', 'string', 'max:20', 'regex:/^[A-Z]+$/'],
+            'first_last_name' => ['required', 'string', 'max:20', 'regex:/^[A-Z ]+$/'],
             'second_last_name' => ['required', 'string', 'max:20', 'regex:/^[A-Z]+$/'],
             'first_name' => ['required', 'string', 'max:20', 'regex:/^[A-Z]+$/'],
             'other_names' => ['required', 'string', 'max:50', 'regex:/^[A-Z ]+$/'],

@@ -269,11 +269,11 @@ export const getNewEmail = (
 ) => async (dispatch) => {
 
   dispatch(getNewEmailRequest());
-
+  const firstLastNameWithNoSpaces = first_last_name.replace(/\s/g, '');
   try {
     // const response = await fetch('http://127.0.0.1:8000?page=${page}&${filter_by}=${searchWord}');
     const url = baseUrl + 'clients/get-new-email?first_name=' + first_name
-                        + '&first_last_name=' + first_last_name 
+                        + '&first_last_name=' + firstLastNameWithNoSpaces 
                         + '&country=' + country;
     const response = await fetch(url);
     if (!response.ok) {

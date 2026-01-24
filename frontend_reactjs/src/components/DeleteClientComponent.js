@@ -12,14 +12,11 @@ import {
 	Row, 
 	Col,
 } from 'reactstrap';
-import { useNavigate } from 'react-router';
 
 export default function DeleteClientComponent(props) {
   const { clientId } = useParams();
 
   const { fetchClientById } = props;
-
-  const navigate = useNavigate();
 
   // Select the client from the Redux store
   const { isLoading, errorMessage, client } = useSelector(
@@ -43,7 +40,6 @@ export default function DeleteClientComponent(props) {
           area_name: '' 
       }
   );
-  const [errors, setErrors] = useState({});
 
   // Load client for delete
   useEffect(() => {

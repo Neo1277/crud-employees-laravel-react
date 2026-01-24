@@ -6,7 +6,7 @@ export const clientSchema = z.object({
                       .regex(/^[a-zA-Z0-9]+$/, "Identity document must contain only alphanumeric characters"),
   first_last_name: z.string().min(3, { message: "First Lastname must be at least 3 characters long" })
                       .max(20, { message: "First Lastname cannot be more than 20 characters" })
-                      .regex(/^[A-Z]+$/, "Only uppercase letters (A-Z) are allowed, with no spaces or special characters."),
+                      .regex(/^[A-Z ]+$/, "Only uppercase letters (A-Z) are allowed, with one space among words and not special characters."),
   second_last_name: z.string().min(3, { message: "First name must be at least 3 characters long" })
                       .max(20, { message: "Identity document cannot be more than 20 characters" })
                       .regex(/^[A-Z]+$/, "Only uppercase letters (A-Z) are allowed, with no spaces or special characters."),
