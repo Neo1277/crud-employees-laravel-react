@@ -13,7 +13,10 @@ import {
   UPDATE_CLIENT_SUCCESS,
   FETCH_CLIENT_BY_ID_REQUEST,
   FETCH_CLIENT_BY_ID_SUCCESS,
-  FETCH_CLIENT_BY_ID_FAILURE
+  FETCH_CLIENT_BY_ID_FAILURE,
+  DELETE_CLIENT_REQUEST,
+  DELETE_CLIENT_SUCCESS,
+  DELETE_CLIENT_FAILURE
 } from '../ActionTypes';
 
 import { baseUrl } from '../../shared/baseUrl';
@@ -197,6 +200,65 @@ export const updateClientSuccess = () => ({
 /* Call action type from clients reducer */
 export const updateClientFailed = (error) => ({
     type: UPDATE_CLIENT_FAILURE,
+    payload: error
+});
+
+export const deleteClient = (clientId) => async (dispatch) => {
+  
+  dispatch(deleteClientRequest());
+  const requestOptions = {
+      method: 'DELETE',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Accept': 'application/json' 
+      }
+  };
+  try {
+    const response = await fetch(baseUrl + 'clients/' + clientId, requestOptions);
+    if (!response.ok) {
+
+      const errors = await response.json();
+      //throw {message: error.message,status:error.cod};
+      showErrors(errors);
+      throw new Error('Network response was not ok');
+    }else{
+      if (response.status === 204) {
+        // Handle 204 No Content success (e.g., show a success message, update UI state)
+        alert("Client deleted succesfully");
+        console.log('Request successful, but no content returned.');
+        dispatch(deleteClientSuccess());
+        // Redirect to home page
+        window.location.replace('/');
+        return; // Exit the function as there is no body to parse
+      } else {
+        // Handle 200 OK or other success codes with content
+        const data = await response.json();
+        console.log('Request successful with data:', data);
+        // Process the data in your React application
+        return data;
+      }
+    }
+    //return data;
+  } catch (error) {
+    dispatch(deleteClientFailed(error));
+    //alert(error);
+    console.log(error);
+  }
+};
+
+/* Call action type from clients reducer */
+export const deleteClientRequest = () => ({
+    type: DELETE_CLIENT_REQUEST
+});
+
+/* Call action type from clients reducer */
+export const deleteClientSuccess = () => ({
+    type: DELETE_CLIENT_SUCCESS
+});
+
+/* Call action type from clients reducer */
+export const deleteClientFailed = (error) => ({
+    type: DELETE_CLIENT_FAILURE,
     payload: error
 });
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ClientListComponent from './ClientListComponent';
 import AddClientComponent from './AddClientComponent';
 import EditClientComponent from './EditClientComponent';
+import DeleteClientComponent from './DeleteClientComponent';
 import NotFoundComponent from './NotFoundComponent';
 import HeaderComponent from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -13,6 +14,7 @@ import {
   fetchClients,
   createClient,
   updateClient,
+  deleteClient,
   fetchClientById,
   getNewEmail
 } from '../redux/ActionCreators/clientActions';
@@ -40,6 +42,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchClientById: (id) => { dispatch(fetchClientById(id))},
     createClient: (data) => { dispatch(createClient(data))},
     updateClient: (data, clientId) => { dispatch(updateClient(data, clientId))},
+    deleteClient: (clientId) => { dispatch(deleteClient(clientId))},
     fetchAreas: () => { dispatch(fetchAreas())},
     fetchTypesOfIdentityDocument: () => { dispatch(fetchTypesOfIdentityDocument())},
     getNewEmail: (first_name, first_last_name, country) => { dispatch(getNewEmail(first_name, first_last_name, country))},
@@ -104,6 +107,15 @@ class Main extends Component {
                                                   fetchClientById={this.props.fetchClientById}
                                                   clientById={this.props.clientById}
                                                   updateClient={this.props.updateClient} 
+                                                  typesOfIdentityDocument={this.props.typesOfIdentityDocument}
+                                                  areas={this.props.areas}
+                                                  getNewEmail={this.props.getNewEmail}
+                                                  newEmail={this.props.newEmail} />} 
+                                                  />
+              <Route path='/delete-client/:clientId' element={<DeleteClientComponent 
+                                                  fetchClientById={this.props.fetchClientById}
+                                                  clientById={this.props.clientById}
+                                                  deleteClient={this.props.deleteClient} 
                                                   typesOfIdentityDocument={this.props.typesOfIdentityDocument}
                                                   areas={this.props.areas}
                                                   getNewEmail={this.props.getNewEmail}

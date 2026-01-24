@@ -72,11 +72,12 @@ export default function ClientListComponent(props) {
                                         <span className="fa fa-pencil"></span>
                                     </Button>
                                 </Link>
-                                {/*<Link to={`/delete_employee/${field.third_party_id}`} >
+                                <Link to={`/delete-client/${field.id}`} >
                                     <Button color="danger">
+                                        Delete
                                         <span className="fa fa-trash"></span>
                                     </Button>
-                                </Link>*/}
+                                </Link>
                             </td>
                         </tr>
                     );

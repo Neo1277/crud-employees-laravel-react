@@ -358,10 +358,10 @@ export default function EditClientComponent(props) {
             </Col>      
             <Col md="4">
               <Button
-                color="primary"
+                color="success"
                 size="lg"
               >
-                Submit
+                Edit
               </Button>
             </Col>
           </Row>
