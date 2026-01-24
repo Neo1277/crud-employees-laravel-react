@@ -50,24 +50,26 @@ export default function DeleteClientComponent(props) {
 
   // Fill form when client is loaded
   useEffect(() => {
-    if (client.data && clientId) {
+      if (client.data && clientId) {
       const formattedDate = client.data.date_of_entry
         ? new Date(client.data.date_of_entry).toISOString().split("T")[0]
         : "";
 
-      setFormData(prev => ({ ...prev, type_of_identity_document_id: String(client.data.type_of_identity_document_id) }));
-      setFormData(prev => ({ ...prev, type_of_identity_document_description: String(client.data.type_of_identity_document_description) }));
-      setFormData(prev => ({ ...prev, identity_document: client.data.identity_document }));
-      setFormData(prev => ({ ...prev, first_last_name: client.data.first_last_name }));
-      setFormData(prev => ({ ...prev, second_last_name: client.data.second_last_name }));
-      setFormData(prev => ({ ...prev, first_name: client.data.first_name }));
-      setFormData(prev => ({ ...prev, other_names: client.data.other_names }));
-      setFormData(prev => ({ ...prev, email: client.data.email }));
-      setFormData(prev => ({ ...prev, country: client.data.country }));
-      setFormData(prev => ({ ...prev, date_of_entry: formattedDate }));
-      setFormData(prev => ({ ...prev, status: client.data.status }));
-      setFormData(prev => ({ ...prev, area_id: String(client.data.area_id) }));
-      setFormData(prev => ({ ...prev, area_name: String(client.data.area) }));
+      setFormData({
+        type_of_identity_document_description: client.data.type_of_identity_document_description,
+        type_of_identity_document_id: String(client.data.type_of_identity_document_id),
+        identity_document: client.data.identity_document || '',
+        first_last_name: client.data.first_last_name || '',
+        second_last_name: client.data.second_last_name || '',
+        first_name: client.data.first_name || '',
+        other_names: client.data.other_names || '',
+        email: client.data.email || '',
+        country: client.data.country || 'co',
+        date_of_entry: formattedDate,
+        status: client.data.status || 'Active',
+        area_id: String(client.data.area_id),
+        area_name: client.data.area
+      });
     }
   }, [client, clientId]);
 

@@ -93,12 +93,12 @@ describe('Client List', () => {
         
         renderComponent({
             clients: {
-            ...baseClientsState,
-            errorMessage: "Failed to fetch"
+                ...baseClientsState,
+                errorMessage: "Failed to fetch"
             }
         });
 
-        expect(screen.getByText(/failed to fetch/i)).toBeInTheDocument();
+        expect(screen.getByText(/Failed to fetch/i)).toBeInTheDocument();
     });
 
 });
