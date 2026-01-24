@@ -196,7 +196,7 @@ describe('Add Client component', () => {
         expect(screen.getByTestId('identity_document_error').textContent)
             .toBe('Identity document must contain only alphanumeric characters');
         expect(screen.getByTestId('first_last_name_error').textContent)
-            .toBe('Only uppercase letters (A-Z) are allowed, with no spaces or special characters.');
+            .toBe('Only uppercase letters (A-Z) are allowed, with one space among words and not special characters.');
     });
 
     it('submits the form with valid data', () => {
