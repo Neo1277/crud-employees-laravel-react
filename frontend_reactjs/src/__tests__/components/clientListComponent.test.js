@@ -3,27 +3,41 @@ import { render, screen } from "@testing-library/react";
 import ClientListComponent from '../../components/ClientListComponent';
 import { MemoryRouter } from 'react-router';
 
+const renderComponent = (props) =>
+  render(
+    <MemoryRouter>
+      <ClientListComponent {...props} />
+    </MemoryRouter>
+  );
+
+const baseClientsState = {
+  isLoading: false,
+  errorMessage: null,
+  clients: {
+    data: [],
+    links: {},
+    meta: {}
+  }
+};
+
 describe('Client List', () => {
 
     it("renders loading state initially", () => {
 
-        const mockProps = {
+        renderComponent({
             clients: {
-                isLoading: true,
-                errorMessage: null,
-                clients: []
+                ...baseClientsState,
+                isLoading: true
             }
-        };
-        render(<ClientListComponent {...mockProps} />);
+        });
+
         expect(screen.getAllByText(/Loading.../i)[0]).toBeInTheDocument();
     });
 
     it("renders clients after data is fetched", () => {
-
-        const mockProps = {
+          renderComponent({
             clients: {
-                isLoading: false,
-                errorMessage: null,
+                ...baseClientsState,
                 clients: {
                     data: 
                     [
@@ -44,7 +58,7 @@ describe('Client List', () => {
                         {
                             'id': 2,
                             'identity_document' : "16450360",
-                            'first_last_name' : "BEJARANO",
+                            'first_last_name' : "BERMUDEZ",
                             'second_last_name' : "SOLARTE",
                             'first_name' : "LUZ",
                             'other_names' : "DARY",
@@ -68,29 +82,23 @@ describe('Client List', () => {
                     }
                 }
             }
-        }
-
-        render(
-            <MemoryRouter>
-                <ClientListComponent {...mockProps} />
-            </MemoryRouter>
-        );
+        });
         
-        expect(screen.getByText(/MENESES/i)).toBeInTheDocument();
+        expect(screen.getByText("MENESES")).toBeInTheDocument();
+        expect(screen.getByText("BEJARANO")).toBeInTheDocument();
         
     });
 
     it("renders error message when the fetch fails", () => {
         
-        const mockProps = {
+        renderComponent({
             clients: {
-                isLoading: false,
-                errorMessage: "Failed to fetch"
+            ...baseClientsState,
+            errorMessage: "Failed to fetch"
             }
-        };
-        render(<ClientListComponent {...mockProps} />);
+        });
 
-        expect(screen.getByText(/Failed to fetch/i)).toBeInTheDocument();
+        expect(screen.getByText(/failed to fetch/i)).toBeInTheDocument();
     });
 
 });
