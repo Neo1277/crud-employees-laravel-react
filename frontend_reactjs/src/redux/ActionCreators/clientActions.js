@@ -176,6 +176,7 @@ export const updateClient = (data, clientId) => async (dispatch) => {
         const data = await response.json();
         console.log('Request successful with data:', data);
         // Process the data in your React application
+        dispatch(updateClientSuccess());
         return data;
       }
     }

@@ -1,11 +1,11 @@
 
 import configureMockStore from 'redux-mock-store';
 import {thunk} from 'redux-thunk';
-import { createClient } from '../../redux/ActionCreators/clientActions';
+import { updateClient } from '../../redux/ActionCreators/clientActions';
 import { 
-    CREATE_CLIENT_REQUEST, 
-    CREATE_CLIENT_SUCCESS, 
-    CREATE_CLIENT_FAILURE 
+    UPDATE_CLIENT_REQUEST, 
+    UPDATE_CLIENT_SUCCESS, 
+    UPDATE_CLIENT_FAILURE 
 } from '../../redux/ActionTypes';
 import { baseUrl } from '../../shared/baseUrl';
 
@@ -15,7 +15,7 @@ const mockStore = configureMockStore(middlewares);
 // Mock the global fetch function
 global.fetch = jest.fn();
 
-describe('async createClient action', () => {
+describe('async updateClient action', () => {
   let alertSpy; // 👈 define it here
   
   beforeEach(() => {
@@ -27,22 +27,8 @@ describe('async createClient action', () => {
     alertSpy.mockRestore();
   });
 
-  it('dispatches CREATE_CLIENT_REQUEST and CREATE_CLIENT_SUCCESS when the POST request is successful', async () => {
+  it('dispatches UPDATE_CLIENT_REQUEST and UPDATE_CLIENT_SUCCESS when the PUT request is successful', async () => {
     //const mockResponseData = { id: 1, title: 'New Post' };
-    const mockResponseData = {
-        'id': 1,
-        'identity_document' : "16450360",
-        'first_last_name' : "MENESES",
-        'second_last_name' : "BEJARANO",
-        'first_name' : "SULLY",
-        'other_names' : "ANDREA",
-        'email' : "andrea@gmail.com",
-        'country' : "co",
-        'date_of_entry' : '2025-12-22',
-        'status' : "Active",
-        'type_of_identity_document_id' : 1,
-        'area_id' : 1,
-    };
     const mockClientData = {        
         'identity_document' : "16450360",
         'first_last_name' : "MENESES",
@@ -56,23 +42,23 @@ describe('async createClient action', () => {
         'type_of_identity_document_id' : 1,
         'area_id' : 1, 
     };
-    const url = baseUrl + 'clients';
+    const url = baseUrl + 'clients/1';
 
     // Mock a successful fetch response
     fetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => mockResponseData,
+      status: 204,
     });
 
     const expectedActions = [
-      { type: CREATE_CLIENT_REQUEST },
-      { type: CREATE_CLIENT_SUCCESS, payload: mockResponseData },
+      { type: UPDATE_CLIENT_REQUEST },
+      { type: UPDATE_CLIENT_SUCCESS },
     ];
 
     const store = mockStore({});
 
     // Dispatch the async action and wait for it to complete
-    await store.dispatch(createClient(mockClientData));
+    await store.dispatch(updateClient(mockClientData, "1"));
 
     // Assertions
     const actions = store.getActions();
@@ -80,12 +66,12 @@ describe('async createClient action', () => {
     expect(actions).toEqual(expectedActions);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(url, expect.objectContaining({
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(mockClientData),
     }));
   });
 
-  it('dispatches CREATE_CLIENT_REQUEST and CREATE_CLIENT_FAILURE when the POST request fails', async () => {
+  it('dispatches UPDATE_CLIENT_REQUEST and UPDATE_CLIENT_FAILURE when the PUT request fails', async () => {
     const errorMessage = 'Network response was not ok';
     
     const mockClientData = {        
@@ -115,14 +101,14 @@ describe('async createClient action', () => {
     });
 
     const expectedActions = [
-      { type: CREATE_CLIENT_REQUEST },
-      { type: CREATE_CLIENT_FAILURE, payload: new Error('Network response was not ok')},
+      { type: UPDATE_CLIENT_REQUEST },
+      { type: UPDATE_CLIENT_FAILURE, payload: new Error('Network response was not ok')},
     ];
 
     const store = mockStore({});
 
     // Dispatch the async action and wait for it to complete
-    await store.dispatch(createClient(mockClientData));
+    await store.dispatch(updateClient(mockClientData, "1"));
 
     // Assertions
     const actions = store.getActions();
