@@ -55,7 +55,17 @@ describe('Client List', () => {
                             'type_of_identity_document_id' : 1,
                             'area_id' : 1,
                         }
-                    ]
+                    ],    
+                    links: {
+                        first: "http://127.0.0.1:8000/api/clients?page=1",
+                        last: "http://127.0.0.1:8000/api/clients?page=4",
+                        prev: null,
+                        next: "http://127.0.0.1:8000/api/clients?page=2"
+                    },    
+                    meta: {
+                        current_page: 1,
+                        total: 37
+                    }
                 }
             }
         }

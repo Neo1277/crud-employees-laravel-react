@@ -7,6 +7,7 @@ export const Loading = () => {
             {/*<span className="fa fa-spinner fa-pulse fa-3x fa-fw text-primary"></span>*/}
             <Spinner       
                 animation="border"
+                color="primary"
                 role="status"
                 style={{
                     height: "100px",
