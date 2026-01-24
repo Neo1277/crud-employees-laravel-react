@@ -20,46 +20,31 @@ class ClientRepository implements ClientRepositoryInterface
     {
         $query = $this->client->query();
 
-        if (isset($filters['identity_document'])) {
-            $query->where('identity_document', 'like', '%' . $filters['identity_document'] . '%');
+        $likeFilters = [
+            'identity_document',
+            'first_last_name',
+            'second_last_name',
+            'first_name',
+            'other_names',
+            'email',
+            'country',
+            'status',
+        ];
+
+        foreach ($likeFilters as $field) {
+            if (!empty($filters[$field])) {
+                $query->where($field, 'like', '%' . $filters[$field] . '%');
+            }
         }
 
-        if (isset($filters['first_last_name'])) {
-            $query->where('first_last_name', 'like', '%' . $filters['first_last_name'] . '%');
-        }
-
-        if (isset($filters['second_last_name'])) {
-            $query->where('second_last_name', 'like', '%' . $filters['second_last_name'] . '%');
-        }
-
-        if (isset($filters['first_name'])) {
-            $query->where('first_name', 'like', '%' . $filters['first_name'] . '%');
-        }
-
-        if (isset($filters['other_names'])) {
-            $query->where('other_names', 'like', '%' . $filters['other_names'] . '%');
-        }
-
-        if (isset($filters['email'])) {
-            $query->where('email', 'like', '%' . $filters['email'] . '%');
-        }
-
-        if (isset($filters['country'])) {
-            $query->where('country', 'like', '%' . $filters['country'] . '%');
-        }
-
-        if (isset($filters['status'])) {
-            $query->where('status', 'like', '%' . $filters['status'] . '%');
-        }
-        
-        if (isset($filters['type_of_identity_document'])) {
+        if (!empty($filters['type_of_identity_document'])) {
             $description = $filters['type_of_identity_document'];
             $query->whereHas('typeOfIdentityDocument', function ($q) use ($description) {
                 $q->where('description', 'like', '%' . $description . '%');
             });
         }
-        
-        if (isset($filters['area'])) {
+
+        if (!empty($filters['area'])) {
             $name = $filters['area'];
             $query->whereHas('area', function ($q) use ($name) {
                 $q->where('name', 'like', '%' . $name . '%');
