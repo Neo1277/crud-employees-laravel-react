@@ -70,17 +70,10 @@ const fillForm = (overrides = {}) => {
     ...overrides,
   };
 
-  fireEvent.change(fields.typeOfIdentityDocument, { target: { value: data.typeOfIdentityDocument } });
-  fireEvent.change(fields.identityDocument, { target: { value: data.identityDocument } });
-  fireEvent.change(fields.firstLastName, { target: { value: data.firstLastName } });
-  fireEvent.change(fields.secondLastName, { target: { value: data.secondLastName } });
-  fireEvent.change(fields.firstName, { target: { value: data.firstName } });
-  fireEvent.change(fields.otherNames, { target: { value: data.otherNames } });
-  fireEvent.change(fields.email, { target: { value: data.email } });
-  fireEvent.change(fields.country, { target: { value: data.country } });
-  fireEvent.change(fields.dateOfEntry, { target: { value: data.dateOfEntry } });
-  fireEvent.change(fields.status, { target: { value: data.status } });
-  fireEvent.change(fields.area, { target: { value: data.area } });
+  // Loop over data (DRY)
+  Object.entries(data).forEach(([key, value]) => {
+    fireEvent.change(fields[key], { target: { value } });
+  });
 
   return fields;
 };
