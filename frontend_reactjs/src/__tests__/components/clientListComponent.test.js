@@ -35,7 +35,7 @@ describe('Client List', () => {
     });
 
     it("renders clients after data is fetched", () => {
-          renderComponent({
+        renderComponent({
             clients: {
                 ...baseClientsState,
                 clients: {

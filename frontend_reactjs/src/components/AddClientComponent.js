@@ -1,6 +1,5 @@
 import { Loading } from './LoadingComponent';
 import React, { useState } from 'react';
-import * as z from 'zod'; // Import Zod library
 import { 
 	Button, 
 	Form, 
@@ -12,7 +11,6 @@ import {
 	Col,
 } from 'reactstrap';
 import { clientSchema } from './validations/clientSchema';
-//import { DatePicker, Space } from 'antd';
 
 export default function AddClientComponent(props) {
   const [formData, setFormData] = useState(
@@ -34,23 +32,8 @@ export default function AddClientComponent(props) {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    //generateNewEmail();
   };
 
-  /*const onChangeDate = (date, dateString) => {
-    //console.log(date, dateString);
-    console.log("Date here");
-    console.log(dateString);
-    setFormData({ ...formData, 'date_of_entry': dateString });
-  };*/
-  /*
-  const onInputChangeEmail = (e) => {
-    //e.preventDefault();
-    //console.log(date, dateString);
-    console.log("Data email here!!!");
-    console.log(formData.first_last_name + ' ' + formData.first_name + ' ' + formData.country);
-    //setFormData({ ...formData, 'date_of_entry': dateString });
-  };*/
   React.useEffect(() => {
     if (props.newEmail.isLoading) {
       console.log("Loading...");

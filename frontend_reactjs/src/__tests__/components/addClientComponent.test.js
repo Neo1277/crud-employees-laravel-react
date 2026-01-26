@@ -1,318 +1,139 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import AddClientComponent from '../../components/AddClientComponent';
 
+const defaultProps = {
+  createClient: jest.fn(),
+  typesOfIdentityDocument: {
+    isLoading: false,
+    errorMessage: null,
+    typesOfIdentityDocument: {
+      data: [
+        { id: 1, code: '123', description: 'Cedula de ciudadania' },
+        { id: 2, code: '1234', description: 'Cedula de extranjeria' },
+      ],
+    },
+  },
+  areas: {
+    isLoading: false,
+    errorMessage: null,
+    areas: {
+      data: [
+        { id: 1, name: 'Basement' },
+        { id: 2, name: 'Basement 2' },
+      ],
+    },
+  },
+  newEmail: {
+    isLoading: true,
+    errorMessage: null,
+    areas: [],
+  },
+};
+
+/**
+ * overrides lets you change only the props you care about for a specific test, 
+ * while keeping sensible defaults for everything else.
+ */
+const renderComponent = (overrides = {}) =>
+  render(<AddClientComponent {...defaultProps} {...overrides} />);
+
+const getFormFields = () => ({
+  typeOfIdentityDocument: screen.getByLabelText('Type of identity document'),
+  identityDocument: screen.getByLabelText('Identity document'),
+  firstLastName: screen.getByLabelText('First Lastname'),
+  secondLastName: screen.getByLabelText('Second LastName'),
+  firstName: screen.getByLabelText('First Name'),
+  otherNames: screen.getByLabelText('Other Names'),
+  email: screen.getByLabelText('Email'),
+  country: screen.getByLabelText('Country'),
+  dateOfEntry: screen.getByLabelText('Date of entry'),
+  status: screen.getByLabelText('Status'),
+  area: screen.getByLabelText('Area'),
+  submit: screen.getByRole('button', { name: /submit/i }),
+});
+
+const fillForm = (overrides = {}) => {
+  const fields = getFormFields();
+
+  const data = {
+    typeOfIdentityDocument: '1',
+    identityDocument: '123456',
+    firstLastName: 'MENESES',
+    secondLastName: 'BEJARANO',
+    firstName: 'SULLY',
+    otherNames: 'ANDREA',
+    email: 'sully@gmail.com',
+    country: 'co',
+    dateOfEntry: '2026-01-11',
+    status: 'Active',
+    area: '1',
+    ...overrides,
+  };
+
+  fireEvent.change(fields.typeOfIdentityDocument, { target: { value: data.typeOfIdentityDocument } });
+  fireEvent.change(fields.identityDocument, { target: { value: data.identityDocument } });
+  fireEvent.change(fields.firstLastName, { target: { value: data.firstLastName } });
+  fireEvent.change(fields.secondLastName, { target: { value: data.secondLastName } });
+  fireEvent.change(fields.firstName, { target: { value: data.firstName } });
+  fireEvent.change(fields.otherNames, { target: { value: data.otherNames } });
+  fireEvent.change(fields.email, { target: { value: data.email } });
+  fireEvent.change(fields.country, { target: { value: data.country } });
+  fireEvent.change(fields.dateOfEntry, { target: { value: data.dateOfEntry } });
+  fireEvent.change(fields.status, { target: { value: data.status } });
+  fireEvent.change(fields.area, { target: { value: data.area } });
+
+  return fields;
+};
 
 describe('Add Client component', () => {
     
     it("renders loading state initially", () => {
+        renderComponent({
+            typesOfIdentityDocument: { isLoading: true },
+        });
 
-        const mockHandleSubmit = jest.fn();
-        const props = {
-            createClient: mockHandleSubmit,
-            typesOfIdentityDocument: {
-                isLoading: true,
-                errorMessage: null,
-                typesOfIdentityDocument: []
-            },
-            areas: {
-                isLoading: false,
-                errorMessage: null,
-                areas: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'name' : "Basement",
-                        },
-                        {
-                            'id': 2,
-                            'name' : "basement 2"
-                        }
-                    ]                    
-                }
-            },
-            newEmail: {
-                isLoading: true,
-                errorMessage: null,
-                areas: []
-            }
-            // ... other redux-form props
-        };
-        render(<AddClientComponent {...props} />);
         expect(screen.getAllByText(/Loading.../i)[0]).toBeInTheDocument();
     });
+    
+    it('shows validation errors with invalid data', () => {
+        renderComponent();
 
-    it('renders the add client form', () => {
-        const mockHandleSubmit = jest.fn();
-        const props = {
-            createClient: mockHandleSubmit,
-            typesOfIdentityDocument: {
-                isLoading: false,
-                errorMessage: null,
-                typesOfIdentityDocument: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'code' : "123",
-                            'description' : "Cedula de ciudadania"
-                        },
-                        {
-                            'id': 2,
-                            'code' : "1234",
-                            'description' : "Cedula de extranjeria"
-                        }
-                    ]                    
-                }
-            },
-            areas: {
-                isLoading: false,
-                errorMessage: null,
-                areas: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'name' : "Basement",
-                        },
-                        {
-                            'id': 2,
-                            'name' : "basement 2"
-                        }
-                    ]                    
-                }
-            },
-            newEmail: {
-                isLoading: true,
-                errorMessage: null,
-                areas: []
-            }
-            // ... other redux-form props
-        };
-        render(<AddClientComponent {...props} />);
-        
-        const type_of_identity_document_id = screen.getByLabelText('Type of identity document');
-        const identity_document = screen.getByLabelText('Identity document');
-        const first_last_name = screen.getByLabelText('First Lastname');
-        const second_last_name = screen.getByLabelText('Second LastName');
-        const first_name = screen.getByLabelText('First Name');
-        const other_names = screen.getByLabelText('Other Names');
-        const email = screen.getByLabelText('Email');
-        const country = screen.getByLabelText('Country');
-        const date_of_entry = screen.getByLabelText('Date of entry');
-        const status = screen.getByLabelText('Status');
-        const area_id = screen.getByLabelText('Area');
-        const submitButton = screen.getByRole('button', { name: /Submit/i });
-        
-        expect(type_of_identity_document_id).toBeInTheDocument();
-        expect(identity_document).toBeInTheDocument();
-        expect(first_last_name).toBeInTheDocument();
-        expect(second_last_name).toBeInTheDocument();
-        expect(first_name).toBeInTheDocument();
-        expect(other_names).toBeInTheDocument();
-        expect(email).toBeInTheDocument();
-        expect(country).toBeInTheDocument();
-        expect(date_of_entry).toBeInTheDocument();
-        expect(status).toBeInTheDocument();
-        expect(area_id).toBeInTheDocument();
-        expect(submitButton).toBeInTheDocument();
-    });
+        const fields = fillForm({
+            identityDocument: '123456ñ',
+            firstLastName: 'meneses',
+        });
 
-    it('submits the form with invalid data', () => {
-        const mockHandleSubmit = jest.fn();
-        const props = {
-            createClient: mockHandleSubmit,
-            typesOfIdentityDocument: {
-                isLoading: false,
-                errorMessage: null,
-                typesOfIdentityDocument: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'code' : "123",
-                            'description' : "Cedula de ciudadania"
-                        },
-                        {
-                            'id': 2,
-                            'code' : "1234",
-                            'description' : "Cedula de extranjeria"
-                        }
-                    ]                    
-                }
-            },
-            areas: {
-                isLoading: false,
-                errorMessage: null,
-                areas: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'name' : "Basement",
-                        },
-                        {
-                            'id': 2,
-                            'name' : "basement 2"
-                        }
-                    ]                    
-                }
-            },
-            newEmail: {
-                isLoading: true,
-                errorMessage: null,
-                areas: []
-            }
-            // ... other redux-form props
-        };
-        render(<AddClientComponent {...props} />);
+        fireEvent.click(fields.submit);
 
-        const type_of_identity_document_id = screen.getByLabelText('Type of identity document');
-        const identity_document = screen.getByLabelText('Identity document');
-        const first_last_name = screen.getByLabelText('First Lastname');
-        const second_last_name = screen.getByLabelText('Second LastName');
-        const first_name = screen.getByLabelText('First Name');
-        const other_names = screen.getByLabelText('Other Names');
-        const email = screen.getByLabelText('Email');
-        const country = screen.getByLabelText('Country');
-        const date_of_entry = screen.getByLabelText('Date of entry');
-        const status = screen.getByLabelText('Status');
-        const area_id = screen.getByLabelText('Area');
-        const submitButton = screen.getByRole('button', { name: /Submit/i });
-        
-        fireEvent.change(type_of_identity_document_id, { target: { value: '1' } });
-        fireEvent.change(identity_document, { target: { value: '123456ñ' } });
-        fireEvent.change(first_last_name, { target: { value: 'meneses' } });
-        fireEvent.change(second_last_name, { target: { value: 'BEJARANO' } });
-        fireEvent.change(first_name, { target: { value: 'SULLY' } });
-        fireEvent.change(other_names, { target: { value: 'ANDREA' } });
-        fireEvent.change(email, { target: { value: 'sully@gmail.com' } });
-        fireEvent.change(country, { target: { value: 'co' } });
-        fireEvent.change(date_of_entry, { target: { value: '2026-01-11' } });
-        fireEvent.change(status, { target: { value: 'Active' } });
-        fireEvent.change(area_id, { target: { value: '1' } });
-        fireEvent.click(submitButton);
-        
-        expect(screen.getByTestId('identity_document_error').textContent)
-            .toBe('Identity document must contain only alphanumeric characters');
-        expect(screen.getByTestId('first_last_name_error').textContent)
-            .toBe('Only uppercase letters (A-Z) are allowed, with one space among words and not special characters.');
+        expect(screen.getByTestId('identity_document_error'))
+            .toHaveTextContent('Identity document must contain only alphanumeric characters');
+
+        expect(screen.getByTestId('first_last_name_error'))
+            .toHaveTextContent(
+                'Only uppercase letters (A-Z) are allowed, with one space among words and not special characters.'
+            );
     });
 
     it('submits the form with valid data', () => {
-        const mockHandleSubmit = jest.fn();
-        const props = {
-            createClient: mockHandleSubmit,
-            typesOfIdentityDocument: {
-                isLoading: false,
-                errorMessage: null,
-                typesOfIdentityDocument: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'code' : "123",
-                            'description' : "Cedula de ciudadania"
-                        },
-                        {
-                            'id': 2,
-                            'code' : "1234",
-                            'description' : "Cedula de extranjeria"
-                        }
-                    ]                    
-                }
-            },
-            areas: {
-                isLoading: false,
-                errorMessage: null,
-                areas: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'name' : "Basement",
-                        },
-                        {
-                            'id': 2,
-                            'name' : "basement 2"
-                        }
-                    ]                    
-                }
-            },
-            newEmail: {
-                isLoading: true,
-                errorMessage: null,
-                areas: []
-            }
-            // ... other redux-form props
-        };
-        render(<AddClientComponent {...props} />);
+        const createClient = jest.fn();
 
-        const type_of_identity_document_id = screen.getByLabelText('Type of identity document');
-        const identity_document = screen.getByLabelText('Identity document');
-        const first_last_name = screen.getByLabelText('First Lastname');
-        const second_last_name = screen.getByLabelText('Second LastName');
-        const first_name = screen.getByLabelText('First Name');
-        const other_names = screen.getByLabelText('Other Names');
-        const email = screen.getByLabelText('Email');
-        const country = screen.getByLabelText('Country');
-        const date_of_entry = screen.getByLabelText('Date of entry');
-        const status = screen.getByLabelText('Status');
-        const area_id = screen.getByLabelText('Area');
-        const submitButton = screen.getByRole('button', { name: /Submit/i });
-        
-        fireEvent.change(type_of_identity_document_id, { target: { value: '1' } });
-        fireEvent.change(identity_document, { target: { value: '123456' } });
-        fireEvent.change(first_last_name, { target: { value: 'MENESES' } });
-        fireEvent.change(second_last_name, { target: { value: 'BEJARANO' } });
-        fireEvent.change(first_name, { target: { value: 'SULLY' } });
-        fireEvent.change(other_names, { target: { value: 'ANDREA' } });
-        fireEvent.change(email, { target: { value: 'sully@gmail.com' } });
-        fireEvent.change(country, { target: { value: 'co' } });
-        fireEvent.change(date_of_entry, { target: { value: '2026-01-11' } });
-        fireEvent.change(status, { target: { value: 'Active' } });
-        fireEvent.change(area_id, { target: { value: '1' } });
-        fireEvent.click(submitButton);
-        
-        //fireEvent.submit(screen.getByRole('button', { name: /Submit/i }));
-        
-        expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+        renderComponent({ createClient });
+
+        const fields = fillForm();
+        fireEvent.click(fields.submit);
+
+        expect(createClient).toHaveBeenCalledTimes(1);
     });
 
-    it("renders error message when the fetch fails", () => {
-
-        const mockHandleSubmit = jest.fn();
-        const props = {
-            createClient: mockHandleSubmit,
+    it('renders error message when fetch fails', () => {
+        renderComponent({
             typesOfIdentityDocument: {
                 isLoading: false,
-                errorMessage: "Failed to fetch"
+                errorMessage: 'Failed to fetch',
             },
-            areas: {
-                isLoading: false,
-                errorMessage: null,
-                areas: {
-                    data: 
-                    [
-                        {
-                            'id': 1,
-                            'name' : "Basement",
-                        },
-                        {
-                            'id': 2,
-                            'name' : "basement 2"
-                        }
-                    ]                    
-                }
-            },
-            newEmail: {
-                isLoading: true,
-                errorMessage: null,
-                areas: []
-            }
-            // ... other redux-form props
-        };
-        render(<AddClientComponent {...props} />);
-        expect(screen.getByText(/Failed to fetch/i)).toBeInTheDocument();
+        });
+
+        expect(screen.getByText(/failed to fetch/i)).toBeInTheDocument();
     });
+
 });
