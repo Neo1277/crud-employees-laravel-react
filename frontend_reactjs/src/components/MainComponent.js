@@ -115,11 +115,7 @@ class Main extends Component {
               <Route path='/delete-client/:clientId' element={<DeleteClientComponent 
                                                   fetchClientById={this.props.fetchClientById}
                                                   clientById={this.props.clientById}
-                                                  deleteClient={this.props.deleteClient} 
-                                                  typesOfIdentityDocument={this.props.typesOfIdentityDocument}
-                                                  areas={this.props.areas}
-                                                  getNewEmail={this.props.getNewEmail}
-                                                  newEmail={this.props.newEmail} />} 
+                                                  deleteClient={this.props.deleteClient} />} 
                                                   />
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>

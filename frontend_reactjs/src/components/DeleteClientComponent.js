@@ -50,7 +50,7 @@ export default function DeleteClientComponent(props) {
 
   // Fill form when client is loaded
   useEffect(() => {
-      if (client.data && clientId) {
+    if (client.data && clientId) {
       const formattedDate = client.data.date_of_entry
         ? new Date(client.data.date_of_entry).toISOString().split("T")[0]
         : "";
@@ -87,22 +87,12 @@ export default function DeleteClientComponent(props) {
     }
   };
 
-  const isAnyLoading =
-    isLoading ||
-    props.typesOfIdentityDocument.isLoading ||
-    props.areas.isLoading;
-
-  const anyError =
-    errorMessage ||
-    props.typesOfIdentityDocument.errorMessage ||
-    props.areas.errorMessage;
-
-  if (isAnyLoading) {
+  if (isLoading) {
     return <Loading />;
   }
 
-  if (anyError) {
-    return <h4>{anyError}</h4>;
+  if (errorMessage) {
+    return <h4>{errorMessage}</h4>;
   }
   return (
     <Container>

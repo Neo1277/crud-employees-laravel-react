@@ -13,7 +13,6 @@ import {
 	Col,
 } from 'reactstrap';
 import { clientSchema } from './validations/clientSchema';
-//import { DatePicker, Space } from 'antd';
 
 export default function EditClientComponent(props) {
   const { clientId } = useParams();
