@@ -85,51 +85,51 @@ const renderComponent = (overrides = {}) =>
 describe('Add Client component', () => {
     
     it("renders loading state initially", () => {
-        renderComponent({
-            typesOfIdentityDocument: { isLoading: true },
-        });
+      renderComponent({
+          typesOfIdentityDocument: { isLoading: true },
+      });
 
-        expect(screen.getAllByText(/Loading.../i)[0]).toBeInTheDocument();
+      expect(screen.getAllByText(/Loading.../i)[0]).toBeInTheDocument();
     });
     
     it('shows validation errors with invalid data', () => {
-        renderComponent();
+      renderComponent();
 
-        const fields = fillForm(/submit/i, {
-          identityDocument: '123456ñ',
-          firstLastName: 'meneses',
-        });
-        fireEvent.click(fields.submit);
+      const fields = fillForm(/submit/i, {
+        identityDocument: '123456ñ',
+        firstLastName: 'meneses',
+      });
+      fireEvent.click(fields.submit);
 
-        expect(screen.getByTestId('identity_document_error'))
-            .toHaveTextContent('Identity document must contain only alphanumeric characters');
+      expect(screen.getByTestId('identity_document_error'))
+          .toHaveTextContent('Identity document must contain only alphanumeric characters');
 
-        expect(screen.getByTestId('first_last_name_error'))
-            .toHaveTextContent(
-                'Only uppercase letters (A-Z) are allowed, with one space among words and not special characters.'
-            );
+      expect(screen.getByTestId('first_last_name_error'))
+          .toHaveTextContent(
+              'Only uppercase letters (A-Z) are allowed, with one space among words and not special characters.'
+          );
     });
 
     it('submits the form with valid data', () => {
-        const createClient = jest.fn();
+      const createClient = jest.fn();
 
-        renderComponent({ createClient });
+      renderComponent({ createClient });
 
-        const fields = fillForm(/submit/i);
-        fireEvent.click(fields.submit);
+      const fields = fillForm(/submit/i);
+      fireEvent.click(fields.submit);
 
-        expect(createClient).toHaveBeenCalledTimes(1);
+      expect(createClient).toHaveBeenCalledTimes(1);
     });
 
     it('renders error message when fetch fails', () => {
-        renderComponent({
-            typesOfIdentityDocument: {
-                isLoading: false,
-                errorMessage: 'Failed to fetch',
-            },
-        });
+      renderComponent({
+          typesOfIdentityDocument: {
+              isLoading: false,
+              errorMessage: 'Failed to fetch',
+          },
+      });
 
-        expect(screen.getByText(/failed to fetch/i)).toBeInTheDocument();
+      expect(screen.getByText(/failed to fetch/i)).toBeInTheDocument();
     });
 
 });

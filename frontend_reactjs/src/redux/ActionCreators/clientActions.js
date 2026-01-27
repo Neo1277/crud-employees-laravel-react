@@ -220,7 +220,7 @@ export const deleteClient = (clientId) => async (dispatch) => {
 
       const errors = await response.json();
       //throw {message: error.message,status:error.cod};
-      showErrors(errors);
+      //showErrors(errors);
       throw new Error('Network response was not ok');
     }else{
       if (response.status === 204) {

@@ -15,6 +15,22 @@ const mockStore = configureMockStore(middlewares);
 // Mock the global fetch function
 global.fetch = jest.fn();
 
+const mockClientData = {        
+  'identity_document' : "16450360",
+  'first_last_name' : "MENESES",
+  'second_last_name' : "BEJARANO",
+  'first_name' : "SULLY",
+  'other_names' : "ANDREA",
+  'email' : "andrea@gmail.com",
+  'country' : "co",
+  'date_of_entry' : '2025-12-22',
+  'status' : "Active",
+  'type_of_identity_document_id' : 1,
+  'area_id' : 1, 
+};
+
+const url = baseUrl + 'clients';
+
 describe('async createClient action', () => {
   let alertSpy; // 👈 define it here
   
@@ -30,34 +46,20 @@ describe('async createClient action', () => {
   it('dispatches CREATE_CLIENT_REQUEST and CREATE_CLIENT_SUCCESS when the POST request is successful', async () => {
     //const mockResponseData = { id: 1, title: 'New Post' };
     const mockResponseData = {
-        'id': 1,
-        'identity_document' : "16450360",
-        'first_last_name' : "MENESES",
-        'second_last_name' : "BEJARANO",
-        'first_name' : "SULLY",
-        'other_names' : "ANDREA",
-        'email' : "andrea@gmail.com",
-        'country' : "co",
-        'date_of_entry' : '2025-12-22',
-        'status' : "Active",
-        'type_of_identity_document_id' : 1,
-        'area_id' : 1,
+      'id': 1,
+      'identity_document' : "16450360",
+      'first_last_name' : "MENESES",
+      'second_last_name' : "BEJARANO",
+      'first_name' : "SULLY",
+      'other_names' : "ANDREA",
+      'email' : "andrea@gmail.com",
+      'country' : "co",
+      'date_of_entry' : '2025-12-22',
+      'status' : "Active",
+      'type_of_identity_document_id' : 1,
+      'area_id' : 1,
     };
-    const mockClientData = {        
-        'identity_document' : "16450360",
-        'first_last_name' : "MENESES",
-        'second_last_name' : "BEJARANO",
-        'first_name' : "SULLY",
-        'other_names' : "ANDREA",
-        'email' : "andrea@gmail.com",
-        'country' : "co",
-        'date_of_entry' : '2025-12-22',
-        'status' : "Active",
-        'type_of_identity_document_id' : 1,
-        'area_id' : 1, 
-    };
-    const url = baseUrl + 'clients';
-
+    
     // Mock a successful fetch response
     fetch.mockResolvedValueOnce({
       ok: true,
@@ -87,20 +89,6 @@ describe('async createClient action', () => {
 
   it('dispatches CREATE_CLIENT_REQUEST and CREATE_CLIENT_FAILURE when the POST request fails', async () => {
     const errorMessage = 'Network response was not ok';
-    
-    const mockClientData = {        
-        'identity_document' : "16450360",
-        'first_last_name' : "MENESES",
-        'second_last_name' : "BEJARANO",
-        'first_name' : "SULLY",
-        'other_names' : "ANDREA",
-        'email' : "andrea@gmail.com",
-        'country' : "co",
-        'date_of_entry' : '2025-12-22',
-        'status' : "Active",
-        'type_of_identity_document_id' : 1,
-        'area_id' : 1, 
-    };
 
     // Mock a failed fetch response
     fetch.mockResolvedValueOnce({
@@ -128,5 +116,9 @@ describe('async createClient action', () => {
     const actions = store.getActions();
     expect(actions).toEqual(expectedActions);
     expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(url, expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify(mockClientData),
+    }));
   });
 });

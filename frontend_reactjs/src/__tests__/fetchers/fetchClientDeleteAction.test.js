@@ -1,11 +1,11 @@
 
 import configureMockStore from 'redux-mock-store';
 import {thunk} from 'redux-thunk';
-import { updateClient } from '../../redux/ActionCreators/clientActions';
+import { deleteClient } from '../../redux/ActionCreators/clientActions';
 import { 
-    UPDATE_CLIENT_REQUEST, 
-    UPDATE_CLIENT_SUCCESS, 
-    UPDATE_CLIENT_FAILURE 
+    DELETE_CLIENT_REQUEST, 
+    DELETE_CLIENT_SUCCESS, 
+    DELETE_CLIENT_FAILURE 
 } from '../../redux/ActionTypes';
 import { baseUrl } from '../../shared/baseUrl';
 
@@ -15,22 +15,7 @@ const mockStore = configureMockStore(middlewares);
 // Mock the global fetch function
 global.fetch = jest.fn();
 
-const mockClientData = {        
-  'identity_document' : "16450360",
-  'first_last_name' : "MENESES",
-  'second_last_name' : "BEJARANO",
-  'first_name' : "SULLY",
-  'other_names' : "ANDREA",
-  'email' : "andrea@gmail.com",
-  'country' : "co",
-  'date_of_entry' : '2025-12-22',
-  'status' : "Active",
-  'type_of_identity_document_id' : 1,
-  'area_id' : 1, 
-};
-const url = baseUrl + 'clients/1';
-
-describe('async updateClient action', () => {
+describe('async deleteClient action', () => {
   let alertSpy; // 👈 define it here
   
   beforeEach(() => {
@@ -42,7 +27,10 @@ describe('async updateClient action', () => {
     alertSpy.mockRestore();
   });
 
-  it('dispatches UPDATE_CLIENT_REQUEST and UPDATE_CLIENT_SUCCESS when the PUT request is successful', async () => {
+  it('dispatches DELETE_CLIENT_REQUEST and DELETE_CLIENT_SUCCESS when the PUT request is successful', async () => {
+    
+    const url = baseUrl + 'clients/1';
+
     // Mock a successful fetch response
     fetch.mockResolvedValueOnce({
       ok: true,
@@ -50,14 +38,14 @@ describe('async updateClient action', () => {
     });
 
     const expectedActions = [
-      { type: UPDATE_CLIENT_REQUEST },
-      { type: UPDATE_CLIENT_SUCCESS },
+      { type: DELETE_CLIENT_REQUEST },
+      { type: DELETE_CLIENT_SUCCESS },
     ];
 
     const store = mockStore({});
 
     // Dispatch the async action and wait for it to complete
-    await store.dispatch(updateClient(mockClientData, "1"));
+    await store.dispatch(deleteClient("1"));
 
     // Assertions
     const actions = store.getActions();
@@ -65,43 +53,40 @@ describe('async updateClient action', () => {
     expect(actions).toEqual(expectedActions);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(url, expect.objectContaining({
-        method: 'PUT',
-        body: JSON.stringify(mockClientData),
+        method: 'DELETE'
     }));
   });
 
-  it('dispatches UPDATE_CLIENT_REQUEST and UPDATE_CLIENT_FAILURE when the PUT request fails', async () => {
+  it('dispatches UPDATE_CLIENT_REQUEST and DELETE_CLIENT_FAILURE when the PUT request fails', async () => {
     const errorMessage = 'Network response was not ok';
 
+    const url = baseUrl + 'clients/1';
+  
     // Mock a failed fetch response
     fetch.mockResolvedValueOnce({
       ok: false, // Indicate failure
       status: 422,
       json: async () => ({ 
-        errorMessage: errorMessage,
-        errors: {
-          identity_document: "The identity document has already been taken."                 
-        }
+        errorMessage: errorMessage
        }), // Return an error body
     });
 
     const expectedActions = [
-      { type: UPDATE_CLIENT_REQUEST },
-      { type: UPDATE_CLIENT_FAILURE, payload: new Error('Network response was not ok')},
+      { type: DELETE_CLIENT_REQUEST },
+      { type: DELETE_CLIENT_FAILURE, payload: new Error('Network response was not ok')},
     ];
 
     const store = mockStore({});
 
     // Dispatch the async action and wait for it to complete
-    await store.dispatch(updateClient(mockClientData, "1"));
+    await store.dispatch(deleteClient("1"));
 
     // Assertions
     const actions = store.getActions();
     expect(actions).toEqual(expectedActions);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(url, expect.objectContaining({
-        method: 'PUT',
-        body: JSON.stringify(mockClientData),
+        method: 'DELETE'
     }));
   });
 });

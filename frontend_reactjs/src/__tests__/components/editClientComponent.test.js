@@ -58,11 +58,11 @@ describe('Edit Client component', () => {
   });
 
   it("renders loading state initially", () => {
-      renderComponent({
-          typesOfIdentityDocument: { isLoading: true },
-      });
+    renderComponent({
+        typesOfIdentityDocument: { isLoading: true },
+    });
 
-      expect(screen.getAllByText(/Loading.../i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/Loading.../i)[0]).toBeInTheDocument();
   });
 
   it('renders edit client form with prefilled data', () => {
