@@ -1,5 +1,5 @@
 import { Loading } from './LoadingComponent';
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { 
 	Button, 
 	Form, 
@@ -34,7 +34,7 @@ export default function AddClientComponent(props) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.newEmail.isLoading) {
       console.log("Loading...");
     }else if (props.newEmail.errorMessage) {

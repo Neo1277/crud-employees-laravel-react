@@ -14,6 +14,9 @@ class EmailGenerationService implements EmailGenerationInterface
         string $country
         ): string
     {
+        // Remove spaces from string
+        $first_last_name = preg_replace('/\s+/', '', $first_last_name);
+
         $new_email = strtolower($first_name)."."
                     .strtolower($first_last_name);
 
