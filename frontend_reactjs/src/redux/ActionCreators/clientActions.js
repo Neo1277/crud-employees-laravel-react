@@ -218,7 +218,7 @@ export const deleteClient = (clientId) => async (dispatch) => {
     const response = await fetch(baseUrl + 'clients/' + clientId, requestOptions);
     if (!response.ok) {
 
-      const errors = await response.json();
+      //const errors = await response.json();
       //throw {message: error.message,status:error.cod};
       //showErrors(errors);
       throw new Error('Network response was not ok');
