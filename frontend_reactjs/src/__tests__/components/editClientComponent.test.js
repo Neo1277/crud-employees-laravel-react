@@ -2,44 +2,20 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import EditClientComponent from '../../components/EditClientComponent';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { fillForm } from './addClientComponent.test';
+import { sharedClientProps } from './addClientComponent.test';
 
+// Mock react redux useSelector
+// Replace the entire react-redux module
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
+// Mock react router useParams
+// Replace the entire react-router module
 jest.mock('react-router', () => ({
   useParams: jest.fn(),
 }));
-
-const defaultProps = {
-  fetchClientById: jest.fn(),
-  updateClient: jest.fn(),
-  typesOfIdentityDocument: {
-    isLoading: false,
-    errorMessage: null,
-    typesOfIdentityDocument: {
-      data: [
-        { id: 1, code: '123', description: 'Cedula de ciudadania' },
-        { id: 2, code: '1234', description: 'Cedula de extranjeria' },
-      ],
-    },
-  },
-  areas: {
-    isLoading: false,
-    errorMessage: null,
-    areas: {
-      data: [
-        { id: 1, name: 'Basement' },
-        { id: 2, name: 'Basement 2' },
-      ],
-    },
-  },
-  newEmail: {
-    isLoading: true,
-    errorMessage: null,
-    areas: [],
-  },
-};
 
 const mockClient = {
   data: {
@@ -56,53 +32,19 @@ const mockClient = {
     area_id: 1,
   },
 };
+
+const defaultProps = {
+  ...sharedClientProps,
+  fetchClientById: jest.fn(),
+  updateClient: jest.fn(), // Edit-specific
+};
+
 /**
  * overrides lets you change only the props you care about for a specific test, 
  * while keeping sensible defaults for everything else.
  */
 const renderComponent = (overrides = {}) =>
   render(<EditClientComponent {...defaultProps} {...overrides} />);
-
-const getFormFields = () => ({
-  typeOfIdentityDocument: screen.getByLabelText('Type of identity document'),
-  identityDocument: screen.getByLabelText('Identity document'),
-  firstLastName: screen.getByLabelText('First Lastname'),
-  secondLastName: screen.getByLabelText('Second LastName'),
-  firstName: screen.getByLabelText('First Name'),
-  otherNames: screen.getByLabelText('Other Names'),
-  email: screen.getByLabelText('Email'),
-  country: screen.getByLabelText('Country'),
-  dateOfEntry: screen.getByLabelText('Date of entry'),
-  status: screen.getByLabelText('Status'),
-  area: screen.getByLabelText('Area'),
-  submit: screen.getByRole('button', { name: /Edit/i }),
-});
-
-const fillForm = (overrides = {}) => {
-  const fields = getFormFields();
-
-  const data = {
-    typeOfIdentityDocument: '1',
-    identityDocument: '123456',
-    firstLastName: 'MENESES',
-    secondLastName: 'BEJARANO',
-    firstName: 'SULLY',
-    otherNames: 'ANDREA',
-    email: 'sully@gmail.com',
-    country: 'co',
-    dateOfEntry: '2026-01-11',
-    status: 'Active',
-    area: '1',
-    ...overrides,
-  };
-
-  // Loop over data (DRY)
-  Object.entries(data).forEach(([key, value]) => {
-    fireEvent.change(fields[key], { target: { value } });
-  });
-
-  return fields;
-};
 
 describe('Edit Client component', () => {
   beforeEach(() => {
@@ -139,10 +81,11 @@ describe('Edit Client component', () => {
 
   it('shows validation errors with invalid data', () => {
     renderComponent();
-
-    const fields = fillForm({
-        identityDocument: '123456ñ',
-        firstLastName: 'meneses',
+    
+    // Reuse fillForm and set the name button parameter edit
+    const fields = fillForm(/edit/i, {
+      identityDocument: '123456ñ',
+      firstLastName: 'meneses',
     });
 
     fireEvent.click(fields.submit);
@@ -161,7 +104,8 @@ describe('Edit Client component', () => {
 
     renderComponent({ updateClient });
 
-    const fields = fillForm();
+    // Reuse fillForm and set the name button parameter edit
+    const fields = fillForm(/edit/i);
     fireEvent.click(fields.submit);
 
     expect(updateClient).toHaveBeenCalledTimes(1);

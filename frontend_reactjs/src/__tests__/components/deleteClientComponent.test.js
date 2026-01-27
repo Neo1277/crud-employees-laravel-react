@@ -3,10 +3,14 @@ import DeleteClientComponent from '../../components/DeleteClientComponent';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
+// Mock react redux useSelector
+// Replace the entire react-redux module
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
+// Mock react router useParams
+// Replace the entire react-router module
 jest.mock('react-router', () => ({
   useParams: jest.fn(),
 }));

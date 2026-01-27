@@ -19,7 +19,6 @@ export default function EditClientComponent(props) {
 
   const { fetchClientById } = props;
 
-  // Select the client from the Redux store
   const { isLoading, errorMessage, client } = useSelector(
     (state) => state.clientById
   );

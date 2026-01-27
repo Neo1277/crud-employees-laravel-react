@@ -1,8 +1,48 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import AddClientComponent from '../../components/AddClientComponent';
 
-const defaultProps = {
-  createClient: jest.fn(),
+
+export const getFormFields = (submitLabel = /submit/i) => ({
+  typeOfIdentityDocument: screen.getByLabelText('Type of identity document'),
+  identityDocument: screen.getByLabelText('Identity document'),
+  firstLastName: screen.getByLabelText('First Lastname'),
+  secondLastName: screen.getByLabelText('Second LastName'),
+  firstName: screen.getByLabelText('First Name'),
+  otherNames: screen.getByLabelText('Other Names'),
+  email: screen.getByLabelText('Email'),
+  country: screen.getByLabelText('Country'),
+  dateOfEntry: screen.getByLabelText('Date of entry'),
+  status: screen.getByLabelText('Status'),
+  area: screen.getByLabelText('Area'),
+  submit: screen.getByRole('button', { name: submitLabel }),
+});
+
+export const fillForm = (submitLabel, overrides = {}) => {
+  const fields = getFormFields(submitLabel);
+
+  const data = {
+    typeOfIdentityDocument: '1',
+    identityDocument: '123456',
+    firstLastName: 'MENESES',
+    secondLastName: 'BEJARANO',
+    firstName: 'SULLY',
+    otherNames: 'ANDREA',
+    email: 'sully@gmail.com',
+    country: 'co',
+    dateOfEntry: '2026-01-11',
+    status: 'Active',
+    area: '1',
+    ...overrides,
+  };
+
+  Object.entries(data).forEach(([key, value]) => {
+    fireEvent.change(fields[key], { target: { value } });
+  });
+
+  return fields;
+};
+
+export const sharedClientProps = {
   typesOfIdentityDocument: {
     isLoading: false,
     errorMessage: null,
@@ -30,53 +70,17 @@ const defaultProps = {
   },
 };
 
+const defaultProps = {
+  ...sharedClientProps,
+  createClient: jest.fn(), // Add-specific
+};
+
 /**
  * overrides lets you change only the props you care about for a specific test, 
  * while keeping sensible defaults for everything else.
  */
 const renderComponent = (overrides = {}) =>
   render(<AddClientComponent {...defaultProps} {...overrides} />);
-
-const getFormFields = () => ({
-  typeOfIdentityDocument: screen.getByLabelText('Type of identity document'),
-  identityDocument: screen.getByLabelText('Identity document'),
-  firstLastName: screen.getByLabelText('First Lastname'),
-  secondLastName: screen.getByLabelText('Second LastName'),
-  firstName: screen.getByLabelText('First Name'),
-  otherNames: screen.getByLabelText('Other Names'),
-  email: screen.getByLabelText('Email'),
-  country: screen.getByLabelText('Country'),
-  dateOfEntry: screen.getByLabelText('Date of entry'),
-  status: screen.getByLabelText('Status'),
-  area: screen.getByLabelText('Area'),
-  submit: screen.getByRole('button', { name: /submit/i }),
-});
-
-const fillForm = (overrides = {}) => {
-  const fields = getFormFields();
-
-  const data = {
-    typeOfIdentityDocument: '1',
-    identityDocument: '123456',
-    firstLastName: 'MENESES',
-    secondLastName: 'BEJARANO',
-    firstName: 'SULLY',
-    otherNames: 'ANDREA',
-    email: 'sully@gmail.com',
-    country: 'co',
-    dateOfEntry: '2026-01-11',
-    status: 'Active',
-    area: '1',
-    ...overrides,
-  };
-
-  // Loop over data (DRY)
-  Object.entries(data).forEach(([key, value]) => {
-    fireEvent.change(fields[key], { target: { value } });
-  });
-
-  return fields;
-};
 
 describe('Add Client component', () => {
     
@@ -91,11 +95,10 @@ describe('Add Client component', () => {
     it('shows validation errors with invalid data', () => {
         renderComponent();
 
-        const fields = fillForm({
-            identityDocument: '123456ñ',
-            firstLastName: 'meneses',
+        const fields = fillForm(/submit/i, {
+          identityDocument: '123456ñ',
+          firstLastName: 'meneses',
         });
-
         fireEvent.click(fields.submit);
 
         expect(screen.getByTestId('identity_document_error'))
@@ -112,7 +115,7 @@ describe('Add Client component', () => {
 
         renderComponent({ createClient });
 
-        const fields = fillForm();
+        const fields = fillForm(/submit/i);
         fireEvent.click(fields.submit);
 
         expect(createClient).toHaveBeenCalledTimes(1);

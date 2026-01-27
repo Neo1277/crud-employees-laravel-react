@@ -18,7 +18,6 @@ export default function DeleteClientComponent(props) {
 
   const { fetchClientById } = props;
 
-  // Select the client from the Redux store
   const { isLoading, errorMessage, client } = useSelector(
     (state) => state.clientById
   );
