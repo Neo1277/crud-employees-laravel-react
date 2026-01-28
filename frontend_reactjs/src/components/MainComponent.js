@@ -8,7 +8,7 @@ import HeaderComponent from './HeaderComponent';
 import Footer from './FooterComponent';
 
 //import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { connect } from 'react-redux';
 import { 
   fetchClients,
@@ -48,15 +48,6 @@ const mapDispatchToProps = (dispatch) => ({
     getNewEmail: (first_name, first_last_name, country) => { dispatch(getNewEmail(first_name, first_last_name, country))},
 });
 
-/*
-export const withRouter = (Component) =>{
-    const Wrapper = (props) =>{
-        const history = useNavigate();
-        return <Component history={history} {...props}/>
-    } 
-    return Wrapper;
-}*/
-
 class Main extends Component {
 
     //Execute this before render
@@ -75,25 +66,10 @@ class Main extends Component {
        * React router dom with redux link:
        * https://www.geeksforgeeks.org/reactjs/implementing-react-router-with-redux-in-react/
        */
-      /*
-      console.log('Clients in MainComponent here!!!');
-      console.log(this.props.clients);*/
-      /*
-      const ClientWithId = ({match}) => {
-        return(
-          <EditClientComponent client={this.props.clients.clients.data.filter((client) => client.id === match.params.id)[0]} 
-                                updateClient={this.props.updateClient} 
-                                typesOfIdentityDocument={this.props.typesOfIdentityDocument}
-                                areas={this.props.areas}
-                                getNewEmail={this.props.getNewEmail}
-                                newEmail={this.props.newEmail}
-          />
-        );
-      };*/
+
       return (
         <div>
           <HeaderComponent />
-          <Router>
             <Routes>
               <Route path="/" element={<ClientListComponent fetchClients={this.props.fetchClients} clients={this.props.clients}/>} />
               <Route path='/add-client' element={<AddClientComponent 
@@ -119,7 +95,6 @@ class Main extends Component {
                                                   />
               <Route path="*" element={<NotFoundComponent />} />
             </Routes>
-          </Router>
           <Footer />
         </div>
       );
