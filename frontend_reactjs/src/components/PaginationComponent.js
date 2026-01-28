@@ -18,6 +18,7 @@ export default function PaginationComponent(props) {
             <Pagination aria-label="clients-pagination">
                 <PaginationItem disabled={!props.clients.clients.links.first}>
                     <PaginationLink
+                        aria-label="First"
                         first
                         href={props.clients.clients.links.first}
                         onClick={handleSubmit}
@@ -25,6 +26,7 @@ export default function PaginationComponent(props) {
                 </PaginationItem>
                 <PaginationItem disabled={!props.clients.clients.links.prev}>
                     <PaginationLink
+                        aria-label="Previous"
                         href={props.clients.clients.links.prev}
                         previous
                         onClick={handleSubmit}
@@ -32,6 +34,7 @@ export default function PaginationComponent(props) {
                 </PaginationItem>
                 <PaginationItem disabled={!props.clients.clients.links.next}>
                     <PaginationLink
+                        aria-label="Next"
                         href={props.clients.clients.links.next}
                         next
                         onClick={handleSubmit}
@@ -39,6 +42,7 @@ export default function PaginationComponent(props) {
                 </PaginationItem>
                 <PaginationItem disabled={!props.clients.clients.links.last}>
                     <PaginationLink
+                        aria-label="Last"
                         href={props.clients.clients.links.last}
                         last
                         onClick={handleSubmit}
