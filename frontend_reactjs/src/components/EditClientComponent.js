@@ -5,14 +5,12 @@ import { useParams } from 'react-router';
 import { 
 	Button, 
 	Form, 
-	FormGroup, 
-	Input, 
-  Label, 
 	Container, 
 	Row, 
 	Col,
 } from 'reactstrap';
 import { clientSchema } from './validations/clientSchema';
+import  FormInput  from './FormInput';
 
 export default function EditClientComponent(props) {
   const { clientId } = useParams();
@@ -141,208 +139,144 @@ export default function EditClientComponent(props) {
         <Row>
           <h1>Edit client</h1>
           <Col md="4">
-            <FormGroup>
-              <Label for="type_of_identity_document_id">
-                Type of identity document
-              </Label>
-              <Input
-                id="type_of_identity_document_id"
-                name="type_of_identity_document_id"
-                type="select"
-                value={formData.type_of_identity_document_id} 
-                onChange={handleChange}
-              >
-                {props.typesOfIdentityDocument.typesOfIdentityDocument.data.map((field, i) => { 
-                    return(
-                        <option key={field.id} value={field.id}>{field.description}</option>
-                    );
-                  }) 
-                }
-              </Input>
-              {errors.type_of_identity_document_id && <p data-testid="type_of_identity_document_id_error" style={{ color: 'red' }}>{errors.type_of_identity_document_id}</p>}
-            </FormGroup>
+            <FormInput
+              label="Type of identity document"
+              id="type_of_identity_document_id"
+              name="type_of_identity_document_id"
+              type="select"
+              value={formData.type_of_identity_document_id}
+              onChange={handleChange}
+              error={errors.type_of_identity_document_id}
+              options={props.typesOfIdentityDocument.typesOfIdentityDocument.data.map(t => ({
+                value: t.id,
+                label: t.description,
+              }))}
+            />            
           </Col>
           <Col md="4">
-            <FormGroup>
-                <Label for="identity_document">Identity document</Label>
-                <Input 
-                  type="text" 
-                  id="identity_document" 
-                  name="identity_document"
-                  value={formData.identity_document} 
-                  onChange={handleChange} 
-                  required 
-                />
-                {errors.identity_document && <p data-testid="identity_document_error" style={{ color: 'red' }}>{errors.identity_document}</p>}
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <FormGroup>
-              <Label for="first_last_name">First Lastname</Label>
-              <Input 
-                type="text" 
-                id="first_last_name" 
-                name="first_last_name"
-                value={formData.first_last_name} 
-                onChange={handleChange}
-                onBlur={generateNewEmail}
-                required 
-              />
-                {errors.first_last_name && <p data-testid="first_last_name_error" style={{ color: 'red' }}>{errors.first_last_name}</p>}
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <FormGroup>
-              <Label for="second_last_name">Second LastName</Label>
-              <Input 
-                type="text" 
-                id="second_last_name" 
-                name="second_last_name"
-                value={formData.second_last_name} 
-                onChange={handleChange} 
-                required 
-              />
-              {errors.second_last_name && <p data-testid="second_last_name_error" style={{ color: 'red' }}>{errors.second_last_name}</p>}
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <FormGroup>
-              <Label for="first_name">First Name</Label>
-              <Input 
-                type="text" 
-                id="first_name" 
-                name="first_name"
-                value={formData.first_name} 
-                onChange={handleChange}
-                onBlur={generateNewEmail}
-                required 
-              />
-              {errors.first_name && <p data-testid="first_name_error" style={{ color: 'red' }}>{errors.first_name}</p>}
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <FormGroup>
-              <Label for="other_names">Other Names</Label>
-              <Input 
-                type="text" 
-                id="other_names" 
-                name="other_names"
-                value={formData.other_names} 
-                onChange={handleChange} 
-                required 
-              />
-              {errors.other_names && <p data-testid="other_names_error" style={{ color: 'red' }}>{errors.other_names}</p>}
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input 
-                type="email" 
-                id="email" 
-                name="email"
-                value={formData.email} 
-                onChange={handleChange} 
-                required 
-              />
-              {errors.email && <p data-testid="email_error" style={{ color: 'red' }}>{errors.email}</p>}
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <FormGroup>
-              <Label for="country">
-                Country
-              </Label>
-              <Input
-                id="country"
-                name="country"
-                type="select"
-                value={formData.country} 
-                onChange={handleChange}
-                onBlur={generateNewEmail}
-              >
-                <option key="1" value="co">
-                  Colombia
-                </option>
-                <option key="2" value="us">
-                  United States
-                </option>
-              </Input>
-              {errors.country && <p data-testid="country_error" style={{ color: 'red' }}>{errors.country}</p>}
-            </FormGroup>
-          </Col>
-          <Col md="4">
-            <FormGroup>
-              <Label for="date_of_entry">
-                Date of entry
-              </Label>
-              <Input
-                id="date_of_entry"
-                name="date_of_entry"
-                placeholder="Date of entry"
-                type="date"
-                value={formData.date_of_entry}
-                onChange={handleChange}
-              />
-              {errors.date_of_entry && <p data-testid="date_of_entry_error" style={{ color: 'red' }}>{errors.date_of_entry}</p>}
-            </FormGroup>
-          </Col>
-          {/*<FormGroup>
-            <Label for="date_of_entry">
-              Date of entry 2
-            </Label>
-            <DatePicker
-              id="date_of_entry"
-              name="date_of_entry" 
-              selected={selectedDate} 
-              onChange={handleChangeDate} 
-              dateFormat="YYYY-MM-DD" 
+            <FormInput
+              label="Identity document"
+              id="identity_document"
+              name="identity_document"
+              value={formData.identity_document}
+              onChange={handleChange}
+              error={errors.identity_document}
+              required
             />
-            {errors.date_of_entry && <p style={{ color: 'red' }}>{errors.date_of_entry}</p>}
-          </FormGroup>*/}
-          <Col md="4">
-            <FormGroup>
-              <Label for="status">
-                Status
-              </Label>
-              <Input
-                id="status"
-                name="status"
-                type="select"
-                value={formData.status} 
-                onChange={handleChange}
-              >
-                <option key="1" value="Active">
-                  Active
-                </option>
-                <option key="2" value="Inactive">
-                  Inactive
-                </option>
-              </Input>
-              {errors.status && <p data-testid="status_error" style={{ color: 'red' }}>{errors.status}</p>}
-            </FormGroup>
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="area_id">
-                Area
-              </Label>
-              <Input
-                id="area_id"
-                name="area_id"
-                type="select"
-                value={formData.area_id} 
-                onChange={handleChange}
-              >
-                {props.areas.areas.data.map((field, i) => { 
-                    return(
-                        <option key={field.id} value={field.id}>{field.name}</option>
-                    );
-                  }) 
-                }
-              </Input>
-              {errors.area_id && <p data-testid="area_id_error" style={{ color: 'red' }}>{errors.area_id}</p>}
-            </FormGroup>          
+            <FormInput
+              label="First Lastname"
+              id="first_last_name"
+              name="first_last_name"
+              value={formData.first_last_name}
+              onChange={handleChange}
+              onBlur={generateNewEmail}
+              error={errors.first_last_name}
+              required
+            />
+          </Col>
+          <Col md="4">
+            <FormInput
+              label="Second LastName"
+              id="second_last_name"
+              name="second_last_name"
+              value={formData.second_last_name}
+              onChange={handleChange}
+              error={errors.second_last_name}
+              required
+            />            
+          </Col>
+          <Col md="4">
+            <FormInput
+              label="First Name"
+              id="first_name"
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
+              onBlur={generateNewEmail}
+              error={errors.first_name}
+              required
+            />
+          </Col>
+          <Col md="4">
+            <FormInput
+              label="Other Names"
+              id="other_names"
+              name="other_names"
+              value={formData.other_names}
+              onChange={handleChange}
+              error={errors.other_names}
+              required
+            />            
+          </Col>
+          <Col md="4">
+            <FormInput
+              label="Email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              error={errors.email}
+              required
+            />            
+          </Col>
+          <Col md="4">
+          <FormInput
+            label="Country"
+            id="country"
+            name="country"
+            type="select"
+            value={formData.country}
+            onChange={handleChange}
+            onBlur={generateNewEmail}
+            error={errors.country}
+            options={[
+              { value: 'co', label: 'Colombia' },
+              { value: 'us', label: 'United States' },
+            ]}
+          />
+          </Col>
+          <Col md="4">
+          <FormInput
+            label="Date of entry"
+            id="date_of_entry"
+            name="date_of_entry"
+            type="date"
+            placeholder="Date of entry"
+            value={formData.date_of_entry}
+            onChange={handleChange}
+            error={errors.date_of_entry}
+          />
+          </Col>
+          <Col md="4">
+            <FormInput
+              label="Status"
+              id="status"
+              name="status"
+              type="select"
+              value={formData.status}
+              onChange={handleChange}
+              options={[
+                { value: 'Active', label: 'Active' },
+                { value: 'Inactive', label: 'Inactive' },
+              ]}
+            />
+          </Col>
+          <Col md="4">
+            <FormInput
+              label="Area"
+              id="area_id"
+              name="area_id"
+              type="select"
+              value={formData.area_id}
+              onChange={handleChange}
+              error={errors.area_id}
+              options={props.areas.areas.data.map(a => ({
+                value: a.id,
+                label: a.name,
+              }))}
+            />       
           </Col>      
           <Col md="4">
             <Button
