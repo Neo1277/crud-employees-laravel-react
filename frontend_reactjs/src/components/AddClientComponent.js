@@ -173,6 +173,7 @@ export default function AddClientComponent(props) {
               label="Email"
               id="email"
               name="email"
+              type="email"
               value={formData.email}
               onChange={handleChange}
               error={errors.email}

@@ -5,13 +5,11 @@ import { useParams } from 'react-router';
 import { 
 	Button, 
 	Form, 
-	FormGroup, 
-	Input, 
-  Label, 
 	Container, 
 	Row, 
 	Col,
 } from 'reactstrap';
+import  FormInput  from './FormInput';
 
 export default function DeleteClientComponent(props) {
   const { clientId } = useParams();
@@ -99,135 +97,103 @@ export default function DeleteClientComponent(props) {
         <Row>
           <h1>Delete client</h1>
           <Col md="4">
-            <FormGroup>
-              <Label for="type_of_identity_document_description">
-                Type of identity document
-              </Label>
-              <Input
-                plaintext
-                id="type_of_identity_document_description" 
-                name="type_of_identity_document_description"
-                defaultValue={formData.type_of_identity_document_description} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Type of identity document"
+              id="type_of_identity_document_description"
+              name="type_of_identity_document_description"
+              plaintext
+              defaultValue={formData.type_of_identity_document_description}
+            />                     
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="identity_document">Identity document</Label>
-              <Input
-                plaintext
-                id="identity_document" 
-                name="identity_document"
-                defaultValue={formData.identity_document} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Identity document"
+              id="identity_document"
+              name="identity_document"
+              plaintext
+              defaultValue={formData.identity_document}
+            />            
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="first_last_name">First Lastname</Label>
-              <Input
-                plaintext
-                id="first_last_name" 
-                name="first_last_name"
-                defaultValue={formData.first_last_name} 
-              />
-            </FormGroup>
+            <FormInput
+              label="First Lastname"
+              id="first_last_name"
+              name="first_last_name"
+              plaintext
+              defaultValue={formData.first_last_name}
+            />                
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="second_last_name">Second LastName</Label>
-              <Input
-                plaintext
-                id="second_last_name" 
-                name="second_last_name"
-                defaultValue={formData.second_last_name} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Second LastName"
+              id="second_last_name"
+              name="second_last_name"
+              plaintext
+              defaultValue={formData.second_last_name}
+            />                   
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="first_name">First Name</Label>
-              <Input
-                plaintext
-                id="first_name" 
-                name="first_name"
-                defaultValue={formData.first_name} 
-              />
-            </FormGroup>
+            <FormInput
+              label="First Name"
+              id="first_name"
+              name="first_name"
+              plaintext
+              defaultValue={formData.first_name}
+            />    
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="other_names">Other Names</Label>
-              <Input
-                plaintext
-                id="other_names" 
-                name="other_names"
-                defaultValue={formData.other_names} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Other Names"
+              id="other_names"
+              name="other_names"
+              plaintext
+              defaultValue={formData.other_names}
+            />    
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input
-                plaintext
-                id="email" 
-                name="email"
-                defaultValue={formData.email} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Email"
+              id="email"
+              name="email"
+              plaintext
+              defaultValue={formData.email}
+            />    
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="country">
-                Country
-              </Label>
-              <Input
-                plaintext
-                id="country" 
-                name="country"
-                defaultValue={formData.country} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Country"
+              id="country"
+              name="country"
+              plaintext
+              defaultValue={formData.country}
+            />    
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="date_of_entry">
-                Date of entry
-              </Label>
-              <Input
-                plaintext
-                id="date_of_entry" 
-                name="date_of_entry"
-                defaultValue={formData.date_of_entry} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Date of entry"
+              id="date_of_entry"
+              name="date_of_entry"
+              plaintext
+              defaultValue={formData.date_of_entry}
+            />
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="status">
-                Status
-              </Label>
-              <Input
-                plaintext
-                id="status" 
-                name="status"
-                defaultValue={formData.status} 
-              />
-            </FormGroup>
+            <FormInput
+              label="Status"
+              id="status"
+              name="status"
+              plaintext
+              defaultValue={formData.status}
+            />
           </Col>
           <Col md="4">
-            <FormGroup>
-              <Label for="area_name">
-                Area
-              </Label>
-              <Input
-                plaintext
-                id="area_name" 
-                name="area_name"
-                defaultValue={formData.area_name} 
-              />
-            </FormGroup>          
+            <FormInput
+              label="Area"
+              id="area_name"
+              name="area_name"
+              plaintext
+              defaultValue={formData.area_name}
+            />       
           </Col>      
           <Col md="4">
             <Button

@@ -6,17 +6,22 @@ export default function FormInput({
   name,
   type = 'text',
   value,
+  defaultValue,
   onChange,
   onBlur,
-  options,
+  placeholder,
+  options = [],
   error,
   required = false,
+  plaintext = false,
 }) {
+  const isSelect = type === 'select';
+
   return (
     <FormGroup>
       <Label for={id}>{label}</Label>
 
-      {type === 'select' ? (
+      {isSelect ? (
         <Input
           id={id}
           name={name}
@@ -24,6 +29,9 @@ export default function FormInput({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          required={required}
+          plaintext={plaintext}
+          readOnly={plaintext}
         >
           {options.map(opt => (
             <option key={opt.value} value={opt.value}>
@@ -36,14 +44,18 @@ export default function FormInput({
           id={id}
           name={name}
           type={type}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
+          value={!plaintext ? value : undefined}
+          defaultValue={plaintext ? defaultValue : undefined}
+          onChange={!plaintext ? onChange : undefined}
+          onBlur={!plaintext ? onBlur : undefined}
+          placeholder={placeholder}
           required={required}
+          plaintext={plaintext}
+          readOnly={plaintext}
         />
       )}
 
-      {error && (
+      {!plaintext && error && (
         <p data-testid={`${name}_error`} style={{ color: 'red' }}>
           {error}
         </p>
