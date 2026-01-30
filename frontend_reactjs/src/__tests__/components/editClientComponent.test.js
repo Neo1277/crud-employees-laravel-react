@@ -2,8 +2,8 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import EditClientComponent from '../../components/EditClientComponent';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { fillForm } from './addClientComponent.test';
-import { sharedClientProps } from './addClientComponent.test';
+import { fillForm } from './AddClientComponent.test';
+import { sharedClientProps } from './AddClientComponent.test';
 
 // Mock react redux useSelector
 // Replace the entire react-redux module
