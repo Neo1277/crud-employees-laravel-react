@@ -284,6 +284,7 @@ export default function EditClientComponent(props) {
               color="success"
               size="lg"
             >
+              <i className="fa-solid fa-pencil"> </i>
               Edit
             </Button>
           </Col>

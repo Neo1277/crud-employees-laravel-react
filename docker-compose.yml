@@ -14,6 +14,7 @@ services:
       - DB_PASSWORD=root
     depends_on:
       - db
+      - db_test
 
   frontend:
     build:
@@ -41,5 +42,20 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  db_test:
+    image: mysql:8
+    container_name: mysql_test_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testing_db_employees
+      MYSQL_USER: laravel_test
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3307:3306"   # Avoid conflict with main DB
+    volumes:
+      - db_test_data:/var/lib/mysql
+
 volumes:
   db_data:
+  db_test_data:

@@ -200,6 +200,7 @@ export default function DeleteClientComponent(props) {
               color="danger"
               size="lg"
             >
+              <i className="fa-solid fa-trash-can"> </i>
               Delete
             </Button>
           </Col>

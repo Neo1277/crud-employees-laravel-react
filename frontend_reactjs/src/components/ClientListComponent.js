@@ -24,7 +24,7 @@ export default function ClientListComponent(props) {
                 <h1>Client list</h1>
                 <Link to='/add-client' >
 					<Button color="primary">
-                        <span className="fa fa-plus-square">&nbsp;</span>  
+                        <i className="fa fa-plus-square"> </i>
                            Add client
                     </Button>
                 </Link>	
@@ -66,16 +66,17 @@ export default function ClientListComponent(props) {
                             <td>{field.status}</td>
                             <td>{field.area}</td>
                             <td>
+                                {/**Font awesome icons: https://fontawesome.com/search?f=classic&s=solid */}
                                 <Link to={`/edit-client/${field.id}`} >
-                                    <Button color="success">
+                                    <Button color="success" className="d-flex align-items-center">
+                                        <i className="fa-solid fa-pencil me-2"></i>
                                         Edit
-                                        <span className="fa fa-pencil"></span>
                                     </Button>
                                 </Link>
                                 <Link to={`/delete-client/${field.id}`} >
-                                    <Button color="danger">
+                                    <Button color="danger" className="d-flex align-items-center">
+                                        <i className="fa-solid fa-trash-can me-2"></i>
                                         Delete
-                                        <span className="fa fa-trash"></span>
                                     </Button>
                                 </Link>
                             </td>

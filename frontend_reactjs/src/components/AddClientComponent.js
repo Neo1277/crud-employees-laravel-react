@@ -242,6 +242,7 @@ export default function AddClientComponent(props) {
               color="primary"
               size="lg"
             >
+              <i className="fa fa-plus-square"> </i>
               Submit
             </Button>
           </Col>

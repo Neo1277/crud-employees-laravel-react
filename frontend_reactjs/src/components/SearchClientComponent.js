@@ -87,6 +87,7 @@ export default function SearchClientComponent(props) {
                     </Col>
                     <Col md="3">
                         <Button color="secondary">
+                            <i className="fa-solid fa-magnifying-glass"> </i>
                             Search
                         </Button>
                     </Col>
