@@ -85,7 +85,11 @@ export default function ClientListComponent(props) {
                 }) }
                     </tbody>
                 </Table>
-                <PaginationComponent clients={props.clients} fetchClients={props.fetchClients}/>
+                <PaginationComponent
+                    links={props.clients.clients.links}
+                    meta={props.clients.clients.meta}
+                    onPageChange={props.fetchClients}
+                />
             </Container>
         );
     }

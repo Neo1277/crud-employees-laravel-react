@@ -1,57 +1,56 @@
-import { 
-    Container, 
-    Pagination,
-    PaginationItem,
-    PaginationLink
-} from 'reactstrap';
+import { Container, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-export default function PaginationComponent(props) {
-    const handleSubmit = (e) => {
+export default function PaginationComponent({ links, meta, onPageChange }) {
+    const handleClick = (e) => {
         e.preventDefault();
         const url = e.currentTarget.href;
         if (!url) return;
-        props.fetchClients(url);
+        onPageChange(url);
     };
-    
+
     return (
         <Container>
             <Pagination aria-label="clients-pagination">
-                <PaginationItem disabled={!props.clients.clients.links.first}>
+                <PaginationItem disabled={!links.first}>
                     <PaginationLink
-                        aria-label="First"
                         first
-                        href={props.clients.clients.links.first}
-                        onClick={handleSubmit}
+                        href={links.first}
+                        onClick={handleClick}
+                        aria-label="First"
                     />
                 </PaginationItem>
-                <PaginationItem disabled={!props.clients.clients.links.prev}>
+                <PaginationItem disabled={!links.prev}>
                     <PaginationLink
-                        aria-label="Previous"
-                        href={props.clients.clients.links.prev}
                         previous
-                        onClick={handleSubmit}
+                        href={links.prev}
+                        onClick={handleClick}
+                        aria-label="Previous"
                     />
                 </PaginationItem>
-                <PaginationItem disabled={!props.clients.clients.links.next}>
+                <PaginationItem disabled={!links.next}>
                     <PaginationLink
-                        aria-label="Next"
-                        href={props.clients.clients.links.next}
                         next
-                        onClick={handleSubmit}
+                        href={links.next}
+                        onClick={handleClick}
+                        aria-label="Next"
                     />
                 </PaginationItem>
-                <PaginationItem disabled={!props.clients.clients.links.last}>
+                <PaginationItem disabled={!links.last}>
                     <PaginationLink
-                        aria-label="Last"
-                        href={props.clients.clients.links.last}
                         last
-                        onClick={handleSubmit}
+                        href={links.last}
+                        onClick={handleClick}
+                        aria-label="Last"
                     />
                 </PaginationItem>
             </Pagination>
-            <p>Current page: {props.clients.clients.meta.current_page}</p>
-            <p>Amount of registers: {props.clients.clients.meta.total}</p>
+
+            {meta && (
+                <>
+                    <p>Current page: {meta.current_page}</p>
+                    <p>Total items: {meta.total}</p>
+                </>
+            )}
         </Container>
     );
-    
 }

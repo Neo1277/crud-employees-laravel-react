@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build containers
+        run: docker compose build
+
+      - name: Start stack
+        run: docker compose up -d
+
+      - name: Run migrations
+        run: docker compose exec -T laravel_app php artisan migrate --env=testing
+
+      - name: Run Laravel tests
+        run: docker compose exec -T laravel_app php artisan test
+
+      - name: Run React tests
+        run: docker compose exec -T react_app npm test -- --watch=false
+
+      - name: Shutdown
+        if: always()
+        run: docker compose down -v
