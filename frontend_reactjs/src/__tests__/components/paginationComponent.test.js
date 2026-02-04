@@ -1,4 +1,3 @@
-// ClientList.test.js
 import { render, screen, fireEvent } from "@testing-library/react";
 import PaginationComponent from '../../components/PaginationComponent';
 
