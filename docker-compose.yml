@@ -11,8 +11,8 @@ services:
     depends_on:
       - db
       - db_test
-    volumes:
-      - ./backend-laravel:/var/www/html  # <- bind mount local code
+#    volumes:
+#      - ./backend-laravel:/var/www/html  # <- bind mount local code
       
   frontend:
     build:
@@ -25,8 +25,8 @@ services:
       - REACT_APP_API_URL=http://backend:80/api/
     depends_on:
       - backend
-    volumes:
-      - ./frontend_reactjs:/app  # <- bind mount local code
+#    volumes:
+#      - ./frontend_reactjs:/app  # <- bind mount local code
 
   db:
     image: mysql:8
