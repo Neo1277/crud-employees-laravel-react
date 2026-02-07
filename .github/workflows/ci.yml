@@ -18,6 +18,12 @@ jobs:
       - name: Start stack
         run: docker compose up -d
 
+      - name: Clear Laravel config cache
+        run: docker compose exec -T backend php artisan config:clear
+
+      - name: See the env file
+        run: docker compose exec backend ls -la | grep env
+
       - name: Run migrations
         run: docker compose exec -T backend php artisan migrate --env=testing
 
