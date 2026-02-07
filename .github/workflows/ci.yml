@@ -30,14 +30,6 @@ jobs:
           until docker compose exec -T db_test mysqladmin ping -h localhost --silent; do
             sleep 2
           done
-          
-      - name: Test backend → db_test network
-        run: |
-          echo "Ping test db_test from backend:"
-          docker compose exec -T backend ping -c 3 db_test
-
-          echo "Try MySQL connection from backend:"
-          docker compose exec -T backend mysql -h db_test -P 3306 -u laravel_test -psecret -e "SELECT 1;" testing_db_employees
 
       #- name: Run migrations
       #  run: docker compose exec -T backend env APP_ENV=testing php artisan migrate
