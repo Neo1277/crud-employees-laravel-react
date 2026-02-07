@@ -18,13 +18,6 @@ jobs:
       - name: Start stack
         run: docker compose up -d
 
-      - name: Wait for test database
-        run: |
-          until docker compose exec -T db_test mysqladmin ping -h "localhost" --silent; do
-            echo "Waiting for MySQL test DB..."
-            sleep 2
-          done
-          
       - name: Run migrations
         run: docker compose exec -T backend php artisan migrate --env=testing
 
