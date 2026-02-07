@@ -24,26 +24,23 @@ jobs:
       - name: See the env file with APP_ENV
         run: docker compose exec backend env APP_ENV=testing php artisan tinker --execute="dump(app()->environment());dump(config('database.connections.mysql.host'));"
       
-      - name: Wait for test database (from backend)
+      - name: Wait for test database
         run: |
-          echo "Waiting for MySQL test DB from backend..."
-          until docker compose exec -T backend php -r "
-            try {
-              new PDO(
-                'mysql:host=db_test;port=3306;dbname=testing_db_employees',
-                'laravel_test',
-                'secret'
-              );
-              echo 'DB ready';
-            } catch (Exception \$e) {
-              exit(1);
-            }
-          "; do
+          echo "Waiting for MySQL test DB..."
+          until docker compose exec -T db_test mysqladmin ping -h localhost --silent; do
             sleep 2
           done
           
-      - name: Run migrations
-        run: docker compose exec -T backend env APP_ENV=testing php artisan migrate
+      - name: Test backend → db_test network
+        run: |
+          echo "Ping test db_test from backend:"
+          docker compose exec -T backend ping -c 3 db_test
+
+          echo "Try MySQL connection from backend:"
+          docker compose exec -T backend mysql -h db_test -P 3306 -u laravel_test -psecret -e "SELECT 1;" testing_db_employees
+
+      #- name: Run migrations
+      #  run: docker compose exec -T backend env APP_ENV=testing php artisan migrate
 
       - name: Run Laravel tests
         run: docker compose exec -T backend env APP_ENV=testing php artisan test
