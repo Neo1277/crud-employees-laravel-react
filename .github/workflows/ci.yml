@@ -22,10 +22,7 @@ jobs:
         run: docker compose exec -T backend php artisan config:clear
 
       - name: See the env file
-        run: docker compose exec backend php artisan tinker --execute="
-        dump(app()->environment());
-        dump(config('database.connections.mysql.host'));
-        "
+        run: docker compose exec backend php artisan tinker --execute="dump(app()->environment());dump(config('database.connections.mysql.host'));"
 
       - name: Run migrations
         run: docker compose exec backend env APP_ENV=testing php artisan migrate
