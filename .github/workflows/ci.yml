@@ -17,6 +17,9 @@ jobs:
 
       - name: Start stack
         run: docker compose up -d
+        
+      - name: Debug DB connectivity
+        run: docker compose exec -T backend php -r "var_dump(getenv('DB_HOST'));"
 
       - name: Run migrations
         run: docker compose exec -T backend php artisan migrate --env=testing

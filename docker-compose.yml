@@ -9,10 +9,8 @@ services:
     environment:
       - APP_ENV=local
     depends_on:
-      db:
-        condition: service_started
-      db_test:
-        condition: service_healthy
+      - db
+      - db_test
 #    volumes:
 #      - ./backend-laravel:/var/www/html  # <- bind mount local code
       
@@ -57,11 +55,6 @@ services:
       - "3307:3306"   # Avoid conflict with main DB
     volumes:
       - db_test_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
 
 volumes:
   db_data:
