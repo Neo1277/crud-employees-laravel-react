@@ -5,7 +5,7 @@ use App\Interfaces\EmailGenerationInterface;
 
 class EmailGenerationService implements EmailGenerationInterface
 {
-    protected const DOMAIN = "example.com";
+    protected string $domain = "example.com";
 
     public function generateNewEmail(
         ?string $last_email, 
@@ -26,7 +26,7 @@ class EmailGenerationService implements EmailGenerationInterface
             $new_email .= $newId;
         }
 
-        $new_email .= "@".self::DOMAIN.".".$country;
+        $new_email .= "@".$this->domain.".".$country;
 
         return $new_email;
     }
