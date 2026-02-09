@@ -21,16 +21,6 @@ jobs:
       - name: Clear Laravel config cache
         run: docker compose exec -T backend php artisan config:clear
 
-      - name: See the env file with APP_ENV
-        run: docker compose exec -T backend php artisan tinker --execute="dump(app()->environment());dump(config('database.connections.mysql.host'));"
-      
-      - name: Wait for test database
-        run: |
-          echo "Waiting for MySQL test DB..."
-          until docker compose exec -T db mysqladmin ping -h db --silent; do
-            sleep 2
-          done
-
       - name: Run migrations
         run: docker compose exec -T backend php artisan migrate
 
