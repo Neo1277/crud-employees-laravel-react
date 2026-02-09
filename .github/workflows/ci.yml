@@ -31,8 +31,8 @@ jobs:
             sleep 2
           done
 
-      #- name: Run migrations
-      #  run: docker compose exec -T backend env APP_ENV=testing php artisan migrate
+      - name: Run migrations
+        run: docker compose exec -T backend env APP_ENV=testing php artisan migrate
 
       - name: Run Laravel tests
         run: docker compose exec -T backend env APP_ENV=testing php artisan test
