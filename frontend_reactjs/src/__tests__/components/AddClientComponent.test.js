@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import AddClientComponent from '../../components/AddClientComponent';
 
-
 export const getFormFields = (submitLabel = /submit/i) => ({
   typeOfIdentityDocument: screen.getByLabelText('Type of identity document'),
   identityDocument: screen.getByLabelText('Identity document'),
