@@ -22,20 +22,20 @@ jobs:
         run: docker compose exec -T backend php artisan config:clear
 
       - name: See the env file with APP_ENV
-        run: docker compose exec -T backend env APP_ENV=testing php artisan tinker --execute="dump(app()->environment());dump(config('database.connections.mysql.host'));"
+        run: docker compose exec -T backend php artisan tinker --execute="dump(app()->environment());dump(config('database.connections.mysql.host'));"
       
       - name: Wait for test database
         run: |
           echo "Waiting for MySQL test DB..."
-          until docker compose exec -T db_test mysqladmin ping -h db_test --silent; do
+          until docker compose exec -T db mysqladmin ping -h db --silent; do
             sleep 2
           done
 
       - name: Run migrations
-        run: docker compose exec -T backend env APP_ENV=testing php artisan migrate
+        run: docker compose exec -T backend php artisan migrate
 
       - name: Run Laravel tests
-        run: docker compose exec -T backend env APP_ENV=testing php artisan test
+        run: docker compose exec -T backend php artisan test
 
       - name: Run React tests
         run: docker compose exec -T frontend npm test -- --watch=false
