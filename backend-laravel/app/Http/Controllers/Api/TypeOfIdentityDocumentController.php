@@ -9,6 +9,7 @@ use App\Http\Resources\TypeOfIdentityDocumentResource;
 use App\Http\Responses\ApiException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Database\QueryException;
 
 class TypeOfIdentityDocumentController extends Controller
 {
@@ -22,17 +23,10 @@ class TypeOfIdentityDocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): AnonymousResourceCollection | ApiException
+    public function index(): AnonymousResourceCollection
     {
-        try {
-            $typesOfIdentityDocumentService = $this->typeOfIdentityDocumentService->getAll();
-            return TypeOfIdentityDocumentResource::collection($typesOfIdentityDocumentService);
-         } catch (QueryException $e) {
-            Log::error('QueryException error occurred in TypeOfIdentityDocumentController index.' . $e->getMessage());
-            throw new ApiException($e->getMessage());
-        } catch (\Exception $e) {
-            Log::error('An error occurred in TypeOfIdentityDocument Index.' . $e->getMessage());
-            throw new ApiException($e->getMessage());
-        }
+        return TypeOfIdentityDocumentResource::collection(
+            $this->typeOfIdentityDocumentService->getAll()
+        );
     }
 }

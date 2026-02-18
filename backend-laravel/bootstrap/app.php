@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\HandleCors;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,5 +19,29 @@ return Application::configure(basePath: dirname(__DIR__))
         // ... other middleware
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // 1️⃣ Specific exceptions first (if needed)
+        $exceptions->render(function (QueryException $e, $request) {
+
+            Log::error('Database error', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'message' => 'A database error occurred.'
+            ], 500);
+        });
+
+        // 2️⃣ Generic fallback for API
+        $exceptions->render(function (Throwable $e, $request) {
+
+            if ($request->is('api/*')) {
+
+                Log::error($e);
+
+                return response()->json([
+                    'message' => 'Server Error',
+                    'type'    => class_basename($e),
+                ], 500);
+            }
+        });
     })->create();
