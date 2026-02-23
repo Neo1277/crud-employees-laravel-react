@@ -31,6 +31,18 @@ jobs:
       - name: Clear Laravel config cache
         run: docker compose exec -T backend php artisan config:clear
 
+      - name: Prepare Laravel environment file
+        run: docker compose exec -T backend cp .env.example .env
+
+      - name: Create Docker /backend-laravel/.env
+        run: |
+          echo "DB_CONNECTION=mysql" >> /backend-laravel/.env
+          echo "DB_HOST=db" >> /backend-laravel/.env
+          echo "DB_PORT=3306" >> /backend-laravel/.env
+          echo "DB_DATABASE=crud_employees_laravel" >> /backend-laravel/.env
+          echo "DB_USERNAME=root" >> /backend-laravel/.env
+          echo "DB_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> /backend-laravel/.env 
+
       - name: Wait for test database
         run: |
           echo "Waiting for MySQL test DB..."
