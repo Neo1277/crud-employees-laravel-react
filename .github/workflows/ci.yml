@@ -11,6 +11,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Create Docker .env
+        run: |
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "MYSQL_DATABASE=crud_employees_laravel" >> .env
+          echo "MYSQL_USER=laravel" >> .env
+          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+          echo "MYSQL_TEST_DATABASE=testing_db_employees" >> .env
+          echo "MYSQL_TEST_USER=laravel_test" >> .env
+          echo "MYSQL_TEST_PASSWORD=${{ secrets.MYSQL_TEST_PASSWORD }}" >> .env
 
       - name: Build containers
         run: docker compose build

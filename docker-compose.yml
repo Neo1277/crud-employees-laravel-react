@@ -7,7 +7,12 @@ services:
     ports:
       - "8000:80"
     environment:
-      - APP_ENV=local
+      APP_ENV: local
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
       - db
       - db_test
@@ -33,10 +38,10 @@ services:
     container_name: mysql_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root # Change this to a strong password
-      MYSQL_DATABASE: crud_employees_laravel # Change this to your desired database name
-      MYSQL_USER: laravel # Change this to your desired database user
-      MYSQL_PASSWORD: 12345 # Change this to a strong password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -47,10 +52,10 @@ services:
     container_name: mysql_test_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: testing_db_employees
-      MYSQL_USER: laravel_test
-      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_TEST_DATABASE}
+      MYSQL_USER: ${MYSQL_TEST_USER}
+      MYSQL_PASSWORD: ${MYSQL_TEST_PASSWORD}
     ports:
       - "3307:3306"   # Avoid conflict with main DB
     volumes:
