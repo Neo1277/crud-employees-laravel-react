@@ -49,7 +49,7 @@ jobs:
           until docker compose exec -T db mysqladmin ping -h db --silent; do
             sleep 2
           done
-
+            
       - name: Run migrations
         run: docker compose exec -T backend php artisan migrate
 

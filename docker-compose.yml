@@ -10,7 +10,6 @@ services:
       - .env
     depends_on:
       - db
-      - db_test
 #    volumes:
 #      - ./backend-laravel:/var/www/html  # <- bind mount local code
       
@@ -41,21 +40,7 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-
-  db_test:
-    image: mysql:8
-    container_name: mysql_test_db
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_TEST_DATABASE}
-      MYSQL_USER: ${MYSQL_TEST_USER}
-      MYSQL_PASSWORD: ${MYSQL_TEST_PASSWORD}
-    ports:
-      - "3307:3306"   # Avoid conflict with main DB
-    volumes:
-      - db_test_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
 
 volumes:
   db_data:
-  db_test_data:

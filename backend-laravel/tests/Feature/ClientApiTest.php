@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\Client;
 use App\Models\TypeOfIdentityDocument;
 use App\Models\Area;
+use Illuminate\Support\Facades\DB;
 
 class ClientApiTest extends TestCase
 {
@@ -16,6 +17,9 @@ class ClientApiTest extends TestCase
 
     public function testIndex(): void
     {
+        $currentDatabase = DB::connection()->getDatabaseName();
+        dump($currentDatabase);  // prints to console during tests
+        
         Client::factory(5)->create(
             [
                 'type_of_identity_document_id' => TypeOfIdentityDocument::factory()->create()->id,
