@@ -17,8 +17,8 @@ class ClientApiTest extends TestCase
 
     public function testIndex(): void
     {
-        $currentDatabase = DB::connection()->getDatabaseName();
-        dump($currentDatabase);  // prints to console during tests
+        //$currentDatabase = DB::connection()->getDatabaseName();
+        //dump($currentDatabase);  // prints to console during tests
         
         Client::factory(5)->create(
             [
